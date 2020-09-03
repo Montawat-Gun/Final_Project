@@ -1,0 +1,110 @@
+<div class="card shadow center-screen">
+    <div class="card-body">
+        <form #loginForm="ngForm" class="form" (ngSubmit)="register()">
+            <h1 class="h1 mb-3 font-weight-bolder" style="color: dodgerblue;">Sign Up</h1>
+            <!--Username-->
+            <div class="form-group">
+                <label for="username" class="sr-only">Username</label>
+                <input type="username" id="username" class="form-control"
+                    [ngClass]="{'is-invalid': username.invalid && (username.dirty || username.touched)}"
+                    placeholder="Username" required autofocus name="username" [(ngModel)]="model.username"
+                    #username="ngModel">
+                <div *ngIf="username.invalid && (username.dirty || username.touched)">
+                    <label *ngIf="username.errors.required" for="username" class="error">Please enter your
+                        username.</label>
+                </div>
+            </div>
+            <!--Password-->
+            <div class="form-group">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" id="password" class="form-control"
+                    [ngClass]="{'is-invalid': password.invalid && (password.dirty || password.touched)}"
+                    placeholder="Password" required name="password" [(ngModel)]="model.password" #password="ngModel">
+                <div *ngIf="password.invalid && (password.dirty || password.touched)">
+                    <label *ngIf="password.errors.required" for="password" class="error">Please enter your
+                        password.</label>
+                </div>
+            </div>
+            <!--Email-->
+            <div class="form-group">
+                <label for="email" class="sr-only">Email</label>
+                <input type="email" id="email" class="form-control"
+                    [ngClass]="{'is-invalid': email.invalid && (email.dirty || email.touched)}"
+                    placeholder="Email Address" required name="email" [(ngModel)]="model.email" #email="ngModel">
+                <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                    <label *ngIf="email.errors.required" for="email" class="error">Please enter your email
+                        address.</label>
+                </div>
+            </div>
+            <!--birth of date-->
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <label for="day">Day</label>
+                        <select class="custom-select"
+                            [ngClass]="{'is-invalid': day.invalid && (day.dirty || day.touched)}" id="day" required
+                            name="day" [(ngModel)]="birthDate.day" #day="ngModel">
+                            <option selected disabled value="">Day</option>
+                            <option *ngFor="let day of days" value="{{day}}">{{day}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="month">Month</label>
+                        <select class="custom-select"
+                            [ngClass]="{'is-invalid': month.invalid && (month.dirty || month.touched)}" id="month"
+                            required name="month" [(ngModel)]="birthDate.month" #month="ngModel">
+                            <option selected disabled value="">Month</option>
+                            <option *ngFor="let month of months" value="{{month}}">{{month}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="year">Year</label>
+                        <select class="custom-select"
+                            [ngClass]="{'is-invalid': year.invalid && (year.dirty || year.touched)}" id="year" required
+                            name="year" [(ngModel)]="birthDate.year" #year="ngModel">
+                            <option selected disabled value="">Year</option>
+                            <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--Gender-->
+            <div class="form-group">
+                <label>Gender</label>
+                <div class="form-row">
+                    <div class="col-md-3 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="male" value="Male" required
+                                [(ngModel)]="model.gender" #gender="ngModel">
+                            <label class="form-check-label" for="male">
+                                Male
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female"
+                                required [(ngModel)]="model.gender">
+                            <label class="form-check-label" for="female">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-lg btn-success btn-block"
+                [disabled]="username.invalid||password.invalid||email.invalid||day.invalid||month.invalid||year.invalid||gender.invalid"
+                type="submit">Sign Up</button>
+            <!--Already have-->
+            <div class="form-group" style="text-align: center;margin-top: 10px;">
+                <label style="color: gray;padding-bottom: 5px;">or</label><br>
+                <Label>Already have account &nbsp;</Label>
+                <a [routerLink]="['/login']" type="button">Login</a>
+            </div>
+            <!--Error message-->
+            <div *ngIf="errors.length" class="alert alert-danger" style="text-align: center;margin-bottom: -1px;">
+                <label class="error" *ngFor="let error of errors">{{error}}</label>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+.form {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  }
+  .form .checkbox {
+    font-weight: 400;
+  }
+  .form .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form .form-control:focus {
+    z-index: 2;
+  }
+  .form input[type="email"] {
+    margin-bottom: -1px;
+  }
+  .form input[type="password"] {
+    margin-bottom: -1px;
+  }
+  
+  .card{
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1); */
+    width: 450px;
+  }
+  
+  label{
+    color: gray;
+    margin-bottom: 0px;
+    font-size: 10pt;
+  }
+  
+  .error{
+    color: crimson;
+  }
+  
+  .center-screen {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+  }
+  
+  h1{
+    text-align: center;
+    color: dodgerblue;
+    font-size: 28pt;
+    padding-bottom: 10px;
+  }
