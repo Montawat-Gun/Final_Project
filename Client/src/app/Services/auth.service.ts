@@ -24,9 +24,8 @@ export class AuthService {
     )
   }
 
-  IsAuthenticated() {
+  isAuthenticated() {
     const token = this.cookieService.get("token");
-    console.log(token);
     return !this.jwtHelper.isTokenExpired(token);
   }
 
@@ -34,7 +33,7 @@ export class AuthService {
     return this.http.post(this.url + 'register', model);
   }
 
-  Logout(){
+  logout(){
     this.cookieService.delete("token")
   }
 }

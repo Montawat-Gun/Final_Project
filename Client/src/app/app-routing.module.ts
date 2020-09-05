@@ -4,6 +4,8 @@ import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { AuthGuard } from './Guards/auth.guard'
 import { UnAuthGuard } from './Guards/un-auth.guard'
+import { ProfileComponent } from './Components/profile/profile.component';
+import { HomeComponent } from './Components/home/home.component';
 
 const routes: Routes = [
   {
@@ -11,7 +13,8 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      
+      { path: 'profile', component: ProfileComponent },
+      { path: '', component: HomeComponent }
     ]
   },
   {
@@ -23,6 +26,7 @@ const routes: Routes = [
       { path: 'register', component: RegisterComponent },
     ]
   },
+
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
