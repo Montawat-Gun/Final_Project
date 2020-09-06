@@ -10,6 +10,6 @@ namespace Api.Services
         Task<LoginResponse> Login(LoginRequest model);
         Task Logout();
         Task<bool> UserExists(string username);
-        Task<UserProfile> GetUserProfile(string username);
+        Task<UserProfile> GetUser(string username);
     }
 }

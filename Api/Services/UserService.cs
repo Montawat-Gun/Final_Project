@@ -31,7 +31,7 @@ namespace Api.Services
             {
                 var user = await _userManager.FindByNameAsync(model.Username);
 
-                return new LoginResponse { Token = GenerateToken(user.UserName) };
+                return new LoginResponse { Token = GenerateToken(user) };
             }
             return null;
         }
@@ -62,7 +62,7 @@ namespace Api.Services
             else return false;
         }
 
-        public async Task<UserProfile> GetUserProfile(string username)
+        public async Task<UserProfile> GetUser(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user != null)
@@ -76,11 +76,12 @@ namespace Api.Services
             return null;
         }
 
-        private string GenerateToken(string Username)
+        private string GenerateToken(User user)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, Username),
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

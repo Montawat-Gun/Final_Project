@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/Services/user.service';
 
 @Component({
   selector: 'app-nav',
@@ -9,14 +10,16 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
 
-  constructor(private router:Router ,private authService:AuthService) { }
+  user
+
+  constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
+    this.userService.getUser().subscribe(response => this.user = response);
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
     this.router.navigate(['login']);
   }
-
 }

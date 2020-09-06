@@ -44,10 +44,10 @@ namespace Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("Profile")]
-        public async Task<IActionResult> Profile(string username)
+        [HttpGet("GetUser")]
+        public async Task<IActionResult> GetUser(string username)
         {
-            var user = await _userService.GetUserProfile(username);
+            var user = await _userService.GetUser(username);
             if (user != null)
             {
                 return Ok(user);
