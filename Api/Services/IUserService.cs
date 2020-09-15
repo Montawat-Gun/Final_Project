@@ -1,15 +1,13 @@
 using System.Threading.Tasks;
 using Api.Models;
-using Microsoft.AspNetCore.Identity;
+using Api.Dtos;
+using System.Collections.Generic;
 
 namespace Api.Services
 {
     public interface IUserService
     {
-        Task<IdentityResult> Register(RegisterRequest model);
-        Task<LoginResponse> Login(LoginRequest model);
-        Task Logout();
-        Task<bool> UserExists(string username);
-        Task<UserProfile> GetUser(string username);
+         Task<User> GetUser(string username);
+         Task<ICollection<UserResponse>> Suggest(string username);
     }
 }

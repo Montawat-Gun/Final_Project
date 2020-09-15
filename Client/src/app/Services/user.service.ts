@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  url: string = "http://localhost:8080/user/";
+  url: string = environment.url + "user/";
   jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }

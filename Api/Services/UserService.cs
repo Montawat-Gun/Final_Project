@@ -1,103 +1,83 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Api.Data;
+using Api.Dtos;
 using Api.Models;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Text;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using MathNet.Numerics.Statistics;
+using System.Linq;
 
 namespace Api.Services
 {
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly IConfiguration _configuration;
+        private readonly DataContext _context;
 
-        public UserService(IConfiguration configuration, UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserService(UserManager<User> userManager, DataContext context)
         {
-            _configuration = configuration;
-            _signInManager = signInManager;
+            _context = context;
             _userManager = userManager;
         }
 
-        public async Task<LoginResponse> Login(LoginRequest model)
+        public async Task<User> GetUser(string username)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, true);
-            if (result.Succeeded)
+            return await _userManager.FindByNameAsync(username);
+        }
+
+        public async Task<ICollection<UserResponse>> Suggest(string userId)
+        {
+            var usersInterests = new List<UserInterest>();
+            var interests = await _context.Interest.ToListAsync();
+            var users = await _context.Users.ToListAsync();
+            var mainUser = users.Where(u => u.Id == userId).First();
+            var usersResponse = new List<UserResponse>();
+
+            var mainUserGenresId = interests.Where(g => g.UserId == mainUser.Id).OrderBy(u => u.GenreId).Select(g => (double)g.IsInterest).ToList();
+            if (mainUserGenresId == null)
+                return null;
+
+            foreach (var user in users)
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
-
-                return new LoginResponse { Token = GenerateToken(user) };
-            }
-            return null;
-        }
-
-        public async Task Logout()
-        {
-            await _signInManager.SignOutAsync();
-        }
-
-        public async Task<IdentityResult> Register(RegisterRequest model)
-        {
-            User user = new User
-            {
-                UserName = model.Username,
-                Email = model.Email,
-                BirthDate = model.BirthDate,
-                Gender = model.Gender
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            return result;
-        }
-
-        public async Task<bool> UserExists(string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            if (user != null)
-                return true;
-            else return false;
-        }
-
-        public async Task<UserProfile> GetUser(string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            if (user != null)
-                return new UserProfile
+                if (user.Id == userId)
+                    continue;
+                UserInterest userInterests = new UserInterest
                 {
                     Username = user.UserName,
-                    Email = user.Email,
-                    Gender = user.Gender,
-                    BirthDate = user.BirthDate
+                    GenresId = interests.Where(g => g.UserId == user.Id).OrderBy(u => u.GenreId).Select(g => (double)g.IsInterest).ToList(),
                 };
-            return null;
+                if (userInterests.GenresId.Count > 0)
+                {
+                    userInterests.Score = Correlation.Pearson(mainUserGenresId, userInterests.GenresId);
+                    usersInterests.Add(userInterests);
+                }
+            }
+            var usersOrdered = usersInterests.OrderByDescending(u => u.Score);
+            foreach (UserInterest userInterest in usersOrdered)
+            {
+                var user = users.Where(u => u.UserName == userInterest.Username).First();
+                usersResponse.Add(MapUser(user));
+            }
+            return usersResponse;
         }
 
-        private string GenerateToken(User user)
+        private UserResponse MapUser(User user)
         {
-            var claims = new List<Claim>
+            return new UserResponse
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                Username = user.UserName,
+                Email = user.Email,
+                Gender = user.Gender,
+                BirthDate = user.BirthDate
             };
+        }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Secret"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            var expires = DateTime.Now.AddDays(7);
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JwtSettings:Issuer"],
-                audience: _configuration["JwtSettings:Audience"],
-                claims: claims,
-                expires: expires,
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+        struct UserInterest
+        {
+            public string Username { get; set; }
+            public List<double> GenresId { get; set; }
+            public double Score { get; set; }
         }
     }
 }

@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Api
 {
@@ -40,11 +39,15 @@ namespace Api
             builder = new IdentityBuilder(builder.UserType, builder.Services);
             builder.AddSignInManager<SignInManager<User>>();
             services.AddDefaultIdentity<User>().AddEntityFrameworkStores<DataContext>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddSwaggerGen();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddCors();
         }
-    
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -68,7 +71,7 @@ namespace Api
 
             app.UseRouting();
 
-            app.UseCors(x=>x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -77,8 +80,6 @@ namespace Api
             {
                 endpoints.MapControllers();
             });
-
-            InitialDb.Init(app);
         }
     }
 }
