@@ -1,0 +1,4 @@
+<div style="width: 25%;">
+    <span>Suggestions For You</span>
+    <app-suggest-item *ngFor="let user of users" [user]="user" (followUser)="follow($event)"></app-suggest-item>
+</div>

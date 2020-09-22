@@ -1,0 +1,4 @@
+<div class="card" *ngIf="!hasInterests">
+    <app-genre-item *ngFor="let genre of genres" [genre]="genre" (selected)="addInterest($event)"></app-genre-item>
+    <button type="button" class="btn btn-primary" (click)="submit()">Select</button>
+</div>

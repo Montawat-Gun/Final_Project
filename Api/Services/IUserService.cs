@@ -7,7 +7,9 @@ namespace Api.Services
 {
     public interface IUserService
     {
-         Task<User> GetUser(string username);
-         Task<ICollection<UserResponse>> Suggest(string username);
+        Task<IEnumerable<UserToListDto>> GetUsers();
+        Task<UserResponse> GetUser(string username);
+        Task<ICollection<UserResponse>> Suggest(string username);
+        Task<UserResponse> DeleteUser(string id);
     }
 }

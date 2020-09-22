@@ -8,7 +8,12 @@ namespace Api.Helpers
 {
     public static class Seed
     {
-        public static void SeedGames(DataContext _context)
+        public static void SeedData(DataContext context)
+        {
+            SeedGames(context);
+        }
+
+        static void SeedGames(DataContext _context)
         {
             if (!_context.Genres.Any())
             {

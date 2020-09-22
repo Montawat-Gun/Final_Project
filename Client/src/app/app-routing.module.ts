@@ -6,6 +6,7 @@ import { AuthGuard } from './Guards/auth.guard'
 import { UnAuthGuard } from './Guards/un-auth.guard'
 import { ProfileComponent } from './Components/profile/profile.component';
 import { HomeComponent } from './Components/home/home.component';
+import { UsersSuggestResolver } from './Resolvers/users-suggest.resolver'
 
 const routes: Routes = [
   {

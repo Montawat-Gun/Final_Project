@@ -11,6 +11,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavComponent } from './Components/nav/nav.component';
 import { ProfileComponent } from './Components/profile/profile.component';
 import { HomeComponent } from './Components/home/home.component';
+import { GenreComponent } from './Components/genre/genre.component';
+import { GenreItemComponent } from './Components/genre-item/genre-item.component';
+import { SuggestComponent } from './Components/suggest/suggest.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { UsersSuggestResolver } from './Resolvers/users-suggest.resolver';
+import { SuggestItemComponent } from './Components/suggest-item/suggest-item.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +25,11 @@ import { HomeComponent } from './Components/home/home.component';
     RegisterComponent,
     NavComponent,
     ProfileComponent,
-    HomeComponent
+    HomeComponent,
+    GenreComponent,
+    GenreItemComponent,
+    SuggestComponent,
+    SuggestItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,8 +37,19 @@ import { HomeComponent } from './Components/home/home.component';
     HttpClientModule,
     FormsModule,
     NgbModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem("token");
+        },
+        allowedDomains: ['localhost:8080'],
+        disallowedRoutes: ['localhost:8080/api/auth']
+      }
+    }),
   ],
-  providers: [],
+  providers: [
+    UsersSuggestResolver
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

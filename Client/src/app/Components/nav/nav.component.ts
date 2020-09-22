@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/Services/auth.service';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/Services/user.service';
+import { User } from 'src/app/Models/User';
 
 @Component({
   selector: 'app-nav',
@@ -10,12 +11,12 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class NavComponent implements OnInit {
 
-  user
+  user:User
 
   constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe(response => this.user = response);
+    this.userService.getCurrentUser().subscribe(response => this.user = response);
   }
 
   logout() {
