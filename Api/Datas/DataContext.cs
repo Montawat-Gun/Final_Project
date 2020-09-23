@@ -16,6 +16,8 @@ namespace Api.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -61,10 +63,15 @@ namespace Api.Data
                 .HasOne(x => x.Post)
                 .WithMany(f => f.Likes)
                 .HasForeignKey(x => x.PostId);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.Sender)
+                .WithMany(m => m.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Message>()
+                .HasOne(u => u.Recipient)
+                .WithMany(m => m.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);
         }
-
-        public DbSet<Api.Models.Post> Post { get; set; }
-
-        public DbSet<Api.Models.Comment> Comment { get; set; }
     }
 }

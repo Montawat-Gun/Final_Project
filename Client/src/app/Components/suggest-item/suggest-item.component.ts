@@ -13,7 +13,7 @@ import { FollowService } from '../../Services/follow.service'
 export class SuggestItemComponent implements OnInit {
 
   @Input() user: User
-  @Output() followUser: EventEmitter<User> = new EventEmitter();
+  @Output() removeFromSuggest: EventEmitter<User> = new EventEmitter();
 
   constructor(private http: HttpClient, private userService: UserService, private followService: FollowService) { }
 
@@ -25,7 +25,7 @@ export class SuggestItemComponent implements OnInit {
     follow.followerId = this.userService.getUserId();
     follow.followingId = this.user.id;
     this.followService.followUser(follow).subscribe(next => {
-      this.followUser.emit(this.user);
+      this.removeFromSuggest.emit(this.user);
     });
   }
 

@@ -25,13 +25,13 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> GetPost()
         {
-            return await _context.Post.ToListAsync();
+            return await _context.Posts.ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
-            var post = await _context.Post.FindAsync(id);
+            var post = await _context.Posts.FindAsync(id);
 
             if (post == null)
             {
@@ -73,7 +73,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Post>> PostPost(Post post)
         {
-            _context.Post.Add(post);
+            _context.Posts.Add(post);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPost", new { id = post.PostId }, post);
@@ -82,13 +82,13 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Post>> DeletePost(int id)
         {
-            var post = await _context.Post.FindAsync(id);
+            var post = await _context.Posts.FindAsync(id);
             if (post == null)
             {
                 return NotFound();
             }
 
-            _context.Post.Remove(post);
+            _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
 
             return post;
@@ -96,7 +96,7 @@ namespace Api.Controllers
 
         private bool PostExists(int id)
         {
-            return _context.Post.Any(e => e.PostId == id);
+            return _context.Posts.Any(e => e.PostId == id);
         }
     }
 }

@@ -20,7 +20,7 @@ export class SuggestComponent implements OnInit {
     });
   }
 
-  follow(user:User){
+  removeFromSuggest(user:User){
     this.users =this.users.filter(u => u.username !== user.username)
   }
 

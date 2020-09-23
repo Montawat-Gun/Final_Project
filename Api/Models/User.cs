@@ -8,14 +8,17 @@ namespace Api.Models
     {
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
-        public string ImgUrl { get; set; }
         public DateTime TimeCreate { get; set; }
+        public string Description { get; set; }
 
-        public ICollection<Interest> Interests { get; set; }
-        public ICollection<Follow> Follower { get; set; }
-        public ICollection<Follow> Following { get; set; }
-        public ICollection<Post> Posts { get; set; }
-        public ICollection<Like> Likes { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public virtual Image Image { get; set; }
+        public virtual ICollection<Interest> Interests { get; set; }
+        public virtual ICollection<Follow> Follower { get; set; }
+        public virtual ICollection<Follow> Following { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Message> MessagesSent { get; set; }
+        public virtual ICollection<Message> MessagesReceived { get; set; }
     }
 }

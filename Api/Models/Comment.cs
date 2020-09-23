@@ -5,12 +5,12 @@ namespace Api.Models
     {
         public int CommentId { get; set; }
         public string Content { get; set; }
-        public string ImgUrl { get; set; }
         public DateTime TimeComment { get; set; }
-        
+
+        public virtual Image Image { get; set; }
         public string UserId { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
         public int PostId { get; set; }
-        public Post Post { get; set; }
+        public virtual Post Post { get; set; }
     }
 }

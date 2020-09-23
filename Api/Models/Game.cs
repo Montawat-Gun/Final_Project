@@ -6,7 +6,7 @@ namespace Api.Models
         public int GameId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string ImgUrl { get; set; }
-        public ICollection<GameGenre> Genres { get; set; }
+        public virtual Image Image { get; set; }
+        public virtual ICollection<GameGenre> Genres { get; set; }
     }
 }
