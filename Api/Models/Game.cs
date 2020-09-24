@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 namespace Api.Models
 {
@@ -6,7 +7,8 @@ namespace Api.Models
         public int GameId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual Image Image { get; set; }
-        public virtual ICollection<GameGenre> Genres { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
+        public virtual GameImage Image { get; set; }
+        public virtual ICollection<Interest> Interests { get; set; }
     }
 }

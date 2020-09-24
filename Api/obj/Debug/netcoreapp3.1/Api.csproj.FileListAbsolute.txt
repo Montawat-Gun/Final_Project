@@ -231,7 +231,6 @@ D:/Projects/Webs/Final_Project/Api/bin/Debug/netcoreapp3.1/Swashbuckle.AspNetCor
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.JsonPatch.dll
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Newtonsoft.Json.Bson.dll
-/Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Datas/GenreData.json
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/MathNet.Numerics.dll
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/AutoMapper.dll
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

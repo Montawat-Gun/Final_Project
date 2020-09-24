@@ -26,28 +26,28 @@ namespace Api.Services
 
         public async Task<IEnumerable<UserToListDto>> GetUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users.Include(i => i.Image).ToListAsync();
             var userToList = _mapper.Map<IEnumerable<UserToListDto>>(users);
             return userToList;
         }
 
         public async Task<UserResponse> GetUser(string username)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _context.Users.Include(i => i.Image).Where(u => u.UserName == username).FirstOrDefaultAsync();
             return _mapper.Map<UserResponse>(user);
         }
 
-        public async Task<ICollection<UserResponse>> Suggest(string userId)
+        public async Task<ICollection<UserToListDto>> Suggest(string userId)
         {
             var usersInterests = new List<UserInterest>();
             var interests = await _context.Interests.ToListAsync();
             var allUsers = await _context.Users.Include(f => f.Follower).ToListAsync();
             var userFollowing = await _context.Follows.Where(u => u.FollowerId == userId).Select(f => f.FollowingId).ToListAsync();
             var mainUser = allUsers.Where(u => u.Id == userId).First();
-            var usersResponse = new List<UserResponse>();
+            var usersToList = new List<UserToListDto>();
 
-            var mainUserGenresId = interests.Where(g => g.UserId == mainUser.Id).OrderBy(u => u.GenreId).Select(g => (double)g.IsInterest).ToList();
-            if (mainUserGenresId == null || mainUserGenresId.Count == 0)
+            var mainUserGamesId = interests.Where(g => g.UserId == mainUser.Id).OrderBy(u => u.GameId).Select(g => (double)g.IsInterest).ToList();
+            if (mainUserGamesId == null || mainUserGamesId.Count == 0)
                 return null;
 
             foreach (var user in allUsers)
@@ -57,11 +57,11 @@ namespace Api.Services
                 UserInterest userInterests = new UserInterest
                 {
                     Username = user.UserName,
-                    GenresId = interests.Where(g => g.UserId == user.Id).OrderBy(u => u.GenreId).Select(g => (double)g.IsInterest).ToList(),
+                    GenresId = interests.Where(g => g.UserId == user.Id).OrderBy(u => u.GameId).Select(g => (double)g.IsInterest).ToList(),
                 };
                 if (userInterests.GenresId.Count > 0)
                 {
-                    userInterests.Score = Correlation.Pearson(mainUserGenresId, userInterests.GenresId);
+                    userInterests.Score = Correlation.Pearson(mainUserGamesId, userInterests.GenresId);
                     usersInterests.Add(userInterests);
                 }
             }
@@ -74,10 +74,22 @@ namespace Api.Services
                 var user = allUsers.Where(u => u.UserName == userInterest.Username).First();
                 if (userFollowing.Contains(user.Id))
                     continue;
-                usersResponse.Add(_mapper.Map<UserResponse>(user));
+                usersToList.Add(_mapper.Map<UserToListDto>(user));
                 count++;
             }
-            return usersResponse;
+            return usersToList;
+        }
+
+        public async Task<UserResponse> UpdateUser(string userId, UserEditRequest userToEdit)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (userToEdit.UserName != user.UserName && await _context.Users.AnyAsync(u => u.UserName == userToEdit.UserName))
+            {
+                return null;
+            }
+            _mapper.Map(userToEdit, user);
+            await _userManager.UpdateAsync(user);
+            return _mapper.Map<UserResponse>(user);
         }
 
         public async Task<UserResponse> DeleteUser(string id)

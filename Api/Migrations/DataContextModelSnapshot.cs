@@ -29,9 +29,6 @@ namespace Api.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
@@ -42,8 +39,6 @@ namespace Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CommentId");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("PostId");
 
@@ -80,52 +75,12 @@ namespace Api.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("GameId");
 
-                    b.HasIndex("ImageId");
-
                     b.ToTable("Games");
-                });
-
-            modelBuilder.Entity("Api.Models.GameGenre", b =>
-                {
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GameId", "GenreId");
-
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("GamesGenres");
-                });
-
-            modelBuilder.Entity("Api.Models.Genre", b =>
-                {
-                    b.Property<int>("GenreId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("GenreId");
-
-                    b.HasIndex("ImageId");
-
-                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Api.Models.Image", b =>
@@ -144,9 +99,15 @@ namespace Api.Migrations
                     b.Property<DateTime>("TimeImage")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("image_type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ImageId");
 
                     b.ToTable("Images");
+
+                    b.HasDiscriminator<string>("image_type").HasValue("image_base");
                 });
 
             modelBuilder.Entity("Api.Models.Interest", b =>
@@ -154,15 +115,15 @@ namespace Api.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("GenreId")
+                    b.Property<int>("GameId")
                         .HasColumnType("int");
 
                     b.Property<int>("IsInterest")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "GenreId");
+                    b.HasKey("UserId", "GameId");
 
-                    b.HasIndex("GenreId");
+                    b.HasIndex("GameId");
 
                     b.ToTable("Interests");
                 });
@@ -232,9 +193,6 @@ namespace Api.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("TimePost")
                         .HasColumnType("datetime2");
 
@@ -244,8 +202,6 @@ namespace Api.Migrations
                     b.HasKey("PostId");
 
                     b.HasIndex("GameId");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("UserId");
 
@@ -279,9 +235,6 @@ namespace Api.Migrations
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -320,8 +273,6 @@ namespace Api.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -469,12 +420,64 @@ namespace Api.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Api.Models.CommentImage", b =>
+                {
+                    b.HasBaseType("Api.Models.Image");
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("CommentId")
+                        .IsUnique()
+                        .HasFilter("[CommentId] IS NOT NULL");
+
+                    b.HasDiscriminator().HasValue("image_comment");
+                });
+
+            modelBuilder.Entity("Api.Models.GameImage", b =>
+                {
+                    b.HasBaseType("Api.Models.Image");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("GameId")
+                        .IsUnique()
+                        .HasFilter("[GameId] IS NOT NULL");
+
+                    b.HasDiscriminator().HasValue("image_game");
+                });
+
+            modelBuilder.Entity("Api.Models.PostImage", b =>
+                {
+                    b.HasBaseType("Api.Models.Image");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("PostId")
+                        .IsUnique()
+                        .HasFilter("[PostId] IS NOT NULL");
+
+                    b.HasDiscriminator().HasValue("image_post");
+                });
+
+            modelBuilder.Entity("Api.Models.UserImage", b =>
+                {
+                    b.HasBaseType("Api.Models.Image");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.HasDiscriminator().HasValue("image_user");
+                });
+
             modelBuilder.Entity("Api.Models.Comment", b =>
                 {
-                    b.HasOne("Api.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("Api.Models.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
@@ -501,40 +504,11 @@ namespace Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Api.Models.Game", b =>
-                {
-                    b.HasOne("Api.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-                });
-
-            modelBuilder.Entity("Api.Models.GameGenre", b =>
-                {
-                    b.HasOne("Api.Models.Game", "Game")
-                        .WithMany("Genres")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Api.Models.Genre", "Genre")
-                        .WithMany("Games")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Api.Models.Genre", b =>
-                {
-                    b.HasOne("Api.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-                });
-
             modelBuilder.Entity("Api.Models.Interest", b =>
                 {
-                    b.HasOne("Api.Models.Genre", "Genre")
+                    b.HasOne("Api.Models.Game", "Game")
                         .WithMany("Interests")
-                        .HasForeignKey("GenreId")
+                        .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -576,25 +550,14 @@ namespace Api.Migrations
             modelBuilder.Entity("Api.Models.Post", b =>
                 {
                     b.HasOne("Api.Models.Game", "Game")
-                        .WithMany()
+                        .WithMany("Posts")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Api.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
-
                     b.HasOne("Api.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Api.Models.User", b =>
-                {
-                    b.HasOne("Api.Models.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -646,6 +609,40 @@ namespace Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Api.Models.CommentImage", b =>
+                {
+                    b.HasOne("Api.Models.Comment", "Comment")
+                        .WithOne("Image")
+                        .HasForeignKey("Api.Models.CommentImage", "CommentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Api.Models.GameImage", b =>
+                {
+                    b.HasOne("Api.Models.Game", "Game")
+                        .WithOne("Image")
+                        .HasForeignKey("Api.Models.GameImage", "GameId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Api.Models.PostImage", b =>
+                {
+                    b.HasOne("Api.Models.Post", "Post")
+                        .WithOne("Image")
+                        .HasForeignKey("Api.Models.PostImage", "PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Api.Models.UserImage", b =>
+                {
+                    b.HasOne("Api.Models.User", "User")
+                        .WithOne("Image")
+                        .HasForeignKey("Api.Models.UserImage", "UserId");
                 });
 #pragma warning restore 612, 618
         }

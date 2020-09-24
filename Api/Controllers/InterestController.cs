@@ -21,7 +21,6 @@ namespace Api.Controllers
             _context = context;
         }
 
-        // GET: api/Interest
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Interest>>> GetInterest()
         {
@@ -42,18 +41,18 @@ namespace Api.Controllers
             var Ids = new List<int>();
             foreach (Interest interest in interests)
             {
-                Ids.Add(interest.GenreId);
+                Ids.Add(interest.GameId);
                 interest.IsInterest = 1;
                 _context.Interests.Add(interest);
             }
-            var genresId = _context.Genres.Select(g => g.GenreId).ToList();
+            var genresId = _context.Games.Select(g => g.GameId).ToList();
             foreach (int genreId in genresId)
             {
                 if (!Ids.Contains(genreId))
                 {
                     Interest interest = new Interest
                     {
-                        GenreId = genreId,
+                        GameId = genreId,
                         UserId = userId,
                         IsInterest = 0
                     };

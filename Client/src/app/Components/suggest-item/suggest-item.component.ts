@@ -21,9 +21,10 @@ export class SuggestItemComponent implements OnInit {
   }
 
   onFollow() {
-    let follow: Follow = new Follow;
-    follow.followerId = this.userService.getUserId();
-    follow.followingId = this.user.id;
+    let follow: Follow = {
+      followerId : this.userService.getUserId(),
+      followingId : this.user.id
+    };
     this.followService.followUser(follow).subscribe(next => {
       this.removeFromSuggest.emit(this.user);
     });

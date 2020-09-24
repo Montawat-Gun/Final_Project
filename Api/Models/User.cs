@@ -11,7 +11,7 @@ namespace Api.Models
         public DateTime TimeCreate { get; set; }
         public string Description { get; set; }
 
-        public virtual Image Image { get; set; }
+        public virtual UserImage Image { get; set; }
         public virtual ICollection<Interest> Interests { get; set; }
         public virtual ICollection<Follow> Follower { get; set; }
         public virtual ICollection<Follow> Following { get; set; }

@@ -1,7 +1,7 @@
 <div class="row" style="padding-bottom: 10px;">
     <div class="col">
         <span>
-            <a href="">{{user?.username}}</a>
+            <a [routerLink]="['profile/',user.username]">{{user.username}}</a>
         </span>
     </div>
     <div class="col">

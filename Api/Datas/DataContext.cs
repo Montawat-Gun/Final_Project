@@ -8,29 +8,31 @@ namespace Api.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
-        public DbSet<Genre> Genres { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Interest> Interests { get; set; }
         public DbSet<Follow> Follows { get; set; }
-        public DbSet<GameGenre> GamesGenres { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
-        public DbSet<Image> Images { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<UserImage> UserImages { get; set; }
+        public DbSet<GameImage> GameImages { get; set; }
+        public DbSet<PostImage> PostImages { get; set; }
+        public DbSet<CommentImage> CommentImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Interest>().HasKey(x => new { x.UserId, x.GenreId });
+            modelBuilder.Entity<Interest>().HasKey(x => new { x.UserId, x.GameId });
             modelBuilder.Entity<Interest>()
                 .HasOne(x => x.User)
                 .WithMany(g => g.Interests)
                 .HasForeignKey(x => x.UserId);
             modelBuilder.Entity<Interest>()
-                .HasOne(x => x.Genre)
+                .HasOne(x => x.Game)
                 .WithMany(e => e.Interests)
-                .HasForeignKey(x => x.GenreId);
+                .HasForeignKey(x => x.GameId);
 
             modelBuilder.Entity<Follow>().HasKey(x => new { x.FollowingId, x.FollowerId });
             modelBuilder.Entity<Follow>()
@@ -43,16 +45,6 @@ namespace Api.Data
                 .WithMany(f => f.Follower)
                 .HasForeignKey(x => x.FollowingId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<GameGenre>().HasKey(x => new { x.GameId, x.GenreId });
-            modelBuilder.Entity<GameGenre>()
-                .HasOne(x => x.Game)
-                .WithMany(g => g.Genres)
-                .HasForeignKey(x => x.GameId);
-            modelBuilder.Entity<GameGenre>()
-                .HasOne(x => x.Genre)
-                .WithMany(f => f.Games)
-                .HasForeignKey(x => x.GenreId);
 
             modelBuilder.Entity<Like>().HasKey(x => new { x.UserId, x.PostId });
             modelBuilder.Entity<Like>()
@@ -71,6 +63,27 @@ namespace Api.Data
             modelBuilder.Entity<Message>()
                 .HasOne(u => u.Recipient)
                 .WithMany(m => m.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Image>()
+                .HasDiscriminator<string>("image_type")
+                .HasValue<Image>("image_base")
+                .HasValue<UserImage>("image_user")
+                .HasValue<GameImage>("image_game")
+                .HasValue<PostImage>("image_post")
+                .HasValue<CommentImage>("image_comment");
+            
+            modelBuilder.Entity<GameImage>()
+                .HasOne(g => g.Game)
+                .WithOne(i => i.Image)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<PostImage>()
+                .HasOne(p => p.Post)
+                .WithOne(i => i.Image)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<CommentImage>()
+                .HasOne(c => c.Comment)
+                .WithOne(i => i.Image)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

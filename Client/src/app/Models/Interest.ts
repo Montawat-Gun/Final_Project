@@ -1,5 +1,4 @@
-export class Interest {
+export interface Interest {
     userId:string;
-    genreId:number;
-    isInterest:boolean;
+    gameId:number;
 }

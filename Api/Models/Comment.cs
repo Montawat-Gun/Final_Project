@@ -7,7 +7,7 @@ namespace Api.Models
         public string Content { get; set; }
         public DateTime TimeComment { get; set; }
 
-        public virtual Image Image { get; set; }
+        public virtual CommentImage Image { get; set; }
         public string UserId { get; set; }
         public virtual User User { get; set; }
         public int PostId { get; set; }

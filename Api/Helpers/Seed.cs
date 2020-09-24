@@ -15,13 +15,13 @@ namespace Api.Helpers
 
         static void SeedGames(DataContext _context)
         {
-            if (!_context.Genres.Any())
+            if (!_context.Games.Any())
             {
-                var data = System.IO.File.ReadAllText("Datas/GenreData.json");
-                var genres = JsonConvert.DeserializeObject<List<Genre>>(data);
-                foreach (Genre genre in genres)
+                var data = System.IO.File.ReadAllText("Datas/GamesData.json");
+                var games = JsonConvert.DeserializeObject<List<Game>>(data);
+                foreach (Game game in games)
                 {
-                    _context.Genres.Add(genre);
+                    _context.Games.Add(game);
                 }
                 _context.SaveChanges();
             }

@@ -1,17 +1,37 @@
 [
     {
         "name": "Valorant",
-        "description": "FPS Shooting",
-        "imgUrl": "www"
+        "description": "FPS Game",
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+        }
     },
     {
         "name": "Dota",
-        "description": "Moba",
-        "imgUrl": "www"
+        "description": "Moba Game",
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+        }
+    },
+    {
+        "name": "CSGO",
+        "description": "FPS Game",
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+        }
     },
     {
         "name": "Skyrim",
-        "description": "RPG",
-        "imgUrl": "www"
+        "description": "RPG Game",
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+        }
+    },
+    {
+        "name": "LOL",
+        "description": "MOBA Game",
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+        }
     }
 ]

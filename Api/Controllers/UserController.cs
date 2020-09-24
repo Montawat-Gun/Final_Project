@@ -1,12 +1,7 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Api.Data;
-using Api.Models;
 using Api.Services;
 using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
 using Api.Dtos;
 
 namespace Api.Controllers
@@ -17,11 +12,11 @@ namespace Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly DataContext _context;
+        private readonly IImageService _imageService;
 
-        public UserController(IUserService userService, DataContext context)
+        public UserController(IUserService userService, IImageService imageService)
         {
-            _context = context;
+            _imageService = imageService;
             _userService = userService;
         }
 
@@ -41,6 +36,17 @@ namespace Api.Controllers
             return Ok(user);
         }
 
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateUser(string userId, UserEditRequest userToEdit)
+        {
+            var userResponse = await _userService.UpdateUser(userId, userToEdit);
+            if (userResponse == null)
+            {
+                return BadRequest("Username already exist.");
+            }
+            return Ok(userResponse);
+        }
+
         [HttpGet("Suggest/{userId}")]
         public async Task<ActionResult> Suggest(string userId)
         {
@@ -48,6 +54,32 @@ namespace Api.Controllers
             if (users != null)
                 return Ok(users);
             else return BadRequest();
+        }
+
+        [HttpGet("{userId}/image", Name = "GetUserImage")]
+        public async Task<IActionResult> GetUserImage(string userId)
+        {
+            var image = await _imageService.GetUserImage(userId);
+            return Ok(image);
+        }
+
+        [HttpPost("{userId}/image")]
+        public async Task<IActionResult> PostUserImage(string userId, [FromForm] ImageUserRequest imageRequest)
+        {
+            imageRequest.UserId = userId;
+            var image = await _imageService.UpdateUserImage(imageRequest);
+            return CreatedAtRoute("GetUserImage", new { userId = userId, id = image.ImageId }, image);
+        }
+
+        [HttpDelete("{userId}/image")]
+        public async Task<IActionResult> DeleteUserImage(string userId)
+        {
+            var image = await _imageService.DeleteUserImage(userId);
+            if (image == null)
+            {
+                return BadRequest("Can't delete image.");
+            }
+            return Ok(image);
         }
 
         [HttpDelete("{id}")]

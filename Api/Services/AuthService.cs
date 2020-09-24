@@ -50,7 +50,8 @@ namespace Api.Services
                 UserName = model.Username,
                 Email = model.Email,
                 BirthDate = model.BirthDate,
-                Gender = model.Gender
+                Gender = model.Gender,
+                TimeCreate = DateTime.Now
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             return result;

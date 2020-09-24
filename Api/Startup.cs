@@ -43,6 +43,7 @@ namespace Api
             services.AddDefaultIdentity<User>().AddEntityFrameworkStores<DataContext>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IImageService, ImageService>();
             services.AddSwaggerGen();
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

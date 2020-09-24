@@ -11,12 +11,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavComponent } from './Components/nav/nav.component';
 import { ProfileComponent } from './Components/profile/profile.component';
 import { HomeComponent } from './Components/home/home.component';
-import { GenreComponent } from './Components/genre/genre.component';
-import { GenreItemComponent } from './Components/genre-item/genre-item.component';
 import { SuggestComponent } from './Components/suggest/suggest.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { UsersSuggestResolver } from './Resolvers/users-suggest.resolver';
 import { SuggestItemComponent } from './Components/suggest-item/suggest-item.component';
+import { GameComponent } from './Components/game/game.component';
+import { GameItemComponent } from './Components/game-item/game-item.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +26,10 @@ import { SuggestItemComponent } from './Components/suggest-item/suggest-item.com
     NavComponent,
     ProfileComponent,
     HomeComponent,
-    GenreComponent,
-    GenreItemComponent,
     SuggestComponent,
     SuggestItemComponent,
+    GameComponent,
+    GameItemComponent,
   ],
   imports: [
     BrowserModule,

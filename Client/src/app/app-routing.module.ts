@@ -6,7 +6,7 @@ import { AuthGuard } from './Guards/auth.guard'
 import { UnAuthGuard } from './Guards/un-auth.guard'
 import { ProfileComponent } from './Components/profile/profile.component';
 import { HomeComponent } from './Components/home/home.component';
-import { UsersSuggestResolver } from './Resolvers/users-suggest.resolver'
+import { UserDetailResolver } from './Resolvers/user-detail.resolver'
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      { path: 'profile', component: ProfileComponent },
+      { path: 'profile/:username', component: ProfileComponent, resolve: { user: UserDetailResolver } },
       { path: '', component: HomeComponent }
     ]
   },

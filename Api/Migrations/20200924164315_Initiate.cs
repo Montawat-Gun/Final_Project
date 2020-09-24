@@ -22,42 +22,6 @@ namespace Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    ImageId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    TimeImage = table.Column<DateTime>(nullable: false),
-                    PublicId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.ImageId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -79,18 +43,11 @@ namespace Api.Migrations
                     BirthDate = table.Column<DateTime>(nullable: false),
                     Gender = table.Column<string>(nullable: true),
                     TimeCreate = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    ImageId = table.Column<int>(nullable: true)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
-                        principalColumn: "ImageId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -100,38 +57,32 @@ namespace Api.Migrations
                     GameId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    ImageId = table.Column<int>(nullable: true)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Games", x => x.GameId);
-                    table.ForeignKey(
-                        name: "FK_Games_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
-                        principalColumn: "ImageId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Genres",
+                name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    GenreId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    ImageId = table.Column<int>(nullable: true)
+                    RoleId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genres", x => x.GenreId);
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Genres_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
-                        principalColumn: "ImageId",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -276,6 +227,31 @@ namespace Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Interests",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    GameId = table.Column<int>(nullable: false),
+                    IsInterest = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Interests", x => new { x.UserId, x.GameId });
+                    table.ForeignKey(
+                        name: "FK_Interests_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "GameId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Interests_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
@@ -283,7 +259,6 @@ namespace Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(nullable: true),
                     TimePost = table.Column<DateTime>(nullable: false),
-                    ImageId = table.Column<int>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     GameId = table.Column<int>(nullable: false)
                 },
@@ -297,66 +272,11 @@ namespace Api.Migrations
                         principalColumn: "GameId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Posts_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
-                        principalColumn: "ImageId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Posts_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GamesGenres",
-                columns: table => new
-                {
-                    GameId = table.Column<int>(nullable: false),
-                    GenreId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GamesGenres", x => new { x.GameId, x.GenreId });
-                    table.ForeignKey(
-                        name: "FK_GamesGenres_Games_GameId",
-                        column: x => x.GameId,
-                        principalTable: "Games",
-                        principalColumn: "GameId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GamesGenres_Genres_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "Genres",
-                        principalColumn: "GenreId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Interests",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(nullable: false),
-                    GenreId = table.Column<int>(nullable: false),
-                    IsInterest = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Interests", x => new { x.UserId, x.GenreId });
-                    table.ForeignKey(
-                        name: "FK_Interests_Genres_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "Genres",
-                        principalColumn: "GenreId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Interests_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -367,19 +287,12 @@ namespace Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(nullable: true),
                     TimeComment = table.Column<DateTime>(nullable: false),
-                    ImageId = table.Column<int>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     PostId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.CommentId);
-                    table.ForeignKey(
-                        name: "FK_Comments_Images_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Images",
-                        principalColumn: "ImageId",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
@@ -418,6 +331,50 @@ namespace Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    ImageId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    TimeImage = table.Column<DateTime>(nullable: false),
+                    PublicId = table.Column<string>(nullable: true),
+                    image_type = table.Column<string>(nullable: false),
+                    CommentId = table.Column<int>(nullable: true),
+                    GameId = table.Column<int>(nullable: true),
+                    PostId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.ImageId);
+                    table.ForeignKey(
+                        name: "FK_Images_Comments_CommentId",
+                        column: x => x.CommentId,
+                        principalTable: "Comments",
+                        principalColumn: "CommentId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Images_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "GameId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Images_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "PostId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Images_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -446,11 +403,6 @@ namespace Api.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_ImageId",
-                table: "AspNetUsers",
-                column: "ImageId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -461,11 +413,6 @@ namespace Api.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_ImageId",
-                table: "Comments",
-                column: "ImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
@@ -483,24 +430,37 @@ namespace Api.Migrations
                 column: "FollowerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Games_ImageId",
-                table: "Games",
-                column: "ImageId");
+                name: "IX_Images_CommentId",
+                table: "Images",
+                column: "CommentId",
+                unique: true,
+                filter: "[CommentId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GamesGenres_GenreId",
-                table: "GamesGenres",
-                column: "GenreId");
+                name: "IX_Images_GameId",
+                table: "Images",
+                column: "GameId",
+                unique: true,
+                filter: "[GameId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Genres_ImageId",
-                table: "Genres",
-                column: "ImageId");
+                name: "IX_Images_PostId",
+                table: "Images",
+                column: "PostId",
+                unique: true,
+                filter: "[PostId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interests_GenreId",
+                name: "IX_Images_UserId",
+                table: "Images",
+                column: "UserId",
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Interests_GameId",
                 table: "Interests",
-                column: "GenreId");
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Likes_PostId",
@@ -521,11 +481,6 @@ namespace Api.Migrations
                 name: "IX_Posts_GameId",
                 table: "Posts",
                 column: "GameId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_ImageId",
-                table: "Posts",
-                column: "ImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
@@ -551,13 +506,10 @@ namespace Api.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Comments");
-
-            migrationBuilder.DropTable(
                 name: "Follows");
 
             migrationBuilder.DropTable(
-                name: "GamesGenres");
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "Interests");
@@ -572,7 +524,7 @@ namespace Api.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Genres");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "Posts");
@@ -582,9 +534,6 @@ namespace Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Images");
         }
     }
 }
