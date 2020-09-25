@@ -1,0 +1,19 @@
+.profile{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    border-style: solid;
+    border-color: lightgray;
+}
+
+.name{
+    padding: 25px;
+}
+
+.preview{
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    object-fit: cover;
+}

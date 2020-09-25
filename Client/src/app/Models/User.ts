@@ -4,4 +4,6 @@ export interface User {
     email: string;
     gender: string;
     birthdate: Date;
+    description:string;
+    imageUrl:string
 }

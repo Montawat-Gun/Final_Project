@@ -34,31 +34,42 @@ namespace Api.Controllers
             return interest;
         }
 
+        // [HttpPost]
+        // public async Task<ActionResult<List<Interest>>> PostInterest(List<Interest> interests)
+        // {
+        //     var userId = interests.Select(u => u.UserId).FirstOrDefault();
+        //     var Ids = new List<int>();
+        //     foreach (Interest interest in interests)
+        //     {
+        //         Ids.Add(interest.GameId);
+        //         interest.IsInterest = 1;
+        //         _context.Interests.Add(interest);
+        //     }
+        //     var genresId = _context.Games.Select(g => g.GameId).ToList();
+        //     foreach (int genreId in genresId)
+        //     {
+        //         if (!Ids.Contains(genreId))
+        //         {
+        //             Interest interest = new Interest
+        //             {
+        //                 GameId = genreId,
+        //                 UserId = userId,
+        //                 IsInterest = 0
+        //             };
+        //             _context.Interests.Add(interest);
+        //             interests.Add(interest);
+        //         }
+        //     }
+        //     await _context.SaveChangesAsync();
+        //     return CreatedAtAction("GetInterest", interests);
+        // }
+
         [HttpPost]
         public async Task<ActionResult<List<Interest>>> PostInterest(List<Interest> interests)
         {
-            var userId = interests.Select(u => u.UserId).FirstOrDefault();
-            var Ids = new List<int>();
-            foreach (Interest interest in interests)
+            foreach (var interest in interests)
             {
-                Ids.Add(interest.GameId);
-                interest.IsInterest = 1;
                 _context.Interests.Add(interest);
-            }
-            var genresId = _context.Games.Select(g => g.GameId).ToList();
-            foreach (int genreId in genresId)
-            {
-                if (!Ids.Contains(genreId))
-                {
-                    Interest interest = new Interest
-                    {
-                        GameId = genreId,
-                        UserId = userId,
-                        IsInterest = 0
-                    };
-                    _context.Interests.Add(interest);
-                    interests.Add(interest);
-                }
             }
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetInterest", interests);

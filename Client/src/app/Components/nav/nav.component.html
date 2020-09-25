@@ -20,8 +20,8 @@
           aria-haspopup="true" aria-expanded="false">
           {{user?.username}}
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="" [routerLink]="['/profile',user?.username]" routerLinkActive="router-link-active" >Profile</a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left stay-open" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="" [routerLink]="['/profile',user?.username]" routerLinkActive="active" >Profile</a>
           <a class="dropdown-item" href="">Setting</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="" (click)="logout()">Logout</a>

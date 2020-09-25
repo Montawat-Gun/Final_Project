@@ -36,7 +36,7 @@ export class GameComponent implements OnInit {
   }
 
   submit() {
-    if (this.interests.length >= 3) {
+    if (this.interests.length >= 2) {
       console.log(this.interests);
       this.gameinterestService.addInterests(this.interests).subscribe(next => {
         this.hasInterests = true;
