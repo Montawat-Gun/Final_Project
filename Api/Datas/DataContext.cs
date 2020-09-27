@@ -9,6 +9,8 @@ namespace Api.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
         public DbSet<Game> Games { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<GameTag> GamesTags { get; set; }
         public DbSet<Interest> Interests { get; set; }
         public DbSet<Follow> Follows { get; set; }
         public DbSet<Post> Posts { get; set; }
@@ -72,7 +74,17 @@ namespace Api.Data
                 .HasValue<GameImage>("image_game")
                 .HasValue<PostImage>("image_post")
                 .HasValue<CommentImage>("image_comment");
-            
+
+            modelBuilder.Entity<GameTag>().HasKey(x => new { x.GameId, x.TagId });
+            modelBuilder.Entity<GameTag>()
+                .HasOne(g => g.Game)
+                .WithMany(t => t.Tags)
+                .HasForeignKey(g => g.GameId);
+            modelBuilder.Entity<GameTag>()
+                .HasOne(t => t.Tag)
+                .WithMany(g => g.Games)
+                .HasForeignKey(t => t.TagId);
+
             modelBuilder.Entity<GameImage>()
                 .HasOne(g => g.Game)
                 .WithOne(i => i.Image)

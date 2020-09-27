@@ -1,0 +1,48 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+    Edit Profile
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Edit Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" #editForm="ngForm" (ngSubmit)="saveEdit()">
+                    <!-- Username -->
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp"
+                            name="username" [(ngModel)]="userToEdit.username">
+                    </div>
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label for="description">Decription</label>
+                        <textarea type="text" class="form-control" id="description" aria-describedby="descriptionHelp"
+                            name="description" [(ngModel)]="userToEdit.description"></textarea>
+                    </div>
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email"
+                            [(ngModel)]="userToEdit.email">
+                    </div>
+                    <div *ngIf="errors">
+                        <label style="color: red; justify-content: right;" *ngFor="let error of errors">{{error}}</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
+                <button type="submit" form="editForm" class="btn btn-primary" [disabled]="isButtonDisable()" >Save</button>
+            </div>
+        </div>
+    </div>
+</div>

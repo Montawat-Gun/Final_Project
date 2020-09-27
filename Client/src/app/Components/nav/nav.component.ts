@@ -11,12 +11,12 @@ import { User } from 'src/app/Models/User';
 })
 export class NavComponent implements OnInit {
 
-  user:User
+  user: User
 
   constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe(response => this.user = response);
+    this.userService.getCurrentUser().subscribe(next => this.user = next);
   }
 
   logout() {

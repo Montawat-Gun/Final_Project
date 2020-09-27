@@ -17,6 +17,8 @@ import { UsersSuggestResolver } from './Resolvers/users-suggest.resolver';
 import { SuggestItemComponent } from './Components/suggest-item/suggest-item.component';
 import { GameComponent } from './Components/game/game.component';
 import { GameItemComponent } from './Components/game-item/game-item.component';
+import { PostInputComponent } from './Components/post-input/post-input.component';
+import { EditProfileComponent } from './Components/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { GameItemComponent } from './Components/game-item/game-item.component';
     SuggestItemComponent,
     GameComponent,
     GameItemComponent,
+    PostInputComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

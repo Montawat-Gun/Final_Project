@@ -1,37 +1,643 @@
 [
     {
-        "name": "Valorant",
-        "description": "FPS Game",
+        "name": "Among Us",
+        "tags": [
+            {
+                "gameid":1,
+                "tagid":2
+            },
+            {
+                "gameid":1,
+                "tagid":3
+            }
+        ],
         "image": {
-            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042808/GameImages/Among_Us_fnij7i.jpg"
         }
     },
     {
-        "name": "Dota",
-        "description": "Moba Game",
+        "name": "dead by daylight",
+        "tags": [
+            {
+                "gameid":2,
+                "tagid":2
+            },
+            {
+                "gameid":2,
+                "tagid":4
+            },
+            {
+                "gameid":2,
+                "tagid":5
+            }
+
+        ],
         "image": {
-            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042809/GameImages/dead_by_daylight_bbfxsa.jpg"
         }
     },
     {
-        "name": "CSGO",
-        "description": "FPS Game",
+        "name": "Dota 2",
+        "tags": [
+            {
+                "gameid":3,
+                "tagid":4
+            },
+            {
+                "gameid":3,
+                "tagid":6
+            }
+        ],
         "image": {
-            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042809/GameImages/Dota_2_dyzoya.jpg"
         }
     },
     {
-        "name": "Skyrim",
-        "description": "RPG Game",
+        "name": "Overwatch",
+        "tags": [
+            {
+                "gameid":4,
+                "tagid":1
+            },
+            {
+                "gameid":4,
+                "tagid":2
+            },
+            {
+                "gameid":4,
+                "tagid":4
+            },
+            {
+                "gameid":4,
+                "tagid":7
+            }
+
+        ],
         "image": {
-            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042806/GameImages/Overwatch_emp9wj.jpg"
         }
     },
     {
-        "name": "LOL",
-        "description": "MOBA Game",
+        "name": "PLAYERUNKNOWN'S BATTLEGROUNDS",
+        "tags": [
+            {
+                "gameid":5,
+                "tagid":1
+            },
+            {
+                "gameid":5,
+                "tagid":4
+            },
+            {
+                "gameid":5,
+                "tagid":7
+            },
+            {
+                "gameid":5,
+                "tagid":8
+            },
+            {
+                "gameid":5,
+                "tagid":9
+            }
+
+        ],
         "image": {
-            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1600954472/pzna2rbasnhqhfdj6u3m.jpg"
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042806/GameImages/PLAYERUNKNOWN_S_BATTLEGROUNDS_rrx7mg.jpg"
+        }
+    },
+    {
+        "name": "VALORANT",
+        "tags": [
+            {
+                "gameid":6,
+                "tagid":1
+            },
+            {
+                "gameid":6,
+                "tagid":2
+            },
+            {
+                "gameid":6,
+                "tagid":7
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042808/GameImages/VALORANT_yvmjc4.jpg"
+        }
+    },
+    {
+        "name": "Fall Guys: Ultimate Knockout",
+        "tags": [
+            {
+                "gameid":7,
+                "tagid":4
+            },
+            {
+                "gameid":7,
+                "tagid":9
+            },
+            {
+                "gameid":7,
+                "tagid":10
+            },
+            {
+                "gameid":7,
+                "tagid":11
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042810/GameImages/Fall_Guys_dxxgwn.jpg"
+        }
+    },
+    {
+        "name": "Grand Theft Auto V",
+        "tags": [
+            {
+                "gameid":8,
+                "tagid":1
+            },
+            {
+                "gameid":8,
+                "tagid":7
+            },
+            {
+                "gameid":8,
+                "tagid":8
+            },
+            {
+                "gameid":8,
+                "tagid":12
+            },
+            {
+                "gameid":8,
+                "tagid":13
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042810/GameImages/GrandTheftAutoV_xbosuk.jpg"
+        }
+    },
+    {
+        "name": "League of Legends",
+        "tags": [
+            {
+                "gameid":9,
+                "tagid":4
+            },
+            {
+                "gameid":9,
+                "tagid":6
+            }
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042806/GameImages/Leagueof_Legends_eukasn.jpg"
+        }
+    },
+    {
+        "name": "Tom Clancy's Rainbow Six: Siege",
+        "tags": [
+            {
+                "gameid":10,
+                "tagid":1
+            },
+            {
+                "gameid":10,
+                "tagid":2
+            },
+            {
+                "gameid":10,
+                "tagid":4
+            },
+            {
+                "gameid":10,
+                "tagid":7
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042807/GameImages/RainbowSixSiege_fik371.jpg"
+        }
+    },
+    {
+        "name": "Apex Legends",
+        "tags": [
+            {
+                "gameid":11,
+                "tagid":1
+            },
+            {
+                "gameid":11,
+                "tagid":4
+            },
+            {
+                "gameid":11,
+                "tagid":7
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042808/GameImages/Apex_Legends_ojuyzz.jpg"
+        }
+    },
+    {
+        "name": "Fortnite",
+        "tags": [
+            {
+                "gameid":12,
+                "tagid":3
+            },
+            {
+                "gameid":12,
+                "tagid":4
+            },
+            {
+                "gameid":12,
+                "tagid":7
+            },
+            {
+                "gameid":12,
+                "tagid":15
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042810/GameImages/Fortnite_relumr.jpg"
+        }
+    },
+    {
+        "name": "Counter-Strike: Global Offensive",
+        "tags": [
+            {
+                "gameid":13,
+                "tagid":1
+            },
+            {
+                "gameid":13,
+                "tagid":2
+            },
+            {
+                "gameid":13,
+                "tagid":4
+            },
+            {
+                "gameid":13,
+                "tagid":7
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042809/GameImages/Counter-StrikeGlobal_Offensive_mceyrq.jpg"
+        }
+    },
+    {
+        "name": "Minecraft",
+        "tags": [
+            {
+                "gameid":14,
+                "tagid":8
+            },
+            {
+                "gameid":14,
+                "tagid":14
+            },
+            {
+                "gameid":14,
+                "tagid":16
+            },
+            {
+                "gameid":14,
+                "tagid":17
+            },
+            {
+                "gameid":14,
+                "tagid":18
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042806/GameImages/Minecraft_lubsjw.jpg"
+        }
+    },
+    {
+        "name": "Arena of Valor",
+        "tags": [
+            {
+                "gameid":15,
+                "tagid":6
+            }
+        ],
+        "description": " MOBA ",
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042808/GameImages/Arena_of_Valor_cdpwsq.jpg"
+        }
+    },
+    {
+        "name": "Black Desert Online",
+        "tags": [
+            {
+                "gameid":16,
+                "tagid":2
+            },
+            {
+                "gameid":16,
+                "tagid":8
+            },
+            {
+                "gameid":16,
+                "tagid":17
+            },
+            {
+                "gameid":16,
+                "tagid":18
+            },
+            {
+                "gameid":16,
+                "tagid":21
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042809/GameImages/Black_Desert_Online_ji4dgi.jpg"
+        }
+    },
+    {
+        "name": "Sekiro: Shadows Die Twice",
+        "tags": [
+            {
+                "gameid":17,
+                "tagid":4
+            },
+            {
+                "gameid":17,
+                "tagid":8
+            },
+            {
+                "gameid":17,
+                "tagid":19
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042808/GameImages/Sekiro_q6cs6a.jpg"
+        }
+    },
+    {
+        "name": "Teamfight Tactics",
+        "tags": [
+            {
+                "gameid":18,
+                "tagid":2
+            },
+            {
+                "gameid":18,
+                "tagid":20
+            }
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042808/GameImages/Teamfight_Tactics_jrg7uu.jpg"
+        }
+    },
+    {
+        "name": "Sea of Thieves",
+        "tags": [
+            {
+                "gameid":19,
+                "tagid":4
+            },
+            {
+                "gameid":19,
+                "tagid":8
+            },
+            {
+                "gameid":19,
+                "tagid":15
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042807/GameImages/Sea_of_Thieves_te31ak.jpg"
+        }
+    },
+    {
+        "name": "Hearthstone",
+        "tags": [
+            {
+                "gameid":20,
+                "tagid":2
+            },
+            {
+                "gameid":20,
+                "tagid":20
+            }
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042810/GameImages/Hearthstone_dzwu7i.jpg"
+        }
+    },
+    {
+        "name": "Rust",
+        "tags": [
+            {
+                "gameid":21,
+                "tagid":1
+            },
+            {
+                "gameid":21,
+                "tagid":7
+            },
+            {
+                "gameid":21,
+                "tagid":8
+            },
+            {
+                "gameid":21,
+                "tagid":9
+            },
+            {
+                "gameid":21,
+                "tagid":21
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042807/GameImages/Rust_fvhp4f.jpg"
+        }
+    },
+    {
+        "name": "Escape From Tarkov",
+        "tags": [
+            {
+                "gameid":22,
+                "tagid":1
+            },
+            {
+                "gameid":22,
+                "tagid":2
+            },
+            {
+                "gameid":22,
+                "tagid":7
+            },
+            {
+                "gameid":22,
+                "tagid":17
+            },
+            {
+                "gameid":22,
+                "tagid":21
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042809/GameImages/Escape_From_Tarkov_lb07gm.jpg"
+        }
+    },
+    {
+        "name": "FIFA 20",
+        "tags": [
+            {
+                "gameid":23,
+                "tagid":13
+            }
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042810/GameImages/FIFA_20_cjreyo.jpg"
+        }
+    },
+    {
+        "name": "Legends of Runeterra",
+        "tags": [
+            {
+                "gameid":24,
+                "tagid":2
+            },
+            {
+                "gameid":24,
+                "tagid":20
+            }
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042806/GameImages/Legends_of_Runeterra_pcpbxe.jpg"
+        }
+    },
+    {
+        "name": "Project Winter",
+        "tags": [
+            {
+                "gameid":25,
+                "tagid":2
+            },
+            {
+                "gameid":25,
+                "tagid":4
+            },
+            {
+                "gameid":25,
+                "tagid":8
+            },
+            {
+                "gameid":25,
+                "tagid":9
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042807/GameImages/Project_Winter_cn2qe1.jpg"
+        }
+    },
+    {
+        "name": "Heroes of Newerth",
+        "tags": [
+            {
+                "gameid":26,
+                "tagid":4
+            },
+            {
+                "gameid":26,
+                "tagid":6
+            }
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042810/GameImages/Heroes_of_Newerth_jjyzjr.jpg"
+        }
+    },
+    {
+        "name": "World of Warcraft",
+        "tags": [
+            {
+                "gameid":27,
+                "tagid":4
+            },
+            {
+                "gameid":27,
+                "tagid":8
+            },
+            {
+                "gameid":27,
+                "tagid":18
+            },
+            {
+                "gameid":27,
+                "tagid":21
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042808/GameImages/World_of_Warcraft_ojwtv1.jpg"
+        }
+    },
+    {
+        "name": "Monster Hunter: World",
+        "tags": [
+            {
+                "gameid":28,
+                "tagid":4
+            },
+            {
+                "gameid":28,
+                "tagid":8
+            },
+            {
+                "gameid":28,
+                "tagid":21
+            }
+
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042806/GameImages/Monster_Hunter_World_jiffga.jpg"
+        }
+    },
+    {
+        "name": "StarCraft II",
+        "tags": [
+            {
+                "gameid":29,
+                "tagid":2
+            },
+            {
+                "gameid":29,
+                "tagid":22
+            }
+        ],
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042807/GameImages/StarCraft_II_nuzhst.jpg"
+        }
+    },
+    {
+        "name": "Bleach: Brave Souls",
+        "tags": [
+            {
+                "gameid":30,
+                "tagid":4
+            }
+        ],
+        "description": " Action ",
+        "image": {
+            "ImageUrl": "https://res.cloudinary.com/sgamer/image/upload/v1601042809/GameImages/Bleach_Brave_Souls_dw689u.jpg"
         }
     }
 ]

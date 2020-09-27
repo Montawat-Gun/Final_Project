@@ -8,7 +8,5 @@ namespace Api.Models
         public virtual User User { get; set; }
         public int GameId { get; set; }
         public virtual Game Game { get; set; }
-        [Range(0, 1)]
-        public int IsInterest { get; set; }
     }
 }

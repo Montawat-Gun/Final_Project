@@ -235,3 +235,4 @@ D:/Projects/Webs/Final_Project/Api/bin/Debug/netcoreapp3.1/Swashbuckle.AspNetCor
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/AutoMapper.dll
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/CloudinaryDotNet.dll
+/Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Datas/TagsData.json

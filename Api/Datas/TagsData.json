@@ -1,0 +1,69 @@
+[
+    {
+        "name" : "FPS"
+    }, 
+    {
+        "name" : "Strategy"
+    },
+    {
+        "name" : "Survival"
+    },
+    {
+        "name" : "Action"
+    },
+    {
+        "name" : "Horror"
+    },
+    {
+        "name" : "MOBA"
+    },
+    {
+        "name" : "Shooter"
+    },
+    {
+        "name" : "Adventure Game"
+    },
+    {
+        "name" : "Indie Game"
+    },
+    {
+        "name" : "Platformer"
+    },
+    {
+        "name" : "Party"
+    },
+    {
+        "name" : "Driving/Racing Game"
+    },
+    {
+        "name" : "Sports Game"
+    },
+    {
+        "name" : "Arcade"
+    },
+    {
+        "name" : "Open World"
+    },
+    {
+        "name" : "Fighting"
+    },
+    {
+        "name" : "Simulation"
+    },
+    {
+        "name" : "MMO"
+    },
+    {
+        "name" : "Stealth"
+    },
+    {
+        "name" : "Card & Board Game"
+    },
+    {
+        "name" : "RPG"
+    },
+    {
+        "name" : "RTS"
+    }
+
+]

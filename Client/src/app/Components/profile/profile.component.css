@@ -5,10 +5,7 @@
     display: inline-block;
     border-style: solid;
     border-color: lightgray;
-}
-
-.name{
-    padding: 25px;
+    margin: 25px;
 }
 
 .preview{

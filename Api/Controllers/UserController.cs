@@ -27,10 +27,19 @@ namespace Api.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{username}")]
-        public async Task<ActionResult> GetUser(string username)
+        [HttpGet("Id/{id}")]
+        public async Task<ActionResult> GetUserById(string id)
         {
-            var user = await _userService.GetUser(username);
+            var user = await _userService.GetUserById(id);
+            if (user == null)
+                return NotFound();
+            return Ok(user);
+        }
+
+        [HttpGet("Username/{username}")]
+        public async Task<ActionResult> GetUserByUsername(string username)
+        {
+            var user = await _userService.GetUserByUsername(username);
             if (user == null)
                 return NotFound();
             return Ok(user);
@@ -40,10 +49,8 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateUser(string userId, UserEditRequest userToEdit)
         {
             var userResponse = await _userService.UpdateUser(userId, userToEdit);
-            if (userResponse == null)
-            {
-                return BadRequest("Username already exist.");
-            }
+            if (userResponse.Errors != null)
+                return BadRequest(userResponse.Errors);
             return Ok(userResponse);
         }
 

@@ -10,7 +10,22 @@ namespace Api.Helpers
     {
         public static void SeedData(DataContext context)
         {
+            SeedTags(context);
             SeedGames(context);
+        }
+
+        static void SeedTags(DataContext _context)
+        {
+            if (!_context.Tags.Any())
+            {
+                var data = System.IO.File.ReadAllText("Datas/TagsData.json");
+                var tags = JsonConvert.DeserializeObject<List<Tag>>(data);
+                foreach (Tag tag in tags)
+                {
+                    _context.Tags.Add(tag);
+                }
+                _context.SaveChanges();
+            }
         }
 
         static void SeedGames(DataContext _context)

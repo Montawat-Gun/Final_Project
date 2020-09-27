@@ -44,7 +44,7 @@ namespace Api.Services
         public async Task<ImageResponse> AddUserImage(ImageUserRequest request)
         {
             var file = request.File;
-            var uploadResult = UploadImage(file);
+            var uploadResult = await UploadImage(file);
             request.ImageUrl = uploadResult.Url.ToString();
             request.PublicId = uploadResult.PublicId;
             request.TimeImage = DateTime.Now;
@@ -59,12 +59,15 @@ namespace Api.Services
             var image = await _context.UserImages.Where(u => u.UserId == request.UserId).FirstOrDefaultAsync();
             if (image == null)
                 return await AddUserImage(request);
-                
+
             var file = request.File;
-            var uploadResult = UploadImage(file);
+            var uploadResult = await UploadImage(file);
             request.ImageUrl = uploadResult.Url.ToString();
             request.PublicId = uploadResult.PublicId;
             request.TimeImage = DateTime.Now;
+            if (uploadResult.Error != null)
+                return null;
+            await DeleteImage(image.PublicId);
             _mapper.Map(request, image);
             _context.Entry(image).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -78,12 +81,13 @@ namespace Api.Services
             {
                 return null;
             }
+            var result = await DeleteImage(image.PublicId);
             _context.UserImages.Remove(image);
             await _context.SaveChangesAsync();
             return _mapper.Map<ImageResponse>(image);
         }
 
-        public ImageUploadResult UploadImage(IFormFile file)
+        public async Task<ImageUploadResult> UploadImage(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();
             if (file.Length > 0)
@@ -95,10 +99,17 @@ namespace Api.Services
                         File = new FileDescription(file.Name, stream),
                         Transformation = new Transformation().Quality("auto").FetchFormat("auto")
                     };
-                    uploadResult = _cloudinary.Upload(uploadParams);
+                    uploadResult = await _cloudinary.UploadAsync(uploadParams);
                 }
             }
             return uploadResult;
+        }
+
+        public async Task<DeletionResult> DeleteImage(string publicId)
+        {
+            var deleteParams = new DeletionParams(publicId);
+            var result = await _cloudinary.DestroyAsync(deleteParams);
+            return result;
         }
     }
 }

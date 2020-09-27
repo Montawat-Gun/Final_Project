@@ -27,7 +27,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetGames()
         {
-            return await _context.Games.ToListAsync();
+            return await _context.Games.Include(i => i.Image).ToListAsync();
         }
 
         // GET: api/Game/5

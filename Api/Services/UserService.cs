@@ -31,7 +31,13 @@ namespace Api.Services
             return userToList;
         }
 
-        public async Task<UserResponse> GetUser(string username)
+        public async Task<UserResponse> GetUserById(string id)
+        {
+            var user = await _context.Users.Include(i => i.Image).Where(u => u.Id == id).FirstOrDefaultAsync();
+            return _mapper.Map<UserResponse>(user);
+        }
+
+        public async Task<UserResponse> GetUserByUsername(string username)
         {
             var user = await _context.Users.Include(i => i.Image).Where(u => u.UserName == username).FirstOrDefaultAsync();
             return _mapper.Map<UserResponse>(user);
@@ -138,16 +144,16 @@ namespace Api.Services
             return usersToList;
         }
 
-        public async Task<UserResponse> UpdateUser(string userId, UserEditRequest userToEdit)
+        public async Task<IdentityResult> UpdateUser(string userId, UserEditRequest userToEdit)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            if (userToEdit.UserName != user.UserName && await _context.Users.AnyAsync(u => u.UserName == userToEdit.UserName))
-            {
-                return null;
-            }
+            // if (userToEdit.UserName != user.UserName && await _context.Users.AnyAsync(u => u.UserName == userToEdit.UserName))
+            // {
+            //     return null;
+            // }
             _mapper.Map(userToEdit, user);
-            await _userManager.UpdateAsync(user);
-            return _mapper.Map<UserResponse>(user);
+            var response = await _userManager.UpdateAsync(user);
+            return response;
         }
 
         public async Task<UserResponse> DeleteUser(string id)

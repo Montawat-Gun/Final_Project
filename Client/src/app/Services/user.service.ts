@@ -22,12 +22,18 @@ export class UserService {
 
   getCurrentUser(): Observable<User> {
     const token = localStorage.getItem("token");
-    const username = this.jwtHelper.decodeToken(token).unique_name;
-    return this.http.get<User>(this.url + username);
+    const id = this.jwtHelper.decodeToken(token).nameid;
+    console.log(id);
+    
+    return this.http.get<User>(this.url + 'id/' + id);
   }
 
   getUser(username: string): Observable<User> {
-    return this.http.get<User>(this.url + username);
+    return this.http.get<User>(this.url + 'username/' + username);
+  }
+
+  updateUser(userToEdit: (any)): Observable<User> {
+    return this.http.put<User>(this.url + userToEdit.id, userToEdit);
   }
 
   getSuggestUsers(): Observable<User[]> {
