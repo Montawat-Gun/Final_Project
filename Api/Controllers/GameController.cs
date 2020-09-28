@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Api.Data;
 using Api.Models;
 using Microsoft.AspNetCore.Authorization;
+using Api.Dtos;
+using AutoMapper;
 
 namespace Api.Controllers
 {
@@ -17,17 +19,20 @@ namespace Api.Controllers
     public class GameController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public GameController(DataContext context)
+        public GameController(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
         // GET: api/Game
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Game>>> GetGames()
+        public async Task<ActionResult> GetGames()
         {
-            return await _context.Games.Include(i => i.Image).ToListAsync();
+            var games = await _context.Games.Include(i => i.Image).ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<GameToReturn>>(games));
         }
 
         // GET: api/Game/5

@@ -12,7 +12,7 @@ export class GameItemComponent implements OnInit {
 
   interest: Interest;
 
-  @Input() game: Game;
+  @Input() game: (any);
   @Output() selected = new EventEmitter<any>();
 
   constructor(private userService: UserService) { }
@@ -25,6 +25,7 @@ export class GameItemComponent implements OnInit {
       userId: this.userService.getUserId(),
       gameId: this.game.gameId
     }
+    
     this.selected.emit(this.interest);
   }
 

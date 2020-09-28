@@ -1,108 +1,89 @@
-.card{padding-left: 0px;
-    padding-right: 0px; }
-.inner{ 
-    overflow: hidden;
-}
-.inner img{
-    transition: all 0.5s ease;
-}
-.inner:hover img{
-    transform: scale(1.25);
-}
-.container{
-    margin-top:8%;
+.block-check {
+  display: block;
+  position: relative;
+ 
+  cursor: hand;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.grid-wrapper {
-    margin: 0 auto;
-    width: 80%;
-    vertical-align: middle;
-    text-align: center;
-    position: relative;
-  }
-  
-  .card-content * {
-    cursor: pointer;
-  }
-  .card-wrapper {
-    position: relative;
-    width: 300px;
-    height: auto;
-    float: left;
-    margin-right: 50px;
-    margin-bottom: 50px;
-  }
-  .c-card {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    visibility: hidden;
-  }
-  .c-card ~ .card-content {
-    transition: all 500ms ease-out;
-  }
-  .c-card ~ .card-content .card-state-icon {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    z-index: 2;
-    width: 20px;
-    height: 20px;
-    background-position: 0 0;
-    transition: all 100ms ease-out;
-  }
-  .c-card ~ .card-content:before {
-    position: absolute;
-    top: 1px;
-    right: 1px;
-    width: 0;
-    height: 0;
-    border-top: 52px solid #47a4cf;
-    border-left: 52px solid transparent;
-    transition: all 200ms ease-out;
-  }
-  .c-card ~ .card-content:after {
-    position: absolute;
-    top: 1px;
-    right: 1px;
-    content: "";
-    width: 0;
-    height: 0;
-    border-top: 50px solid #FFF;
-    border-left: 50px solid transparent;
-    transition: all 200ms ease-out;
-  }
-  .c-card ~ .card-content:hover {
-    border: 1px solid #0905fa;
-  }
-  .c-card ~ .card-content:hover .card-state-icon {
-    background-position: -30px 0;
-  }
-  .c-card ~ .card-content:hover:before {
-    border-top: 52px solid #0a2df0;
-  }
-  .c-card:checked ~ .card-content {
-    border: 1px solid #01c4f5;
-  }
-  .c-card:checked ~ .card-content .card-state-icon {
-    background-position: -90px 2px;
-  }
-  .c-card:checked ~ .card-content:before {
-    border-top: 70px solid #1404f7;
-        background: url("https://www.shareicon.net/download/2016/08/20/817721_check.svg") no-repeat;
-  }
-  .c-card:checked ~ .card-content:after {
-    border-top: 52px solid #6fbaf7;
-    
-  }
-  .c-card:checked:hover ~ .card-content .card-state-icon {
-    background-position: -60px 2px;
-  }
-  .c-card:checked:hover ~ .card-content:before {
-    border-top: 52px solid #6fbaf7;
-  }
-  .c-card:checked:hover ~ .card-content:after {
-    border-top: 52px solid #6fbaf7;
-  }
-  
+/* Hide the browser's default checkbox */
+.block-check input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 0% 0% 0% 0%;
+  background-color: rgba(255, 255, 255, 0);
+  cursor: pointer;
+}
+
+/* On mouse-over, add a grey background color */
+.block-check:hover input ~ .checkmark {
+  background-color: rgba(66, 66, 66,0.25);
+}
+
+/* When the checkbox is checked, add a blue background */
+.block-check input:checked ~ .checkmark {
+  background-color: rgba(66, 66, 66,0.5);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.block-check input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.block-check .checkmark:after {
+  left: 35%;
+  top: 10%;
+  width: 50px;
+  height: 100px;
+  border: solid white;
+  border-width: 0 30px 30px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/*--checkbox css end--*/
+
+.card {
+  width: 10rem;
+  margin: 10px;
+}
+
+.card-body{
+  height: 100px;
+  padding-right: 0px;
+  padding-left: 10px;
+  overflow: hidden;
+}
+
+.gamename {
+  font-size: 12pt;
+  font-weight: bold;
+  max-width: 140px;
+}
+
+.badge {
+  font-size: 8pt;
+  margin: 1px;
+}

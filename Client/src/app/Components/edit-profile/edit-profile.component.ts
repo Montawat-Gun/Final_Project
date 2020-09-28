@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/Models/User';
 import { UserService } from 'src/app/Services/user.service';
@@ -20,6 +20,8 @@ export class EditProfileComponent implements OnInit {
 
   constructor(private userService: UserService, private route: Router) { }
 
+  @ViewChild('closeButton') closeButton;
+
   ngOnInit(): void {
     this.userToEdit = {
       id: this.user.id,
@@ -34,7 +36,11 @@ export class EditProfileComponent implements OnInit {
 
   saveEdit() {
     this.errors = []
-    this.userService.updateUser(this.userToEdit).subscribe(response => this.user = response,
+    this.userService.updateUser(this.userToEdit).subscribe(response => {
+      this.user = response
+      this.closeButton.nativeElement.click();
+      this.route.navigate(['profile/' + this.userToEdit.username]);
+    },
       error => {
         error.error.forEach(e => {
           this.errors.push(e.description);

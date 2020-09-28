@@ -5,19 +5,25 @@
     </label>
 </div> -->
 
-<div class="card shadow col-md card-wrapper">
-    <input class="c-card" type="checkbox" id="1" value="1">
-    <div class="card-content">
-       <div class="card-state-icon"></div>
-        <label for="1">
-          <div class="inner">
-            <img src="{{game.image.imageUrl}}" class="card-img-top "  alt="">
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">{{game.name}}</h5>
-            <span class="badge badge-pill badge-secondary">FPS</span>
-
-          </div>
-        </label>
+<label class="block-check">
+  <div class="card">
+    <img src="{{game.imageUrl}}" class="card-img-top" alt="...">
+    <input type="checkbox" value="" id="{{game.name}}" (change)="select()">
+    <span class="checkmark"></span>
+    <div class="card-body">
+      <!-- <h5 class="card-title" style="font-size: 12pt;">{{game.name}}</h5> -->
+      <span class="d-inline-block text-truncate gamename">
+        {{game.name}}
+      </span>
+      <br>
+      <!-- <div class="text-truncate gamename" style="max-width: 150px;">
+        <span class="badge badge-secondary">FPS</span>
+        <span class="badge badge-secondary">FPS</span>
+        <span class="badge badge-secondary">FPS</span>
+        <span class="badge badge-secondary">FPS</span>
+        <span class="badge badge-secondary">FPS</span>
+        <span class="badge badge-secondary">FPS</span>
+      </div> -->
     </div>
   </div>
+</label>

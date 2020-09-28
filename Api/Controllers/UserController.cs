@@ -49,9 +49,9 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateUser(string userId, UserEditRequest userToEdit)
         {
             var userResponse = await _userService.UpdateUser(userId, userToEdit);
-            if (userResponse.Errors != null)
-                return BadRequest(userResponse.Errors);
-            return Ok(userResponse);
+            if (userResponse.Succeeded)
+                return Ok(userToEdit);
+            return BadRequest(userResponse.Errors);
         }
 
         [HttpGet("Suggest/{userId}")]

@@ -3,34 +3,37 @@
     <button type="button" class="btn btn-primary" (click)="submit()">Select</button>
 </div> -->
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-    Launch static backdrop modal
+<button type="button" class="btn btn-primary" #showModal style="display: none;" data-toggle="modal"
+    data-target="#staticBackdrop">
 </button>
 
 <!-- Modal -->
-<div class="modal fade " id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true" style="height: 100%;">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-center" id="staticBackdropLabel"> My Favorite Game</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="staticBackdropLabel">Select game you interest (At least 5 games)                </h5>
+                <button type="button" #closeModal class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-check">
 
-                    <app-game-item *ngFor="let game of games" [game]="game" (selected)="addInterest($event)">
-                    </app-game-item>
+                <div class="container-fluid" style="margin-right: -10px;">
+                    <div class="row">
 
+                        <app-game-item *ngFor="let game of games" [game]="game" (selected)="addInterest($event)">
+                        </app-game-item>
 
+                    </div>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
+                <label for="" style="color: red;">{{error}}</label>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Skip</button>
+                <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
             </div>
         </div>
     </div>

@@ -18,6 +18,9 @@ namespace Api.Helpers
             CreateMap<ImageUserRequest, UserImage>();
             CreateMap<Image, ImageResponse>();
             CreateMap<UserEditRequest, User>();
+            CreateMap<Game,GameToReturn>()
+                .ForMember(dest => dest.ImageUrl,
+                opt => opt.MapFrom(src => src.Image.ImageUrl));
         }
     }
 }

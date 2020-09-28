@@ -1,4 +1,4 @@
 export interface Interest {
-    userId:string;
-    gameId:number;
+    userId: string;
+    gameId: number;
 }
