@@ -87,6 +87,21 @@ namespace Api.Services
             return _mapper.Map<ImageResponse>(image);
         }
 
+        public Task<ImageResponse> GetPostImage(int postId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ImageResponse> AddPostImage(ImagePostRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ImageResponse> DeletePostImage(int postId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ImageUploadResult> UploadImage(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();

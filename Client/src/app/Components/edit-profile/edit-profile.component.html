@@ -6,7 +6,7 @@
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Edit Profile</h5>
@@ -15,7 +15,31 @@
                 </button>
             </div>
             <div class="modal-body">
+                <h3>Update Profile</h3>
+                <!-- Image Upload -->
+                <label class="d-flex justify-content-center preview-click">
+                    <svg class="bi icon" width="28" height="28" fill="currentColor">
+                        <use xlink:href="bootstrap-icons.svg#pencil-square" />
+                    </svg>
+                    <input type="button" (click)="chooseimage.click()">
+                    <img class="preview" [src]="croppedImage" />
+                </label>
+                <input type="file" accept="image/*" (change)="fileChangeEvent($event)" #chooseimage
+                    style="display: none;" />
+                <image-cropper class="crop-area" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                    [aspectRatio]="1 / 1" format="png" (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+                </image-cropper>
+                <div class="" style="text-align: right; padding-bottom: 10px;">
+                    <button type="submit" [disabled]="isDisableUploadButton" class="btn btn-success"
+                        (click)="onUploadImage()">Save</button>
+                </div>
+
+                <!-- Divider -->
+                <div class="dropdown-divider" style="padding: 5px;"></div>
+
                 <form id="editForm" #editForm="ngForm" (ngSubmit)="saveEdit()">
+                    <h3>Update Info</h3>
                     <!-- Username -->
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -35,14 +59,55 @@
                             [(ngModel)]="userToEdit.email">
                     </div>
                     <div *ngIf="errors">
-                        <label style="color: red; justify-content: right;" *ngFor="let error of errors">{{error}}</label>
+                        <label style="color: red; justify-content: right;"
+                            *ngFor="let error of errors">{{error}}</label>
+                    </div>
+                    <div style="text-align: right;">
+                        <button type="submit" form="editForm" class="btn btn-success"
+                            [disabled]="isButtonEditDisable()">Save</button>
+                    </div>
+                </form>
+
+                <!-- Divider -->
+                <div class="dropdown-divider" style="padding: 5px;"></div>
+
+                <form id="editPasswordForm" #editForm="ngForm" (ngSubmit)="savePasswordEdit()">
+                    <h3>Change Password</h3>
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" class="form-control" id="currentPassword"
+                            aria-describedby="currentPasswordHelp" name="currentPassword" placeholder="Current Password"
+                            [(ngModel)]="passwordToEdit.currentPassword">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" aria-describedby="newPasswordHelp"
+                            placeholder="New Password" name="newPassword" [(ngModel)]="passwordToEdit.newPassword">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword"
+                            aria-describedby="confirmPasswordHelp" placeholder="Confirm Password" name="confirmPassword"
+                            [(ngModel)]="confirmPassword">
+                    </div>
+                    <div *ngIf="passwordErrors">
+                        <label style="color: red; justify-content: right;"
+                            *ngFor="let error of passwordErrors">{{error}}</label>
+                    </div>
+
+                    <div style="text-align: right;">
+                        <button type="submit" form="editPasswordForm" class="btn btn-success"
+                            [disabled]="isButtonPasswordEditDisable()">Save</button>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
-                <button type="submit" form="editForm" class="btn btn-primary" [disabled]="isButtonDisable()" >Save</button>
+                <label for="" style="color: green;">{{completeMessage}}</label>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
             </div>
         </div>
+
     </div>
 </div>

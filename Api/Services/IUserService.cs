@@ -12,6 +12,7 @@ namespace Api.Services
         Task<UserResponse> GetUserById(string id);
         Task<UserResponse> GetUserByUsername(string username);
         Task<IdentityResult> UpdateUser(string userId, UserEditRequest userToEdit);
+        Task<IdentityResult> UpdateUserPassword(string userId, UserEditPasswordRequest passwordToEdit);
         Task<ICollection<UserToListDto>> Suggest(string username);
         Task<UserResponse> DeleteUser(string id);
     }

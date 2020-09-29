@@ -9,5 +9,8 @@ namespace Api.Services
         Task<ImageResponse> AddUserImage(ImageUserRequest request);
         Task<ImageResponse> UpdateUserImage(ImageUserRequest request);
         Task<ImageResponse> DeleteUserImage(string userId);
+        Task<ImageResponse> GetPostImage(int postId);
+        Task<ImageResponse> AddPostImage(ImagePostRequest request);
+        Task<ImageResponse> DeletePostImage(int postId);
     }
 }

@@ -16,7 +16,6 @@ export class SuggestComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getSuggestUsers().subscribe(response => {
       this.users = response;
-      console.log(this.users);
     });
   }
 

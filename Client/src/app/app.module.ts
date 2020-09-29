@@ -1,7 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import 'hammerjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './Components/login/login.component';
@@ -19,6 +20,7 @@ import { GameComponent } from './Components/game/game.component';
 import { GameItemComponent } from './Components/game-item/game-item.component';
 import { PostInputComponent } from './Components/post-input/post-input.component';
 import { EditProfileComponent } from './Components/edit-profile/edit-profile.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { EditProfileComponent } from './Components/edit-profile/edit-profile.com
     HttpClientModule,
     FormsModule,
     NgbModule,
+    ImageCropperModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

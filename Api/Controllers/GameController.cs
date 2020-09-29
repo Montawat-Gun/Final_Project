@@ -31,7 +31,12 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetGames()
         {
-            var games = await _context.Games.Include(i => i.Image).ToListAsync();
+            var games = await _context.Games.Include(i => i.Image).Include(t => t.Tags).ToListAsync();
+            // var tags = await _context.Tags.ToListAsync();
+            // foreach (var game in games)
+            // {
+            //     game.Tags = gameTags.Where(t => t.GameId == game.GameId).Select(t => t.Tag).ToList();
+            // }
             return Ok(_mapper.Map<IEnumerable<GameToReturn>>(games));
         }
 

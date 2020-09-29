@@ -23,8 +23,6 @@ export class UserService {
   getCurrentUser(): Observable<User> {
     const token = localStorage.getItem("token");
     const id = this.jwtHelper.decodeToken(token).nameid;
-    console.log(id);
-    
     return this.http.get<User>(this.url + 'id/' + id);
   }
 
@@ -36,9 +34,17 @@ export class UserService {
     return this.http.put<User>(this.url + userToEdit.id, userToEdit);
   }
 
+  updateUserPassword(passwordToEdit: (any)): Observable<string> {
+    return this.http.put<string>(this.url + 'password/' + this.getUserId(), passwordToEdit);
+  }
+
   getSuggestUsers(): Observable<User[]> {
     const token = localStorage.getItem("token");
     const userId = this.jwtHelper.decodeToken(token).nameid;
     return this.http.get<User[]>(this.url + 'suggest/' + userId);
+  }
+
+  uploadUserImage(file: FormData) {
+    return this.http.post(this.url + this.getUserId() + '/image', file, { reportProgress: true, observe: 'events' });
   }
 }

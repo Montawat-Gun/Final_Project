@@ -54,6 +54,15 @@ namespace Api.Controllers
             return BadRequest(userResponse.Errors);
         }
 
+        [HttpPut("Password/{userId}")]
+        public async Task<IActionResult> UpdateUserPassword(string userId, UserEditPasswordRequest passwordToEdit)
+        {
+            var response = await _userService.UpdateUserPassword(userId, passwordToEdit);
+            if (response.Succeeded)
+                return Ok();
+            return BadRequest(response.Errors);
+        }
+
         [HttpGet("Suggest/{userId}")]
         public async Task<ActionResult> Suggest(string userId)
         {

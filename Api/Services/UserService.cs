@@ -147,13 +147,18 @@ namespace Api.Services
         public async Task<IdentityResult> UpdateUser(string userId, UserEditRequest userToEdit)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            // if (userToEdit.UserName != user.UserName && await _context.Users.AnyAsync(u => u.UserName == userToEdit.UserName))
-            // {
-            //     return null;
-            // }
             _mapper.Map(userToEdit, user);
-            var response = await _userManager.UpdateAsync(user);
-            return response;
+            var result = await _userManager.UpdateAsync(user);
+            return result;
+        }
+
+        public async Task<IdentityResult> UpdateUserPassword(string userId, UserEditPasswordRequest passwordToEdit)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return null;
+            var result = await _userManager.ChangePasswordAsync(user, passwordToEdit.CurrentPassword, passwordToEdit.NewPassword);
+            return result;
         }
 
         public async Task<UserResponse> DeleteUser(string id)

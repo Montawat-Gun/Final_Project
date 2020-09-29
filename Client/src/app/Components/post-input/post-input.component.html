@@ -1,10 +1,61 @@
-<form action="">
-    <div class="mb-3">
-        <label for="validationTextarea">Textarea</label>
-        <textarea class="form-control" id="validationTextarea" placeholder="Say something." style="border: none;"
-            required></textarea>
-        <div class="invalid-feedback">
-            Please enter a message in the textarea.
+<form action="" (ngSubmit)="onCreatePost()">
+    <div class="card">
+        <div class="card-body">
+            <div class="post">
+                <img class="round" src="{{user?.imageUrl}}" alt="">
+                <textarea class="form-control" placeholder="Say something." name="content" [(ngModel)]="content"></textarea>
+            </div>
+            <div style="text-align: center;">
+                <img id="preview" alt="">
+            </div>
+            <!-- Divider -->
+            <div class="dropdown-divider" style="padding: 5px;"></div>
+            <div class="row">
+                <div class="col">
+                    <input type="file" accept="image/*" (change)="onSelectFile($event)" style="display: none;" #chooseimage />
+                    <a href="#" (click)="chooseimage.click()">
+                        <svg class="bi icon" width="30" height="30" fill="currentColor">
+                            <use xlink:href="bootstrap-icons.svg#image" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="col">
+                    <div style="text-align: right;">
+                        <button *ngIf="selectedFile" type="button" class="btn btn-danger" (click)="removeFile()" style="margin-right: 10px;">Remove Photo</button>
+                        <button type="submit" class="btn btn-primary">Post</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </form>
+
+
+<!-- <div class=" container">
+<div class="card ">
+      <div class="card-body form-inline">
+        <img src="{{user?.imageUrl}}" class="col-1" style="width: 100px; background-color: green;">
+        <textarea class="form-control col-11"  rows="2" placeholder="Write your comment here!"></textarea>
+      </div>
+      
+      <div class="dropdown-divider"></div>
+      <div class="">
+        <form class=" form-inline">
+          <div class="col-10 ">
+            <div class="form-group">
+              <a  class="text-secondary text-center "role="button"> 
+                <svg class="bi" width="20" height="20" fill="currentColor">
+                  <use xlink:href="bootstrap-icons.svg#heart"/>
+                </svg></a>
+                <a  class="text-secondary text-center "role="button"> 
+                <svg class="bi" width="20" height="20" fill="currentColor">
+                  <use xlink:href="bootstrap-icons.svg#chat-left-text"/>
+                </svg></a>
+            </div>
+          </div>
+              <button class="btn col-2" type="button">Post</button>
+        </form>
+      </div> 
+
+</div> -->
