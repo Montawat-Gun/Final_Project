@@ -15,12 +15,16 @@ import { HomeComponent } from './Components/home/home.component';
 import { SuggestComponent } from './Components/suggest/suggest.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { UsersSuggestResolver } from './Resolvers/users-suggest.resolver';
-import { SuggestItemComponent } from './Components/suggest-item/suggest-item.component';
 import { GameComponent } from './Components/game/game.component';
 import { GameItemComponent } from './Components/game-item/game-item.component';
-import { PostInputComponent } from './Components/post-input/post-input.component';
 import { EditProfileComponent } from './Components/edit-profile/edit-profile.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { PostComponent } from './Components/post/post.component';
+import { PostItemComponent } from './Components/post-item/post-item.component';
+import { PostDetailComponent } from './Components/post-detail/post-detail.component';
+import { CommentItemComponent } from './Components/comment-item/comment-item.component';
+import { PostInputComponent } from './Components/post-input/post-input.component';
+import { UserItemComponent } from './Components/user-item/user-item.component';
 
 @NgModule({
   declarations: [
@@ -31,11 +35,15 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ProfileComponent,
     HomeComponent,
     SuggestComponent,
-    SuggestItemComponent,
     GameComponent,
     GameItemComponent,
-    PostInputComponent,
     EditProfileComponent,
+    PostComponent,
+    PostItemComponent,
+    PostDetailComponent,
+    CommentItemComponent,
+    PostInputComponent,
+    UserItemComponent,
   ],
   imports: [
     BrowserModule,

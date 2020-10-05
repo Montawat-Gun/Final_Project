@@ -1,0 +1,27 @@
+<app-post-input [user]="user"></app-post-input>
+<app-post-item *ngFor="let post of posts" [post]="post" (deletePost)="setPostToDelete($event)"></app-post-item>
+
+<!-- Modal -->
+<div class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePostModalLabel">Do you want to delete a post?</h5>
+                <button type="button" class="close" #closeModal data-dismiss="modal" aria-label="Close"
+                    style="color: white;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to delete a post?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="removePostToDelete()"
+                    data-dismiss="modal">Cancle</button>
+                <button type="button" id="buttonDeletePost" (click)="onDeletePost()" class="btn btn-primary">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

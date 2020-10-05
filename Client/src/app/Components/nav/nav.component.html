@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md" style="height: 50%;">
+<nav class="navbar navbar-expand-md fixed-top">
   <div class="col-md-6 col-12 container">
     <a href="" class="navbar-brand header">SGamer</a>
     <ul class="nav justify-content-end">
@@ -20,6 +20,7 @@
         <a href="#" class="nav-link py-0" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           <img class="avatar" src="{{user?.imageUrl}}" alt="">
+          <label class="username">{{user?.username}}</label>
         </a>
 
         <div class="dropdown-menu dropdown-menu-right shadow " aria-labelledby="userDropdown">

@@ -1,7 +1,8 @@
 .card {
-    top: 10px;
-    width: 80%;
+    width: 100%;
     margin: auto;
+    margin-bottom: 10px;
+    background-color: #363738;
 }
 
 .round {
@@ -23,10 +24,52 @@
 
 .post textarea {
     resize: none;
-    height: 100px;
+    height: 75px;
+    border: none;
+    background-color: #363738;
+    color: white;
+}
+
+.post textarea:active,textarea:hover,textarea:focus {
+    outline:0px !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
 }
 
 #preview {
     max-height: 100px;
-    
+}
+
+.input-search {
+    margin-top: 0;
+}
+
+.dropdown {
+    margin: 20px;
+}
+  
+.dropdown-menu {
+    max-height: 18rem;
+    overflow-x: hidden;
+    width: 300px;
+}
+
+.dropdown-menu .text-truncate {
+    max-width: 200px;
+}
+
+.game-image {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+}
+
+.dropdown-toggle {
+    overflow: hidden;
+    width: 200px;
+}
+
+.text-truncate {
+    max-width: 160px;
 }

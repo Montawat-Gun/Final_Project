@@ -1,0 +1,36 @@
+.comment {
+    position: relative;
+    color: white;
+    background-color: #363738;
+}
+
+.card {
+    background-color: #585960;
+    min-width: 200px;
+}
+
+.round {
+    border-radius: 50%;
+    width: 45px;
+}
+
+.comment .title {
+    color: white;
+}
+
+.comment-time {
+    font-size: 8pt;
+    line-height: 10%;
+    cursor: default;
+    color: #c2c2c2;
+}
+
+.img-profile {
+    margin-right: 1%;
+}
+
+.drop-option {
+    position: absolute; 
+    top: 5px; 
+    right: 10px;
+}

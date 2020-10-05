@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Data;
 using Api.Models;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Api.Dtos;
 
 namespace Api.Controllers
 {
@@ -17,9 +18,11 @@ namespace Api.Controllers
     public class FollowController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public FollowController(DataContext context)
+        public FollowController(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -29,17 +32,38 @@ namespace Api.Controllers
             return await _context.Follows.ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Follow>> GetFollow(string id)
+        [HttpGet("following/{fromUserId}/{userId}")]
+        public async Task<ActionResult> GetFollowing(string fromUserId, string userId)
         {
-            var follow = await _context.Follows.FindAsync(id);
-
-            if (follow == null)
+            var following = await _context.Follows.Where(u => u.FollowerId == userId).Include(i => i.Following.Image).Select(f => f.Following).ToListAsync();
+            var fromUserfollowing = await _context.Follows.Where(u => u.FollowerId == fromUserId).Select(f => f.Following).ToListAsync();
+            var followingToReturn = _mapper.Map<IEnumerable<UserToList>>(following);
+            foreach (var follow in followingToReturn)
             {
-                return NotFound();
+                follow.IsFollowing = fromUserfollowing.Where(u => u.Id == follow.Id).Any();
             }
+            return Ok(followingToReturn);
+        }
 
-            return follow;
+        [HttpGet("follower/{fromUserId}/{userId}")]
+        public async Task<ActionResult> GetFollower(string fromUserId, string userId)
+        {
+            var followers = await _context.Follows.Where(u => u.FollowingId == userId).Include(i => i.Follower.Image).Select(f => f.Follower).ToListAsync();
+            var fromUserfollowing = await _context.Follows.Where(u => u.FollowerId == fromUserId).Select(f => f.Following).ToListAsync();
+            var followersToReturn = _mapper.Map<IEnumerable<UserToList>>(followers);
+            foreach (var follow in followersToReturn)
+            {
+                follow.IsFollowing = fromUserfollowing.Where(u => u.Id == follow.Id).Any();
+            }
+            return Ok(followersToReturn);
+        }
+
+        [HttpGet("isfollowing/{fromUserId}/{userId}")]
+        public async Task<IActionResult> IsFollowing(string fromUserId, string userId)
+        {
+            var following = await _context.Follows
+            .Where(x => x.FollowerId == fromUserId && x.FollowingId == userId).FirstOrDefaultAsync();
+            return Ok(following);
         }
 
         [HttpPost]
@@ -53,7 +77,7 @@ namespace Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (FollowExists(follow.FollowingId))
+                if (FollowExists(follow.FollowerId))
                 {
                     return Conflict();
                 }
@@ -63,13 +87,13 @@ namespace Api.Controllers
                 }
             }
 
-            return CreatedAtAction("GetFollow", new { id = follow.FollowingId }, follow);
+            return CreatedAtAction("GetFollowing", new { fromUserId = follow.FollowerId, userId = follow.FollowerId }, follow);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Follow>> DeleteFollow(string id)
+        [HttpDelete("unfollow/{followerId}/{followingId}")]
+        public async Task<ActionResult<Follow>> DeleteFollow(string followerId, string followingId)
         {
-            var follow = await _context.Follows.FindAsync(id);
+            var follow = await _context.Follows.Where(x => x.FollowerId == followerId && x.FollowingId == followingId).FirstOrDefaultAsync();
             if (follow == null)
             {
                 return NotFound();

@@ -1,0 +1,18 @@
+<div class="row d-flex pt-2 justify-content-between">
+    <div class="col-md-8">
+        <a href="" [routerLink]="['/profile',user.username]" data-dismiss="modal">
+            <img class="img-profile mr-2" src="{{user.imageUrl}}" alt="">
+        </a>
+        <span>
+            <a [routerLink]="['/profile/',user.username]" style="color: white;" data-dismiss="modal">{{user.username}}</a>
+        </span>
+    </div>
+    <div class="col-md-3">
+        <div *ngIf="!isCurrentUser()">
+            <button *ngIf="!user.isFollowing" type="button" class="btn btn-outline-primary btn-sm"
+                (click)="onFollow()">Follow</button>
+            <button *ngIf="user.isFollowing" type="button" class="btn btn-outline-primary btn-sm"
+                (click)="onUnfollow()">Unfollow</button>
+        </div>
+    </div>
+</div>

@@ -11,7 +11,7 @@ import { GameInterestService } from '../../Services/game-interest.service';
 })
 export class GameComponent implements OnInit {
 
-  error:string = '';
+  error: string = '';
   games: Game[]
   interests: Interest[] = []
   hasInterests: boolean = true;
@@ -22,9 +22,12 @@ export class GameComponent implements OnInit {
   @ViewChild('closeModal') closeModal;
 
   ngOnInit(): void {
-    this.gameinterestService.getGames().subscribe(response => this.games = response);
+
     this.gameinterestService.getInterests().subscribe(next => {
       if (Array.isArray(next) && !next.length) {
+        this.gameinterestService.getGames().subscribe(response => {
+          this.games = response;
+        });
         this.hasInterests = false;
         this.showModal.nativeElement.click()
       }

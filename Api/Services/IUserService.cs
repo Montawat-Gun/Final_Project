@@ -8,12 +8,12 @@ namespace Api.Services
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserToListDto>> GetUsers();
-        Task<UserResponse> GetUserById(string id);
-        Task<UserResponse> GetUserByUsername(string username);
+        Task<IEnumerable<UserToList>> GetUsers();
+        Task<UserDetail> GetUserById(string id);
+        Task<UserDetail> GetUserByUsername(string username);
         Task<IdentityResult> UpdateUser(string userId, UserEditRequest userToEdit);
         Task<IdentityResult> UpdateUserPassword(string userId, UserEditPasswordRequest passwordToEdit);
-        Task<ICollection<UserToListDto>> Suggest(string username);
-        Task<UserResponse> DeleteUser(string id);
+        Task<ICollection<UserToList>> Suggest(string username);
+        Task<UserDetail> DeleteUser(string id);
     }
 }

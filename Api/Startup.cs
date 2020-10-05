@@ -1,9 +1,7 @@
 using Api.Data;
-using Api.Dtos;
 using Api.Helpers;
 using Api.Models;
 using Api.Services;
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -28,9 +26,9 @@ namespace Api
         {
             services.AddConfig(Configuration);
 
-            services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequiredLength = 8;

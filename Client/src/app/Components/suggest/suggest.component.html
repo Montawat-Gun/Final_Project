@@ -1,4 +1,10 @@
-<div style="width: 100%;">
-    <span>Suggestions For You</span>
-    <app-suggest-item *ngFor="let user of users" [user]="user" (removeFromSuggest)="removeFromSuggest($event)"></app-suggest-item>
+<div class="card p-3">
+    <div class="suggest ml-1 mb-2">
+        <span>Suggestions For You</span>
+    </div>
+    <div class="pr-3">
+        <app-user-item *ngFor="let user of users" [user]="user" (removeFromList)="removeFromSuggest($event)">
+        </app-user-item>
+    </div>
+    
 </div>

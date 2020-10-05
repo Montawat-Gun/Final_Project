@@ -24,6 +24,7 @@ export class EditProfileComponent implements OnInit {
   completeMessage: string = '';
 
   isDisableUploadButton: boolean = true;
+  isShowCrop: boolean = false;
 
   selectedFile = null;
 
@@ -51,6 +52,10 @@ export class EditProfileComponent implements OnInit {
     this.imageChangedEvent = event;
     if (event.target.files.length <= 0) {
       this.isDisableUploadButton = true;
+      this.isShowCrop = false;
+      this.croppedImage = this.user.imageUrl;
+    } else {
+      this.isShowCrop = true;
     }
   }
   imageCropped(event: ImageCroppedEvent) {
@@ -91,7 +96,10 @@ export class EditProfileComponent implements OnInit {
       return;
     }
     this.userService.updateUserPassword(this.passwordToEdit).subscribe(response => {
-      this.completeMessage = "You have changed your password."
+      this.completeMessage = "You have changed your password.";
+      this.passwordToEdit.currentPassword = null;
+      this.passwordToEdit.newPassword = null;
+      this.confirmPassword = null;
     },
       error => {
         error.error.forEach(e => {
@@ -103,9 +111,9 @@ export class EditProfileComponent implements OnInit {
   isButtonEditDisable() {
     if (this.userToEdit.username === this.user.username &&
       this.userToEdit.email === this.user.email &&
-      this.userToEdit.description === this.user.description){
-        return true;
-      }
+      this.userToEdit.description === this.user.description) {
+      return true;
+    }
   }
 
   isButtonPasswordEditDisable() {
@@ -131,6 +139,8 @@ export class EditProfileComponent implements OnInit {
         console.log(event);
       }
       this.completeMessage = "You have changed your image.";
+      this.selectedFile = null;
+      this.imageChangedEvent = ''
     });
   }
 

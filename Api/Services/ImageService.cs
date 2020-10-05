@@ -87,19 +87,36 @@ namespace Api.Services
             return _mapper.Map<ImageResponse>(image);
         }
 
-        public Task<ImageResponse> GetPostImage(int postId)
+        public async Task<ImageResponse> GetPostImage(int postId)
         {
-            throw new NotImplementedException();
+            var image = await _context.PostImages.Where(p => p.PostId == postId).FirstOrDefaultAsync();
+            return _mapper.Map<ImageResponse>(image);
         }
 
-        public Task<ImageResponse> AddPostImage(ImagePostRequest request)
+        public async Task<ImageResponse> AddPostImage(ImagePostRequest request)
         {
-            throw new NotImplementedException();
+            var file = request.File;
+            var uploadResult = await UploadImage(file);
+            request.ImageUrl = uploadResult.Url.ToString();
+            request.PublicId = uploadResult.PublicId;
+            request.TimeImage = DateTime.Now;
+            var image = _mapper.Map<PostImage>(request);
+            _context.PostImages.Add(image);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<ImageResponse>(image);
         }
 
-        public Task<ImageResponse> DeletePostImage(int postId)
+        public async Task<ImageResponse> DeletePostImage(int postId)
         {
-            throw new NotImplementedException();
+            var image = await _context.PostImages.Where(p => p.PostId == postId).FirstOrDefaultAsync();
+            if (image == null)
+            {
+                return null;
+            }
+            var result = await DeleteImage(image.PublicId);
+            _context.PostImages.Remove(image);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<ImageResponse>(image);
         }
 
         public async Task<ImageUploadResult> UploadImage(IFormFile file)
@@ -120,10 +137,9 @@ namespace Api.Services
             return uploadResult;
         }
 
-        public async Task<DeletionResult> DeleteImage(string publicId)
+        public async Task<DelResResult> DeleteImage(string publicId)
         {
-            var deleteParams = new DeletionParams(publicId);
-            var result = await _cloudinary.DestroyAsync(deleteParams);
+            var result = await _cloudinary.DeleteResourcesAsync(ResourceType.Image, publicId);
             return result;
         }
     }

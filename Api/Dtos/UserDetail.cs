@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 
 namespace Api.Dtos
 {
-    public class UserResponse
+    public class UserDetail
     {
         public string Id { get; set; }
         public string Username { get; set; }
@@ -11,5 +12,8 @@ namespace Api.Dtos
         public DateTime BirthDate { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+        public int FollowingCount { get; set; }
+        public int FollowerCount { get; set; }
+        public ICollection<GamesToList> GameInterest { get; set; }
     }
 }

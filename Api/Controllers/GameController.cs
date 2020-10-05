@@ -31,20 +31,15 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetGames()
         {
-            var games = await _context.Games.Include(i => i.Image).Include(t => t.Tags).ToListAsync();
-            // var tags = await _context.Tags.ToListAsync();
-            // foreach (var game in games)
-            // {
-            //     game.Tags = gameTags.Where(t => t.GameId == game.GameId).Select(t => t.Tag).ToList();
-            // }
-            return Ok(_mapper.Map<IEnumerable<GameToReturn>>(games));
+            var games = await _context.Games.Include(i => i.Image).ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<GamesToList>>(games));
         }
 
         // GET: api/Game/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Game>> GetGame(int id)
         {
-            var game = await _context.Games.FindAsync(id);
+            var game = await _context.Games.Where(g => g.GameId == id).Include(p => p.Posts).FirstOrDefaultAsync();
 
             if (game == null)
             {

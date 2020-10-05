@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Api.Data;
 using Api.Models;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Api.Dtos;
 
 namespace Api.Controllers
 {
@@ -17,22 +19,16 @@ namespace Api.Controllers
     public class CommentController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public CommentController(DataContext context)
+        public CommentController(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
-        // GET: api/Comment
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetComment()
-        {
-            return await _context.Comments.ToListAsync();
-        }
-
-        // GET: api/Comment/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetComment(int id)
+        public async Task<ActionResult<CommentDetail>> GetComment(int id)
         {
             var comment = await _context.Comments.FindAsync(id);
 
@@ -41,12 +37,9 @@ namespace Api.Controllers
                 return NotFound();
             }
 
-            return comment;
+            return _mapper.Map<CommentDetail>(comment);
         }
 
-        // PUT: api/Comment/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment(int id, Comment comment)
         {
@@ -76,19 +69,16 @@ namespace Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Comment
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(Comment comment)
         {
+            comment.TimeComment = DateTime.Now;
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
-
+            
             return CreatedAtAction("GetComment", new { id = comment.CommentId }, comment);
         }
 
-        // DELETE: api/Comment/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Comment>> DeleteComment(int id)
         {

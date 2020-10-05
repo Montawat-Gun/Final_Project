@@ -1,0 +1,12 @@
+.modal-header {
+    border-color: #585960;
+}
+
+.modal-content {
+    background-color: #363738;
+    color: white;
+}
+
+.modal-footer {
+    border-top: none;
+}

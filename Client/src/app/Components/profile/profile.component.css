@@ -1,4 +1,4 @@
-.profile{
+.profile {
     border-radius: 50%;
     width: 200px;
     height: 200px;
@@ -8,9 +8,40 @@
     margin: 25px;
 }
 
-.preview{
+.preview {
     width: 100%;
     max-width: 500px;
     height: auto;
     object-fit: cover;
+}
+
+.info {
+    color: white;
+}
+
+.btn-edit {
+    color: white;
+    height: 50%;
+}
+
+.btn-follow a {
+    text-decoration: none;
+}
+
+.btn-follow a h4{
+    color: white;
+    font-size: medium;
+}
+
+.modal-header {
+    border-color: #585960;
+}
+
+.modal-content {
+    background-color: #363738;
+    color: white;
+}
+
+.modal-footer {
+    border-top: none;
 }

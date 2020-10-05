@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Api.Models;
 
 namespace Api.Dtos
 {
-    public class GameToReturn
+    public class GamesToList
     {
         public int GameId { get; set; }
         public string name { get; set; }

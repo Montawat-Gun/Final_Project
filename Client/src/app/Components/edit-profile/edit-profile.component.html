@@ -1,16 +1,12 @@
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-    Edit Profile
-</button>
-
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="editProfile" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="editProfileLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Edit Profile</h5>
-                <button type="button" #closeButton class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="editProfileLabel">Edit Profile</h5>
+                <button type="button" #closeButton class="close" data-dismiss="modal" aria-label="Close"
+                    style="color: white;">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -26,7 +22,8 @@
                 </label>
                 <input type="file" accept="image/*" (change)="fileChangeEvent($event)" #chooseimage
                     style="display: none;" />
-                <image-cropper class="crop-area" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+
+                <image-cropper *ngIf="isShowCrop" class="crop-area" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
                     [aspectRatio]="1 / 1" format="png" (imageCropped)="imageCropped($event)"
                     (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
                 </image-cropper>
@@ -38,28 +35,29 @@
                 <!-- Divider -->
                 <div class="dropdown-divider" style="padding: 5px;"></div>
 
-                <form id="editForm" #editForm="ngForm" (ngSubmit)="saveEdit()">
+                <form class="form" id="editForm" #editForm="ngForm" (ngSubmit)="saveEdit()">
                     <h3>Update Info</h3>
                     <!-- Username -->
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" id="username" aria-describedby="usernameHelp"
-                            name="username" [(ngModel)]="userToEdit.username">
+                            placeholder="Username" name="username" [(ngModel)]="userToEdit.username">
                     </div>
                     <!-- Description -->
                     <div class="form-group">
                         <label for="description">Decription</label>
                         <textarea type="text" class="form-control" id="description" aria-describedby="descriptionHelp"
-                            name="description" [(ngModel)]="userToEdit.description"></textarea>
+                            placeholder="Description" name="description"
+                            [(ngModel)]="userToEdit.description"></textarea>
                     </div>
                     <!-- Email -->
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email"
-                            [(ngModel)]="userToEdit.email">
+                            placeholder="Email" [(ngModel)]="userToEdit.email">
                     </div>
                     <div *ngIf="errors">
-                        <label style="color: red; justify-content: right;"
+                        <label style="color: palevioletred; justify-content: right;"
                             *ngFor="let error of errors">{{error}}</label>
                     </div>
                     <div style="text-align: right;">
@@ -71,7 +69,7 @@
                 <!-- Divider -->
                 <div class="dropdown-divider" style="padding: 5px;"></div>
 
-                <form id="editPasswordForm" #editForm="ngForm" (ngSubmit)="savePasswordEdit()">
+                <form class="form" id="editPasswordForm" #editForm="ngForm" (ngSubmit)="savePasswordEdit()">
                     <h3>Change Password</h3>
                     <div class="form-group">
                         <label for="currentPassword">Current Password</label>

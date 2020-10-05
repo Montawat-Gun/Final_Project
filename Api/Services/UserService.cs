@@ -24,23 +24,29 @@ namespace Api.Services
             _userManager = userManager;
         }
 
-        public async Task<IEnumerable<UserToListDto>> GetUsers()
+        public async Task<IEnumerable<UserToList>> GetUsers()
         {
             var users = await _userManager.Users.Include(i => i.Image).ToListAsync();
-            var userToList = _mapper.Map<IEnumerable<UserToListDto>>(users);
+            var userToList = _mapper.Map<IEnumerable<UserToList>>(users);
             return userToList;
         }
 
-        public async Task<UserResponse> GetUserById(string id)
+        public async Task<UserDetail> GetUserById(string id)
         {
-            var user = await _context.Users.Include(i => i.Image).Where(u => u.Id == id).FirstOrDefaultAsync();
-            return _mapper.Map<UserResponse>(user);
+            var user = await _context.Users.Where(u => u.Id == id).Include(i => i.Image).FirstOrDefaultAsync();
+            return _mapper.Map<UserDetail>(user);
         }
 
-        public async Task<UserResponse> GetUserByUsername(string username)
+        public async Task<UserDetail> GetUserByUsername(string username)
         {
-            var user = await _context.Users.Include(i => i.Image).Where(u => u.UserName == username).FirstOrDefaultAsync();
-            return _mapper.Map<UserResponse>(user);
+            var user = await _context.Users.Where(u => u.UserName == username).Include(i => i.Image)
+            .Include(i => i.Interests).ThenInclude(g => g.Game)
+            .FirstOrDefaultAsync();
+            var userDetail = _mapper.Map<UserDetail>(user);
+
+            userDetail.FollowingCount = await _context.Follows.Where(u => u.FollowerId == user.Id).CountAsync();
+            userDetail.FollowerCount = await _context.Follows.Where(u => u.FollowingId == user.Id).CountAsync();
+            return userDetail;
         }
 
         // public async Task<ICollection<UserToListDto>> Suggest(string userId)
@@ -86,10 +92,10 @@ namespace Api.Services
         // return usersToList;
         // }
 
-        public async Task<ICollection<UserToListDto>> Suggest(string userId)
+        public async Task<ICollection<UserToList>> Suggest(string userId)
         {
             var usersInterests = new List<UserInterest>();
-            var allUsers = await _context.Users.Include(i => i.Interests).ToListAsync();
+            var allUsers = await _context.Users.Include(i => i.Image).Include(i => i.Interests).ToListAsync();
             var gamesId = await _context.Games.Select(i => i.GameId).ToListAsync();
             var mainUser = await _context.Users.Include(f => f.Following).Include(i => i.Interests).Where(u => u.Id == userId).FirstOrDefaultAsync();
             if (mainUser == null)
@@ -131,14 +137,14 @@ namespace Api.Services
                 usersInterests.Add(userInterest);
             }
             var usersOrdered = usersInterests.OrderByDescending(u => u.Score);
-            var usersToList = new List<UserToListDto>();
+            var usersToList = new List<UserToList>();
             int count = 0;
             foreach (UserInterest userInterest in usersOrdered)
             {
                 if (count >= 10)
                     break;
                 var user = allUsers.Where(u => u.Id == userInterest.UserId).First();
-                usersToList.Add(_mapper.Map<UserToListDto>(user));
+                usersToList.Add(_mapper.Map<UserToList>(user));
                 count++;
             }
             return usersToList;
@@ -161,7 +167,7 @@ namespace Api.Services
             return result;
         }
 
-        public async Task<UserResponse> DeleteUser(string id)
+        public async Task<UserDetail> DeleteUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             var follows = await _context.Follows.Where(u => u.FollowerId == id || u.FollowingId == id).ToListAsync();
@@ -173,7 +179,7 @@ namespace Api.Services
             }
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-            return _mapper.Map<UserResponse>(user);
+            return _mapper.Map<UserDetail>(user);
         }
 
         struct UserInterest

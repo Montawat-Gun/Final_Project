@@ -1,0 +1,85 @@
+.card {
+    top: 10px;
+    width: 100%;
+    height: auto;
+    margin: auto;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+    background-color: #363738;
+    color: white;
+}
+
+.round {
+    border-radius: 50%;
+    width: 50px;
+    display: block;
+    margin: auto;
+}
+
+.post {
+    width: 100%;
+}
+
+.post .title {
+    color: white;
+}
+
+.post-time {
+    font-size: 8pt;
+    line-height: 10%;
+    cursor: default;
+    color: #c2c2c2;
+}
+
+.post-img {
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 4px;
+}
+
+.post-content {
+    line-height: normal;
+}
+
+.contain-img {
+    margin-right: 1%;
+}
+
+.icon-group {
+    padding-top: 10px;
+    display: flex; 
+}
+
+.heart-icon {
+    display: flex;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.liked {
+    color: palevioletred;
+}
+
+.comment-icon {
+    padding-left: 20px;
+    display: flex; 
+    color: dodgerblue;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
+.drop-option {
+    position: absolute; 
+    top: 5px; 
+    right: 12px;
+}

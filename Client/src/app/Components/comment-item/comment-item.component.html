@@ -1,0 +1,35 @@
+<div class="comment px-3 pt-2 d-flex">
+    <div class="d-flex justify-content-start">
+        <div class="img-profile mr-2">
+            <a [routerLink]="['/profile/',comment?.user.username]" href="#">
+                <img class="round" src="{{comment?.user.imageUrl}}" alt="">
+            </a>
+        </div>
+        <div class="card px-3 pt-2">
+            <div class="d-flex">
+                <a [routerLink]="['/profile/', comment?.user.username]" class="title">
+                    <H6>{{comment?.user.username}}</H6>
+                </a>
+            </div>
+           
+            <div *ngIf="isEnableDelete()" class="dropdown drop-option">
+                <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer;">
+                    <svg class="bi" width="18" height="18" fill="currentColor">
+                        <use xlink:href="bootstrap-icons.svg#three-dots" />
+                    </svg>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="" data-toggle="modal" data-target="#deleteCommentModal" (click)="onDeleteComment()">Delete</a>
+                </div>
+
+
+            </div>
+
+            <h6 class="comment-time">{{comment?.timeComment | date:'medium':'+1400'}}</h6>
+            <div class="">
+                <p class="post-content">{{comment?.content}}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
