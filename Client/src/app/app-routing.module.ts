@@ -8,7 +8,9 @@ import { ProfileComponent } from './Components/profile/profile.component';
 import { HomeComponent } from './Components/home/home.component';
 import { UserDetailResolver } from './Resolvers/user-detail.resolver'
 import { PostDetailResolver } from './Resolvers/post-detail.resolver'
+import { GameDetailResolver } from './Resolvers/game-detail.resolver'
 import { PostDetailComponent } from './Components/post-detail/post-detail.component';
+import { GameDetailComponent } from './Components/game-detail/game-detail.component';
 
 const routes: Routes = [
   {
@@ -18,6 +20,7 @@ const routes: Routes = [
     children: [
       { path: 'profile/:username', component: ProfileComponent, resolve: { user: UserDetailResolver } },
       { path: 'post/:postId', component: PostDetailComponent, resolve: { post: PostDetailResolver } },
+      { path: 'game/:gameId', component: GameDetailComponent, resolve: { game: GameDetailResolver } },
       { path: '', component: HomeComponent }
     ]
   },

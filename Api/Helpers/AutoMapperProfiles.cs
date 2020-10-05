@@ -25,6 +25,13 @@ namespace Api.Helpers
             CreateMap<Game, GamesToList>()
                 .ForMember(dest => dest.ImageUrl,
                 opt => opt.MapFrom(src => src.Image.ImageUrl));
+            CreateMap<Game, GameDetail>()
+                .ForMember(dest => dest.ImageUrl,
+                opt => opt.MapFrom(src => src.Image.ImageUrl))
+                .ForMember(dest => dest.UserInterestCount,
+                opt => opt.MapFrom(src => src.Interests.Count))
+                .ForMember(dest => dest.PostCount,
+                opt => opt.MapFrom(src => src.Posts.Count));
             CreateMap<Post, PostToList>()
                 .ForMember(dest => dest.ImageUrl,
                 opt => opt.MapFrom(src => src.Image.ImageUrl))

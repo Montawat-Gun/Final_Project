@@ -29,15 +29,9 @@ namespace Api.Controllers
             _context = context;
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("user/{userId}")]
         public async Task<ActionResult> GetPosts(string userId)
         {
-            // var posts = await _context.Posts.Where(u => u.UserId == userId).Include(i => i.Image)
-            // .Include(u => u.User).ThenInclude(u => u.Image)
-            // .Include(c => c.Comments)
-            // .Include(g => g.Game).Include(l => l.Likes).ToListAsync();
-
-
             var followsId = await _context.Follows.Where(u => u.FollowerId == userId).Include(u => u.Following).Select(i => i.FollowingId).ToListAsync();
             var gamesId = await _context.Interests.Where(u => u.UserId == userId).Select(g => g.Game.GameId).ToListAsync();
             if (followsId == null && gamesId == null)
@@ -48,9 +42,19 @@ namespace Api.Controllers
             var postsToReturn = _mapper.Map<IEnumerable<PostToList>>(posts).OrderByDescending(o => o.TimePost);
             foreach (var post in posts)
             {
-                postsToReturn.Where(p => p.PostId == post.PostId).FirstOrDefault().isLike = 
+                postsToReturn.Where(p => p.PostId == post.PostId).FirstOrDefault().isLike =
                 post.Likes.Where(x => x.UserId == userId && x.PostId == post.PostId).Any();
             }
+            return Ok(postsToReturn);
+        }
+
+        [HttpGet("game/{gameId}")]
+        public async Task<ActionResult<IEnumerable<PostToList>>> GetPostsGame(int gameId)
+        {
+            var posts = await _context.Posts.Where(g => g.GameId == gameId).Include(i => i.Image)
+            .Include(u => u.User).ThenInclude(i => i.Image).Include(g => g.Game).ThenInclude(i => i.Image)
+            .Include(i => i.Image).Include(c => c.Comments).Include(l => l.Likes).ToListAsync();
+            var postsToReturn = _mapper.Map<IEnumerable<PostToList>>(posts).OrderByDescending(o => o.TimePost);
             return Ok(postsToReturn);
         }
 

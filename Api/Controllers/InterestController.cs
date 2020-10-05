@@ -34,6 +34,15 @@ namespace Api.Controllers
             return interest;
         }
 
+        [HttpGet("{userId}/{gameId}")]
+        public async Task<ActionResult> GetIsInterest(string userId, int gameId)
+        {
+            var interest = await _context.Interests.Where(x => x.UserId == userId && x.GameId == gameId)
+            .FirstOrDefaultAsync();
+
+            return Ok(interest);
+        }
+
         // [HttpPost]
         // public async Task<ActionResult<List<Interest>>> PostInterest(List<Interest> interests)
         // {
@@ -75,10 +84,11 @@ namespace Api.Controllers
             return CreatedAtAction("GetInterest", interests);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Interest>> DeleteInterest(string id)
+        [HttpDelete("{userId}/{gameId}")]
+        public async Task<ActionResult<Interest>> DeleteInterest(string userId, int gameId)
         {
-            var interest = await _context.Interests.FindAsync(id);
+            var interest = await _context.Interests.Where(x => x.UserId == userId && x.GameId == gameId)
+            .FirstOrDefaultAsync();
             if (interest == null)
             {
                 return NotFound();

@@ -12,7 +12,7 @@
                         <H6>{{post?.user.username}}</H6>
                     </a>
                     <h6>&nbsp; : &nbsp;</h6>
-                    <a class="title" href="#">
+                    <a class="title" href="" [routerLink]="['/game/',post.game.gameId]">
                         <h6>{{post?.game.name}}</h6>
                     </a>
                 </div>
@@ -30,7 +30,7 @@
             </div>
 
 
-            <h6 class="post-time">{{post?.timePost | date:'medium':'+1400'}}</h6>
+            <h6 class="post-time">{{post?.timePost | date:'short':'+1400'}}</h6>
             <div class="" style="margin-top: 20px;">
                 <p class="post-content">{{post?.content}}</p>
             </div>

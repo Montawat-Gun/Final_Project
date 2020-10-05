@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PostToList } from '../Models/PostToList';
 import { PostDetail } from '../Models/PostDetail';
-import { PostComment } from '../Models/PostComment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class PostService {
   constructor(private http: HttpClient) { }
 
   getPosts(userId: string): Observable<PostToList[]> {
-    return this.http.get<PostToList[]>(this.url + userId);
+    return this.http.get<PostToList[]>(this.url + 'user/' + userId);
   }
 
   getPostsFromUser(userId: string, fromUserId: string): Observable<PostToList[]> {
@@ -25,6 +24,10 @@ export class PostService {
 
   getPostDetail(postId: number, userId: string): Observable<PostDetail> {
     return this.http.get<PostDetail>(this.url + 'detail/' + postId + '/' + userId);
+  }
+
+  getPostsGame(gameId: number): Observable<PostToList[]> {
+    return this.http.get<PostToList[]>(this.url + 'game/' + gameId);
   }
 
   createPost(model: any): Observable<PostToList> {

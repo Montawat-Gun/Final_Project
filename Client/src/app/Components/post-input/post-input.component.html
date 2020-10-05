@@ -11,8 +11,9 @@
             </div>
             <!-- Divider -->
             <div class="dropdown-divider"></div>
-            <div class="row">
-                <div class="col">
+
+            <div class="d-flex justify-content-between">
+                <div class="" style="padding: 0;">
                     <input type="file" accept="image/*" (change)="onSelectFile($event)" style="display: none;"
                         #chooseimage />
 
@@ -21,36 +22,35 @@
                             <use xlink:href="bootstrap-icons.svg#image" />
                         </svg>
                     </a>
-                    <div class="btn-group" style="padding: 0;">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdown_coins"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="initialGame()">
-                            <span *ngIf="!selectedGame">Choose a game...</span>
-                            <span class="d-inline-flex text-truncate">{{selectedGame?.name}}</span>
-                        </button>
-                        <div id="menu" class="dropdown-menu" aria-labelledby="dropdown_coins">
-                            <form class="px-4 py-2">
-                                <input type="search" class="form-control form-control-sm" id="searchGame"
-                                    placeholder="Search..." autofocus="autofocus" (keyup)="searchGame()"
-                                    (click)="searchGame()">
-                            </form>
-                            <div id="menuItems"></div>
-                            <div id="empty" *ngIf="isNoGameFound" class="dropdown-header">No games found</div>
-                            <button type="button" class="dropdown-item" type="button" *ngFor="let game of games"
-                                (click)="onSelectGame(game)">
-                                <img class="game-image" src="{{game.imageUrl}}" alt="">
-                                <span class="d-inline-flex text-truncate">{{game.name}}</span></button>
-                        </div>
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdown_coins"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="initialGame()">
+                        <span *ngIf="!selectedGame">Choose a game...</span>
+                        <span class="d-inline-flex text-truncate">{{selectedGame?.name}}</span>
+                    </button>
+                    <div id="menu" class="dropdown-menu" aria-labelledby="dropdown_coins">
+                        <form class="px-4 py-2">
+                            <input type="search" class="form-control form-control-sm" id="searchGame"
+                                placeholder="Search..." autofocus="autofocus" (keyup)="searchGame()"
+                                (click)="searchGame()">
+                        </form>
+                        <div id="menuItems"></div>
+                        <div id="empty" *ngIf="isNoGameFound" class="dropdown-header">No games found</div>
+                        <button type="button" class="dropdown-item" type="button" *ngFor="let game of games"
+                            (click)="onSelectGame(game)">
+                            <img class="game-image" src="{{game.imageUrl}}" alt="">
+                            <span class="d-inline-flex text-truncate">{{game.name}}</span></button>
                     </div>
                 </div>
-                <div class="col">
-                    <div style="text-align: right;">
 
-                        <button *ngIf="selectedFile" type="button" class="btn btn-danger" (click)="removeFile()"
-                            style="margin-right: 10px;">Remove Photo</button>
-                        <button type="submit" class="btn btn-primary" [disabled]="isDisabledButton()">Post</button>
-                    </div>
+                <div style="text-align: right;">
+
+                    <button *ngIf="selectedFile" type="button" class="btn btn-danger" (click)="removeFile()"
+                        style="margin-right: 10px;">Remove Photo</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="isDisabledButton()">Post</button>
                 </div>
+
             </div>
+
         </div>
     </div>
 </form>

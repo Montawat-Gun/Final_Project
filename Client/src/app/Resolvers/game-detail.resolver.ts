@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { PostService } from '../Services/post.service';
 import { catchError } from 'rxjs/operators';
-import { PostDetail } from '../Models/PostDetail';
-import { UserService } from '../Services/user.service';
+import { GameInterestService } from '../Services/game-interest.service';
+import { Game } from '../Models/Game';
+import { GameDetail } from '../Models/GameDetail';
 
 @Injectable({ providedIn: 'root' })
-export class PostDetailResolver implements Resolve<PostDetail> {
-    constructor(private postService: PostService, private router: Router, private userService: UserService) { }
+export class GameDetailResolver implements Resolve<GameDetail> {
+    constructor(private gameService: GameInterestService, private router: Router) { }
 
     resolve(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
-    ): Observable<PostDetail> {
-        return this.postService.getPostDetail(route.params['postId'], this.userService.getUserId()).pipe(
+    ): Observable<GameDetail> {
+        return this.gameService.getGame(route.params['gameId']).pipe(
             catchError(() => {
                 this.router.navigate(['']);
                 return of(null);

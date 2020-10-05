@@ -25,11 +25,22 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUser();
-    this.followService.isFollowing(this.userService.getUserId(), this.user.id).subscribe(response => {
-      if (response)
-        this.isFollowing = true;
-      else
-        this.isFollowing = false;
+  }
+
+  loadUser() {
+    this.route.data.subscribe(data => {
+      this.user = data['user'];
+      this.postService.getPostsFromUser(this.user.id, this.userService.getUserId()).subscribe(posts => {
+        posts.sort((a, b) => new Date(b.timePost).getTime() - new Date(a.timePost).getTime());
+        this.posts = posts;
+
+        this.followService.isFollowing(this.userService.getUserId(), this.user.id).subscribe(response => {
+          if (response === null)
+            this.isFollowing = false;
+          else
+            this.isFollowing = true;
+        })
+      })
     })
   }
 
@@ -63,16 +74,6 @@ export class ProfileComponent implements OnInit {
     this.followService.unFollowUser(follow).subscribe(next => {
       this.isFollowing = !this.isFollowing;
     });
-  }
-
-  loadUser() {
-    this.route.data.subscribe(data => {
-      this.user = data['user'];
-      this.postService.getPostsFromUser(this.user.id, this.userService.getUserId()).subscribe(posts => {
-        posts.sort((a, b) => new Date(b.timePost).getTime() - new Date(a.timePost).getTime());
-        this.posts = posts;
-      })
-    })
   }
 
   removeFromFollowing(user: User) {

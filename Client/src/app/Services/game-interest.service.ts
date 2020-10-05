@@ -19,12 +19,26 @@ export class GameInterestService {
     return this.http.get<Game[]>(this.url + 'game/');
   }
 
+  getGame(gameId: number): Observable<Game> {
+    return this.http.get<Game>(this.url + 'game/' + gameId);
+  }
+
   getInterests() {
     const userId = this.userService.getUserId();
     return this.http.get(this.url + 'interest/' + userId);
   }
 
+  getIsInterest(gameId: number) {
+    const userId = this.userService.getUserId();
+    return this.http.get(this.url + 'interest/' + userId + '/' + gameId);
+  }
+
   addInterests(interests: Interest[]) {
     return this.http.post(this.url + 'interest/', interests);
+  }
+
+  removeInterest(gameId: number) {
+    const userId = this.userService.getUserId();
+    return this.http.delete(this.url + 'interest/' + userId + '/' + gameId);
   }
 }

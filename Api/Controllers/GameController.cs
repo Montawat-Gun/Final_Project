@@ -37,16 +37,17 @@ namespace Api.Controllers
 
         // GET: api/Game/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Game>> GetGame(int id)
+        public async Task<ActionResult<GameDetail>> GetGame(int id)
         {
-            var game = await _context.Games.Where(g => g.GameId == id).Include(p => p.Posts).FirstOrDefaultAsync();
+            var game = await _context.Games.Where(g => g.GameId == id).Include(u => u.Interests)
+            .Include(i => i.Image).Include(p => p.Posts).FirstOrDefaultAsync();
 
             if (game == null)
             {
                 return NotFound();
             }
 
-            return game;
+            return _mapper.Map<GameDetail>(game);
         }
 
         // PUT: api/Game/5
