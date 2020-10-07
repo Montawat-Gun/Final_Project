@@ -3,14 +3,14 @@
     <a href="" class="navbar-brand header">SGamer</a>
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a href="" [routerLink]="['/']" routerLinkActive="active" class="nav-link py-0">
+        <a href="" [routerLink]="['/']" class="nav-link py-0">
           <svg class="bi icon" width="28" height="28" fill="currentColor">
             <use xlink:href="bootstrap-icons.svg#house-fill" />
           </svg>
         </a>
       </li>
       <li class="nav-item">
-        <a href="" [routerLink]="['/']" routerLinkActive="active" class="nav-link py-0">
+        <a href="" [routerLink]="['/message']" class="nav-link py-0">
           <svg class="bi icon" width="28" height="28" fill="currentColor">
             <use xlink:href="bootstrap-icons.svg#chat-fill" />
           </svg>
@@ -24,8 +24,7 @@
         </a>
 
         <div class="dropdown-menu dropdown-menu-right shadow " aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="" [routerLink]="['/profile',user?.username]"
-            routerLinkActive="active">Profile</a>
+          <a class="dropdown-item" href="" [routerLink]="['/profile',user?.username]">Profile</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="" (click)="logout()">Logout</a>
         </div>

@@ -1,0 +1,22 @@
+<div class="d-flex">
+    <div class="">
+        <a [routerLink]="['/profile/',message.sender.username]">
+            <img class="round" src="{{message.sender.imageUrl}}" alt="">
+        </a>
+    </div>
+
+    <div>
+        <div class="d-flex" style="width: 100%;">
+            <a [routerLink]="['/profile/', message.sender.username]" class="title" href="#">
+                <span class="name ml-1 mr-1">{{message.sender.username}}</span>
+            </a>
+            <span class="time">{{message.timeSend | date:'medium':'+1400'}}</span>
+        </div>
+        <div>
+            <p class="ml-1">{{message.content}}</p>
+        </div>
+    </div>
+</div>
+<div class="dropdown-divider" style="border-color: #585960;"></div>
+
+    

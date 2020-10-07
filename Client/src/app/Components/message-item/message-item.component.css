@@ -1,0 +1,17 @@
+img {
+    border-radius: 50%;
+    width: 45px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.name {
+    color: white;
+}
+
+.time {
+    font-size: 8pt;
+    color: gray;
+}

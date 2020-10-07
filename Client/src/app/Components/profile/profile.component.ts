@@ -35,10 +35,11 @@ export class ProfileComponent implements OnInit {
         this.posts = posts;
 
         this.followService.isFollowing(this.userService.getUserId(), this.user.id).subscribe(response => {
-          if (response === null)
-            this.isFollowing = false;
-          else
+          console.log(response);
+          if (response.isFollowing)
             this.isFollowing = true;
+          else
+            this.isFollowing = false;
         })
       })
     })

@@ -62,8 +62,8 @@ namespace Api.Controllers
         public async Task<IActionResult> IsFollowing(string fromUserId, string userId)
         {
             var following = await _context.Follows
-            .Where(x => x.FollowerId == fromUserId && x.FollowingId == userId).FirstOrDefaultAsync();
-            return Ok(following);
+            .Where(x => x.FollowerId == fromUserId && x.FollowingId == userId).AnyAsync();
+            return Ok(new { IsFollowing = following });
         }
 
         [HttpPost]

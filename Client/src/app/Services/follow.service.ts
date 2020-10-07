@@ -14,8 +14,8 @@ export class FollowService {
 
   constructor(private http: HttpClient) { }
 
-  isFollowing(fromUserId: string, userId: string) {
-    return this.http.get(this.url + 'isfollowing/' + fromUserId + '/' + userId);
+  isFollowing(fromUserId: string, userId: string): Observable<any> {
+    return this.http.get<any>(this.url + 'isfollowing/' + fromUserId + '/' + userId);
   }
 
   getFollowing(fromUserId: string, userId: string): Observable<User[]> {

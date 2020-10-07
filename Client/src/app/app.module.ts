@@ -26,6 +26,9 @@ import { CommentItemComponent } from './Components/comment-item/comment-item.com
 import { PostInputComponent } from './Components/post-input/post-input.component';
 import { UserItemComponent } from './Components/user-item/user-item.component';
 import { GameDetailComponent } from './Components/game-detail/game-detail.component';
+import { MessageComponent } from './Components/message/message.component';
+import { MessageContactComponent } from './Components/message-contact/message-contact.component';
+import { MessageItemComponent } from './Components/message-item/message-item.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +49,9 @@ import { GameDetailComponent } from './Components/game-detail/game-detail.compon
     PostInputComponent,
     UserItemComponent,
     GameDetailComponent,
+    MessageComponent,
+    MessageContactComponent,
+    MessageItemComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@ using Api.Data;
 using Api.Helpers;
 using Api.Models;
 using Api.Services;
+using Api.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -26,7 +27,8 @@ namespace Api
         {
             services.AddConfig(Configuration);
 
-            services.AddDbContext<DataContext>(options => {
+            services.AddDbContext<DataContext>(options =>
+            {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
@@ -42,11 +44,12 @@ namespace Api
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IMessageService, MessageService>();
             services.AddSwaggerGen();
+            services.AddSignalR();
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
-            services.AddCors();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
         }
 
@@ -73,7 +76,7 @@ namespace Api
 
             app.UseRouting();
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors("_myAllowSpecificOrigins");
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -81,6 +84,7 @@ namespace Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
         }
     }

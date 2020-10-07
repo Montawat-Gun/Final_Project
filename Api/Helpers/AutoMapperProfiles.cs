@@ -65,6 +65,8 @@ namespace Api.Helpers
             CreateMap<Like, LikeDetail>()
                 .ForMember(dest => dest.User,
                 opt => opt.MapFrom(src => src.User));
+
+            CreateMap<Message,MessageDto>();
         }
     }
 }
