@@ -12,6 +12,7 @@ import { GameDetailResolver } from './Resolvers/game-detail.resolver'
 import { PostDetailComponent } from './Components/post-detail/post-detail.component';
 import { GameDetailComponent } from './Components/game-detail/game-detail.component';
 import { MessageComponent } from './Components/message/message.component';
+import { GamesBrowseComponent } from './Components/games-browse/games-browse.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'profile/:username', component: ProfileComponent, resolve: { user: UserDetailResolver } },
       { path: 'post/:postId', component: PostDetailComponent, resolve: { post: PostDetailResolver } },
       { path: 'game/:gameId', component: GameDetailComponent, resolve: { game: GameDetailResolver } },
+      { path: 'browse', component: GamesBrowseComponent },
       { path: 'message', component: MessageComponent },
       { path: '', component: HomeComponent }
     ]

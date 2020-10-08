@@ -53,6 +53,20 @@ namespace Api.Services
                 Gender = model.Gender,
                 TimeCreate = DateTime.Now
             };
+            if (user.Gender == "Male")
+            {
+                user.Image = new UserImage
+                {
+                    ImageUrl = "https://res.cloudinary.com/sgamer/image/upload/v1602169430/LogoandIcon/male2_f3uoca.jpg"
+                };
+            }
+            else
+            {
+                user.Image = new UserImage
+                {
+                    ImageUrl = "https://res.cloudinary.com/sgamer/image/upload/v1602169429/LogoandIcon/female2_mkbuy4.jpg"
+                };
+            }
             var result = await _userManager.CreateAsync(user, model.Password);
             return result;
         }

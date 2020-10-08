@@ -10,12 +10,41 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="" [routerLink]="['/browse']" class="nav-link py-0">
+          <svg class="bi icon" width="28" height="28" fill="currentColor">
+            <use xlink:href="bootstrap-icons.svg#joystick" />
+          </svg>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="" [routerLink]="['/message']" class="nav-link py-0">
           <svg class="bi icon" width="28" height="28" fill="currentColor">
             <use xlink:href="bootstrap-icons.svg#chat-fill" />
           </svg>
         </a>
       </li>
+      <li class="nav-item dropdown">
+        <a href="" id="navbarDropdown" data-toggle="dropdown" class="nav-link py-0">
+          <svg class="bi icon" width="26" height="26" fill="currentColor">
+            <use xlink:href="bootstrap-icons.svg#search" />
+          </svg>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 250px;">
+          <form class="px-4 py-2">
+            <input type="search" class="form-control form-control-sm" id="searchUser" placeholder="Search..."
+              autofocus="autofocus" autocomplete="off" (keyup)="searchUser()" name="searchUser"
+              [(ngModel)]="searchString">
+          </form>
+          <button type="button" *ngFor="let userSearch of usersFromSearch" class="dropdown-item" type="button"
+            [routerLink]="['/profile',userSearch.username]">
+            <img class="search-user-image mr-2" src="{{userSearch.imageUrl}}" alt="">
+            <span class="d-inline-flex text-truncate">{{userSearch.username}}</span>
+          </button>
+          <div id="empty" *ngIf="usersFromSearch === null" class="dropdown-header">No user found</div>
+
+        </div>
+      </li>
+
       <li class="nav-item">
         <a href="#" class="nav-link py-0" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">

@@ -27,8 +27,8 @@ import { PostInputComponent } from './Components/post-input/post-input.component
 import { UserItemComponent } from './Components/user-item/user-item.component';
 import { GameDetailComponent } from './Components/game-detail/game-detail.component';
 import { MessageComponent } from './Components/message/message.component';
-import { MessageContactComponent } from './Components/message-contact/message-contact.component';
 import { MessageItemComponent } from './Components/message-item/message-item.component';
+import { GamesBrowseComponent } from './Components/games-browse/games-browse.component';
 
 @NgModule({
   declarations: [
@@ -50,8 +50,8 @@ import { MessageItemComponent } from './Components/message-item/message-item.com
     UserItemComponent,
     GameDetailComponent,
     MessageComponent,
-    MessageContactComponent,
     MessageItemComponent,
+    GamesBrowseComponent,
   ],
   imports: [
     BrowserModule,

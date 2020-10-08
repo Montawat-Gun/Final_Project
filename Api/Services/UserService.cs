@@ -141,7 +141,7 @@ namespace Api.Services
             int count = 0;
             foreach (UserInterest userInterest in usersOrdered)
             {
-                if (count >= 10)
+                if (count >= 5)
                     break;
                 var user = allUsers.Where(u => u.Id == userInterest.UserId).First();
                 usersToList.Add(_mapper.Map<UserToList>(user));
@@ -180,6 +180,13 @@ namespace Api.Services
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return _mapper.Map<UserDetail>(user);
+        }
+
+        public async Task<IEnumerable<UserToList>> SearchUser(string userId, string searchString)
+        {
+            var users = await _context.Users.Where(u => u.UserName.Contains(searchString) && u.Id != userId)
+            .Include(i => i.Image).ToListAsync();
+            return _mapper.Map<IEnumerable<UserToList>>(users);
         }
 
         struct UserInterest

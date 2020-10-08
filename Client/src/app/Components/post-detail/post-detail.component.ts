@@ -47,8 +47,10 @@ export class PostDetailComponent implements OnInit {
       content: this.comment
     };
 
-    this.commentService.createComment(model).subscribe(() => {
+    this.commentService.createComment(model).subscribe(response => {
       this.comment = ''
+      this.post.comments.push(response);
+      this.post.commentCount++;
     }, error => console.log(error));
   }
 
@@ -65,6 +67,7 @@ export class PostDetailComponent implements OnInit {
     this.commentService.deleteComment(this.commentToDelete.commentId).subscribe(() => {
       this.post.comments = this.post.comments.filter(obj => obj !== this.commentToDelete);
       this.removeCommentToDelete();
+      this.post.commentCount--;
     });
   }
 

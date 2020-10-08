@@ -27,10 +27,11 @@ namespace Api.Controllers
             _context = context;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetComment")]
         public async Task<ActionResult<CommentDetail>> GetComment(int id)
         {
-            var comment = await _context.Comments.FindAsync(id);
+            var comment = await _context.Comments.Where(x => x.CommentId == id)
+            .Include(u => u.User).ThenInclude(i => i.Image).FirstOrDefaultAsync();
 
             if (comment == null)
             {
@@ -74,9 +75,13 @@ namespace Api.Controllers
         {
             comment.TimeComment = DateTime.Now;
             _context.Comments.Add(comment);
-            await _context.SaveChangesAsync();
-            
-            return CreatedAtAction("GetComment", new { id = comment.CommentId }, comment);
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                var returnComment = await _context.Comments.Where(x => x.CommentId == comment.CommentId)
+                .Include(u => u.User).ThenInclude(i => i.Image).FirstOrDefaultAsync();
+                return CreatedAtRoute("GetComment", new { id = comment.CommentId }, _mapper.Map<CommentDetail>(returnComment));
+            }
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]

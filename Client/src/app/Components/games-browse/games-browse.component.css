@@ -1,0 +1,36 @@
+.card {
+    width: 10rem;
+    margin: 10px;
+    background-color: #363738;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: none;
+  }
+  
+  .card-body{
+    height: 60px;
+    padding-right: 0px;
+    padding-left: 10px;
+    overflow: hidden;
+    color: white;
+  }
+  
+  .gamename {
+    font-size: 12pt;
+    font-weight: bold;
+    max-width: 140px;
+  }
+  
+  .badge {
+    font-size: 8pt;
+    margin: 1px;
+  }
+
+  .zoom {
+    transition: transform .5s; /* Animation */
+  }
+
+  .zoom:hover {
+    -ms-transform: scale(1.2); /* IE 9 */
+    -webkit-transform: scale(1.2); /* Safari 3-8 */
+    transform: scale(1.2); 
+  }

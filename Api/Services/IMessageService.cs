@@ -7,7 +7,7 @@ namespace Api.Services
 {
     public interface IMessageService
     {
-        Task AddMessage(Message message);
+        Task<bool> AddMessage(Message message);
         Task DeleteMessage(Message message);
         Task<MessageDto> GetMessage(int id);
         Task<IEnumerable<UserToList>> GetUserContacts(string userId);

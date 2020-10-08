@@ -27,18 +27,19 @@
                         <span *ngIf="!selectedGame">Choose a game...</span>
                         <span class="d-inline-flex text-truncate">{{selectedGame?.name}}</span>
                     </button>
-                    <div id="menu" class="dropdown-menu" aria-labelledby="dropdown_coins">
+                    <div id="menu" class="dropdown-menu">
                         <form class="px-4 py-2">
                             <input type="search" class="form-control form-control-sm" id="searchGame"
-                                placeholder="Search..." autofocus="autofocus" (keyup)="searchGame()"
+                                placeholder="Search..." autocomplete="off" autofocus="autofocus" (keyup)="searchGame()"
                                 (click)="searchGame()">
                         </form>
                         <div id="menuItems"></div>
                         <div id="empty" *ngIf="isNoGameFound" class="dropdown-header">No games found</div>
                         <button type="button" class="dropdown-item" type="button" *ngFor="let game of games"
                             (click)="onSelectGame(game)">
-                            <img class="game-image" src="{{game.imageUrl}}" alt="">
-                            <span class="d-inline-flex text-truncate">{{game.name}}</span></button>
+                            <img class="game-image mr-1" src="{{game.imageUrl}}" alt="">
+                            <span class="d-inline-flex text-truncate">{{game.name}}</span>
+                        </button>
                     </div>
                 </div>
 

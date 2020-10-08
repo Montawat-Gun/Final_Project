@@ -15,5 +15,6 @@ namespace Api.Services
         Task<IdentityResult> UpdateUserPassword(string userId, UserEditPasswordRequest passwordToEdit);
         Task<ICollection<UserToList>> Suggest(string username);
         Task<UserDetail> DeleteUser(string id);
+        Task<IEnumerable<UserToList>> SearchUser(string userId, string searchString);
     }
 }

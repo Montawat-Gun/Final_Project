@@ -1,6 +1,7 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Game } from 'src/app/Models/Game';
+import { PostToList } from 'src/app/Models/PostToList';
 import { User } from 'src/app/Models/User';
 import { GameInterestService } from 'src/app/Services/game-interest.service';
 import { PostService } from 'src/app/Services/post.service';
@@ -58,10 +59,8 @@ export class PostInputComponent implements OnInit {
       userId: this.user.id,
       gameId: this.selectedGame.gameId
     }
-    console.log(model);
     this.postService.createPost(model).subscribe(response => {
       const post = response
-      console.log(response);
       if (post) {
         if (this.selectedFile) {
           const fd = new FormData();
@@ -73,11 +72,15 @@ export class PostInputComponent implements OnInit {
           });
         }
       }
-      this.content = '';
-      this.selectedFile = null;
-      this.selectedGame = null;
-      this.showPreview();
+      this.resetInput();
     }, error => console.log(error));
+  }
+
+  resetInput() {
+    this.content = '';
+    this.selectedFile = null;
+    this.selectedGame = null;
+    this.showPreview();
   }
 
   initialGame() {

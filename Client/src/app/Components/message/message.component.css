@@ -67,3 +67,30 @@ img {
 .message-item {
     background-color: #585960;
 }
+
+.modal-header {
+    border-color: #585960;
+}
+
+.modal-content {
+    background-color: #363738;
+    color: white;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item :hover {
+    background-color: gray;
+    background-image: none;
+}
+
+.search-list :hover {
+    background-color: #585960;
+
+}

@@ -36,9 +36,10 @@ namespace Api.Controllers
             var gamesId = await _context.Interests.Where(u => u.UserId == userId).Select(g => g.Game.GameId).ToListAsync();
             if (followsId == null && gamesId == null)
                 return NotFound();
-            var posts = await _context.Posts.Where(u => followsId.Contains(u.UserId) || gamesId.Contains(u.GameId))
+            var posts = await _context.Posts.Where(u => followsId.Contains(u.UserId) || gamesId.Contains(u.GameId) || u.UserId == userId)
             .Include(u => u.User).ThenInclude(i => i.Image).Include(i => i.Game)
-            .Include(i => i.Image).Include(c => c.Comments).Include(l => l.Likes).ToListAsync();
+            .Include(i => i.Image).Include(c => c.Comments).Include(l => l.Likes)
+            .Distinct().ToListAsync();
             var postsToReturn = _mapper.Map<IEnumerable<PostToList>>(posts).OrderByDescending(o => o.TimePost);
             foreach (var post in posts)
             {
@@ -49,10 +50,10 @@ namespace Api.Controllers
         }
 
         [HttpGet("game/{gameId}/{userId}")]
-        public async Task<ActionResult<IEnumerable<PostToList>>> GetPostsGame(int gameId, string userId)
+        public async Task<ActionResult> GetPostsGame(int gameId, string userId)
         {
             var posts = await _context.Posts.Where(g => g.GameId == gameId).Include(i => i.Image)
-            .Include(u => u.User).ThenInclude(i => i.Image).Include(g => g.Game).ThenInclude(i => i.Image)
+            .Include(u => u.User).ThenInclude(i => i.Image).Include(g => g.Game)
             .Include(i => i.Image).Include(c => c.Comments).Include(l => l.Likes).ToListAsync();
             var postsToReturn = _mapper.Map<IEnumerable<PostToList>>(posts).OrderByDescending(o => o.TimePost);
             foreach (var post in posts)

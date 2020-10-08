@@ -26,8 +26,8 @@ export class PostService {
     return this.http.get<PostDetail>(this.url + 'detail/' + postId + '/' + userId);
   }
 
-  getPostsGame(gameId: number): Observable<PostToList[]> {
-    return this.http.get<PostToList[]>(this.url + 'game/' + gameId);
+  getPostsGame(gameId: number, userId: string): Observable<PostToList[]> {
+    return this.http.get<PostToList[]>(this.url + 'game/' + gameId + '/' + userId);
   }
 
   createPost(model: any): Observable<PostToList> {

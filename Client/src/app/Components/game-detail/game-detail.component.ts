@@ -30,7 +30,7 @@ export class GameDetailComponent implements OnInit {
   loadData() {
     this.route.data.subscribe(data => {
       this.game = data['game'];
-      this.postService.getPostsGame(this.game.gameId).subscribe(posts => this.posts = posts);
+      this.postService.getPostsGame(this.game.gameId, this.userService.getUserId()).subscribe(posts => this.posts = posts);
       this.gameService.getIsInterest(this.game.gameId).subscribe(response => {
         if (response === null)
           this.isInterest = false;

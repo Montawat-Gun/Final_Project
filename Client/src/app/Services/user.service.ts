@@ -15,6 +15,11 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  getToken() {
+    const token = localStorage.getItem("token");
+    return token;
+  }
+
   getUserId() {
     const token = localStorage.getItem("token");
     return this.jwtHelper.decodeToken(token).nameid;
@@ -24,6 +29,10 @@ export class UserService {
     const token = localStorage.getItem("token");
     const id = this.jwtHelper.decodeToken(token).nameid;
     return this.http.get<User>(this.url + 'id/' + id);
+  }
+
+  searchUser(searchString: string): Observable<User[]> {
+    return this.http.get<User[]>(this.url + 'search/' + this.getUserId() + '/' + searchString);
   }
 
   getUser(username: string): Observable<User> {

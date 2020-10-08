@@ -106,5 +106,12 @@ namespace Api.Controllers
                 return NotFound();
             return Ok(user);
         }
+
+        [HttpGet("search/{userId}/{searchString}")]
+        public async Task<ActionResult> SearchUser(string userId, string searchString)
+        {
+            var users = await _userService.SearchUser(userId, searchString);
+            return Ok(users);
+        }
     }
 }

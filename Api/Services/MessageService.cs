@@ -21,11 +21,11 @@ namespace Api.Services
             _context = context;
 
         }
-        public async Task AddMessage(Message message)
+        public async Task<bool> AddMessage(Message message)
         {
             message.TimeSend = DateTime.Now;
             _context.Messages.Add(message);
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public Task DeleteMessage(Message message)
@@ -35,7 +35,10 @@ namespace Api.Services
 
         public async Task<MessageDto> GetMessage(int id)
         {
-            var message = await _context.Messages.FindAsync(id);
+            var message = await _context.Messages.Where(x => x.MessageId == id)
+            .Include(s => s.Sender).ThenInclude(i => i.Image)
+            .Include(r => r.Recipient).ThenInclude(i => i.Image)
+            .FirstOrDefaultAsync();
             return _mapper.Map<MessageDto>(message);
         }
 
@@ -59,7 +62,7 @@ namespace Api.Services
             .Include(s => s.Sender).ThenInclude(s => s.Image)
             .Select(s => new { users = s.Sender, timeSend = s.TimeSend }).ToListAsync();
 
-            var contacts = contactsRecipient.Concat(contactsSender).OrderBy(x => x.timeSend)
+            var contacts = contactsRecipient.Concat(contactsSender).OrderByDescending(x => x.timeSend)
             .Select(x => x.users).Distinct();
             return _mapper.Map<IEnumerable<UserToList>>(contacts);
         }
