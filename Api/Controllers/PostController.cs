@@ -87,6 +87,7 @@ namespace Api.Controllers
             .Include(g => g.Game)
             .Include(l => l.Likes).ThenInclude(u => u.User).ThenInclude(i => i.Image)
             .Include(i => i.Image).FirstOrDefaultAsync();
+            post.Comments = post.Comments.OrderBy(x => x.TimeComment).ToList();
 
             if (post == null)
             {

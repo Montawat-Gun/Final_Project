@@ -17,6 +17,7 @@ namespace Api.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<UserImage> UserImages { get; set; }
         public DbSet<GameImage> GameImages { get; set; }

@@ -184,7 +184,7 @@ namespace Api.Services
 
         public async Task<IEnumerable<UserToList>> SearchUser(string userId, string searchString)
         {
-            var users = await _context.Users.Where(u => u.UserName.Contains(searchString) && u.Id != userId)
+            var users = await _context.Users.Where(u => u.NormalizedUserName.Contains(searchString.ToUpper()) && u.Id != userId)
             .Include(i => i.Image).ToListAsync();
             return _mapper.Map<IEnumerable<UserToList>>(users);
         }

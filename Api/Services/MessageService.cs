@@ -48,7 +48,7 @@ namespace Api.Services
             u.SenderId == currentUserId && u.RecipientId == otherUserId ||
             u.SenderId == otherUserId && u.RecipientId == currentUserId)
             .Include(s => s.Sender).ThenInclude(i => i.Image)
-            .ToListAsync();
+            .OrderByDescending(x => x.TimeSend).ToListAsync();
             return _mapper.Map<IEnumerable<MessageDto>>(messages);
         }
 

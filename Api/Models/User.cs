@@ -20,5 +20,6 @@ namespace Api.Models
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Message> MessagesSent { get; set; }
         public virtual ICollection<Message> MessagesReceived { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }
