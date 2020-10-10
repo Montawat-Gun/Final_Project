@@ -238,3 +238,5 @@ D:/Projects/Webs/Final_Project/Api/bin/Debug/netcoreapp3.1/Swashbuckle.AspNetCor
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Datas/TagsData.json
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Castle.Core.dll
 /Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Microsoft.EntityFrameworkCore.Proxies.dll
+/Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Npgsql.dll
+/Users/montawatsripaiboon/Documents/Final_Project/Api/bin/Debug/netcoreapp3.1/Npgsql.EntityFrameworkCore.PostgreSQL.dll

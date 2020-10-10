@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Api.Migrations
 {
-    public partial class Initiate : Migration
+    public partial class PostgresInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,7 +56,7 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     GameId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -68,7 +69,7 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     TagId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -81,7 +82,7 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -102,7 +103,7 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -212,7 +213,7 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     MessageId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SenderId = table.Column<string>(nullable: true),
                     RecipientId = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: true),
@@ -267,7 +268,7 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Content = table.Column<string>(nullable: true),
                     TimePost = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
@@ -319,7 +320,7 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     CommentId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Content = table.Column<string>(nullable: true),
                     TimeComment = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
@@ -371,7 +372,7 @@ namespace Api.Migrations
                 columns: table => new
                 {
                     ImageId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ImageUrl = table.Column<string>(nullable: true),
                     TimeImage = table.Column<DateTime>(nullable: false),
                     PublicId = table.Column<string>(nullable: true),
@@ -419,8 +420,7 @@ namespace Api.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -446,8 +446,7 @@ namespace Api.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
@@ -473,29 +472,25 @@ namespace Api.Migrations
                 name: "IX_Images_CommentId",
                 table: "Images",
                 column: "CommentId",
-                unique: true,
-                filter: "[CommentId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_GameId",
                 table: "Images",
                 column: "GameId",
-                unique: true,
-                filter: "[GameId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_PostId",
                 table: "Images",
                 column: "PostId",
-                unique: true,
-                filter: "[PostId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_UserId",
                 table: "Images",
                 column: "UserId",
-                unique: true,
-                filter: "[UserId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Interests_GameId",

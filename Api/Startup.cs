@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.SignalR;
+using System;
 
 namespace Api
 {
@@ -28,10 +29,6 @@ namespace Api
         {
             services.AddConfig(Configuration);
 
-            services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequiredLength = 8;
@@ -63,15 +60,15 @@ namespace Api
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
+            // app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.RoutePrefix = string.Empty;
-            });
+            // app.UseSwaggerUI(c =>
+            // {
+            //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            //     c.RoutePrefix = string.Empty;
+            // });
 
             app.UseHttpsRedirection();
 
@@ -82,11 +79,15 @@ namespace Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<MessageHub>("hubs/message");
                 endpoints.MapHub<NotificationHub>("hubs/notification");
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }
