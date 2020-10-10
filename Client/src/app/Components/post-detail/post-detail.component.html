@@ -6,8 +6,8 @@
             <app-comment-item *ngFor="let comment of post.comments" [comment]="comment" [isOwnPost]="isOwnPost"
                 (deleteComment)="setCommentToDelete($event)"></app-comment-item>
             <div class="p-3 d-flex">
-                <a [routerLink]="['/profile/',post?.user.username]" href="#">
-                    <img class="round" src="{{user?.imageUrl}}" alt="">
+                <a [routerLink]="['/profile/',userService.user.username]" href="#">
+                    <img class="round" src="{{userService.user.imageUrl}}" alt="">
                 </a>
                 <div class="mt-1 ml-2" style="width: 100%;">
                     <form class="" action="" (ngSubmit)="onComment()">

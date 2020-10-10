@@ -56,5 +56,14 @@ namespace Api.Controllers
             await _message.AddMessage(message);
             return CreatedAtAction("GetMessage", new { id = message.MessageId }, message);
         }
+
+        [HttpGet("markasread/{userId}/{otherUserId}")]
+        public async Task<ActionResult> MarkAsRead(string userId, string otherUserId)
+        {
+            var result = await _message.MarkAsRead(userId, otherUserId);
+            if (!result)
+                return BadRequest();
+            return Ok();
+        }
     }
 }

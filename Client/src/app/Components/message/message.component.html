@@ -16,6 +16,8 @@
                     <a class="mt-3 " type="button" *ngFor="let contact of contacts" (click)="onContactClick(contact)">
                         <img src="{{contact.imageUrl}}" alt="">
                         <span class="m-2">{{contact.username}}</span>
+                        <span *ngIf="contact.messageUnReadCount !== 0"
+                            class="badge badge-danger">{{contact.messageUnReadCount}}</span>
                     </a>
                 </div>
             </div>

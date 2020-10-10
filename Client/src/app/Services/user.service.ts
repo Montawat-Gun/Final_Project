@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -13,6 +13,8 @@ export class UserService {
   url: string = environment.url + "user/";
   jwtHelper = new JwtHelperService();
 
+  user: User;
+
   constructor(private http: HttpClient) { }
 
   getToken() {
@@ -22,13 +24,17 @@ export class UserService {
 
   getUserId() {
     const token = localStorage.getItem("token");
-    return this.jwtHelper.decodeToken(token).nameid;
+    if (token) {
+      return this.jwtHelper.decodeToken(token).nameid;
+    } else return null;
   }
 
-  getCurrentUser(): Observable<User> {
+  getCurrentUser() {
     const token = localStorage.getItem("token");
-    const id = this.jwtHelper.decodeToken(token).nameid;
-    return this.http.get<User>(this.url + 'id/' + id);
+    if (token) {
+      const id = this.jwtHelper.decodeToken(token).nameid;
+      this.http.get<User>(this.url + 'id/' + id).subscribe(user => this.user = user);
+    }
   }
 
   searchUser(searchString: string): Observable<User[]> {

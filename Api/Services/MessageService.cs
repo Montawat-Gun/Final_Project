@@ -52,19 +52,38 @@ namespace Api.Services
             return _mapper.Map<IEnumerable<MessageDto>>(messages);
         }
 
-        public async Task<IEnumerable<UserToList>> GetUserContacts(string userId)
+        public async Task<IEnumerable<UserToContact>> GetUserContacts(string userId)
         {
             var contactsRecipient = await _context.Messages.Where(u => u.SenderId == userId)
             .Include(r => r.Recipient).ThenInclude(s => s.Image)
-            .Select(r => new { users = r.Recipient, timeSend = r.TimeSend }).ToListAsync();
+            .Select(r => new { user = r.Recipient, timeSend = r.TimeSend, r.IsRead }).ToListAsync();
 
             var contactsSender = await _context.Messages.Where(u => u.RecipientId == userId)
             .Include(s => s.Sender).ThenInclude(s => s.Image)
-            .Select(s => new { users = s.Sender, timeSend = s.TimeSend }).ToListAsync();
+            .Select(s => new { user = s.Sender, timeSend = s.TimeSend, s.IsRead }).ToListAsync();
 
-            var contacts = contactsRecipient.Concat(contactsSender).OrderByDescending(x => x.timeSend)
-            .Select(x => x.users).Distinct();
-            return _mapper.Map<IEnumerable<UserToList>>(contacts);
+            var messages = contactsRecipient.Concat(contactsSender).OrderByDescending(x => x.timeSend);
+            var contacts = _mapper.Map<IEnumerable<UserToContact>>(messages.Select(u => u.user).Distinct().ToList());
+
+            foreach (var contact in contacts)
+            {
+                contact.MessageUnReadCount = contactsSender.Where(x => x.user.Id == contact.Id && x.IsRead == false).Count();
+            }
+
+            return _mapper.Map<IEnumerable<UserToContact>>(contacts);
+        }
+
+        public async Task<bool> MarkAsRead(string currentUserId, string otherUserId)
+        {
+            var messages = await _context.Messages.Where(u =>
+            u.SenderId == currentUserId && u.RecipientId == otherUserId ||
+            u.SenderId == otherUserId && u.RecipientId == currentUserId).ToListAsync();
+            foreach (var message in messages)
+            {
+                message.IsRead = true;
+                _context.Entry(message).State = EntityState.Modified;
+            }
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

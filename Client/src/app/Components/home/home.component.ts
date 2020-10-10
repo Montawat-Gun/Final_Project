@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User } from 'src/app/Models/User';
+import { NotificationService } from 'src/app/Services/notification.service';
 import { UserService } from 'src/app/Services/user.service';
 
 @Component({
@@ -9,12 +10,15 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class HomeComponent implements OnInit {
 
-  user: User;
-
-  constructor(private userService: UserService) { }
+  constructor(public userService: UserService, private notification: NotificationService) { }
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe(user => this.user = user);
+    if (!this.userService.user)
+      this.userService.getCurrentUser();
+    if (!this.notification.isHubConnected())
+      this.notification.createHubConnection();
   }
+
+
 
 }

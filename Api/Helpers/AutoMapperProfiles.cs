@@ -17,6 +17,10 @@ namespace Api.Helpers
             CreateMap<User, UserToList>()
                 .ForMember(dest => dest.ImageUrl,
                 opt => opt.MapFrom(src => src.Image.ImageUrl));
+            CreateMap<User, UserToContact>()
+                .ForMember(dest => dest.ImageUrl,
+                opt => opt.MapFrom(src => src.Image.ImageUrl));
+            
             CreateMap<ImageUserRequest, UserImage>();
             CreateMap<ImagePostRequest, PostImage>();
             CreateMap<Image, ImageResponse>();

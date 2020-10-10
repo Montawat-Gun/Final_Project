@@ -3,6 +3,7 @@ import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { User } from 'src/app/Models/User';
 import { MessageService } from 'src/app/Services/message.service';
 import { UserService } from 'src/app/Services/user.service';
+import { NotificationService } from 'src/app/Services/notification.service';
 import { ViewChild } from '@angular/core';
 
 @Component({
@@ -23,7 +24,8 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   usersFromSearch: User[] = null;
   searchString: string = ''
 
-  constructor(public messageService: MessageService, private userService: UserService) { }
+  constructor(public messageService: MessageService, public userService: UserService,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.messageService.getContacts(this.userService.getUserId()).subscribe(contacts => {
@@ -47,6 +49,9 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
     this.otherUser = user;
     this.messageService.createHubConnection(this.userService.getUserId(), user.id);
+    this.messageService.markAsRead(user.id).subscribe(next => {
+      user.messageUnReadCount = 0;
+    });
     this.closeModal.nativeElement.click();
   }
 
@@ -58,7 +63,7 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   sendMessage() {
-    if (this.otherUser.id === null)
+    if (this.otherUser.id === null || this.content === '')
       return;
     const message = {
       senderId: this.userService.getUserId(),
@@ -68,6 +73,7 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.messageService.sendMessage(message).then(() => {
       this.content = '';
     });
+    this.notificationService.sendNotification(this.otherUser.id, this.userService.user.username + ': ' + message.content);
   }
 
   ngOnDestroy(): void {

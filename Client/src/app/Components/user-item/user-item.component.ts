@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Follow } from 'src/app/Models/Follow';
 import { User } from 'src/app/Models/User';
 import { FollowService } from 'src/app/Services/follow.service';
+import { NotificationService } from 'src/app/Services/notification.service';
 import { UserService } from 'src/app/Services/user.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class UserItemComponent implements OnInit {
   @Input() user: User
   @Output() removeFromList: EventEmitter<User> = new EventEmitter();
 
-  constructor(private userService: UserService, private followService: FollowService) { }
+  constructor(public userService: UserService, private followService: FollowService, private notification: NotificationService) { }
 
   ngOnInit(): void {
   }
@@ -32,6 +33,7 @@ export class UserItemComponent implements OnInit {
     this.followService.followUser(follow).subscribe(next => {
       this.user.isFollowing = true;
       this.removeFromList.emit(this.user);
+      this.notification.sendNotification(follow.followingId, this.userService.user.username + ' has following you.')
     });
   }
 

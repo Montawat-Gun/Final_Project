@@ -41,7 +41,7 @@ namespace Api.Helpers
                     {
                         OnMessageReceived = context =>
                         {
-                            var accessToken = context.Request.Query["acess_token"];
+                            var accessToken = context.Request.Query["access_token"];
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
                             {

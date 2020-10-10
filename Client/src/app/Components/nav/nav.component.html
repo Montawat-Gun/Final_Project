@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md fixed-top">
-  <div class="col-md-6 col-12 container">
+  <div class="col-lg-6 col-12 container">
     <a href="" class="navbar-brand header">SGamer</a>
     <ul class="nav justify-content-end">
       <li class="nav-item">
@@ -48,12 +48,12 @@
       <li class="nav-item">
         <a href="#" class="nav-link py-0" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
-          <img class="avatar" src="{{user?.imageUrl}}" alt="">
-          <label class="username">{{user?.username}}</label>
+          <img class="avatar" src="{{userService.user?.imageUrl}}" alt="">
+          <label class="username">{{userService.user?.username}}</label>
         </a>
 
         <div class="dropdown-menu dropdown-menu-right shadow " aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="" [routerLink]="['/profile',user?.username]">Profile</a>
+          <a class="dropdown-item" href="" [routerLink]="['/profile',userService.user?.username]">Profile</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="" (click)="logout()">Logout</a>
         </div>

@@ -1,12 +1,13 @@
 using System.Threading.Tasks;
-using Api.Dtos;
 using Api.Models;
 using Api.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Api.Hubs
 {
+    [Authorize]
     public class MessageHub : Hub
     {
         private readonly IMessageService _messageService;

@@ -3,6 +3,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { User } from 'src/app/Models/User';
+import { ToastifyService } from 'src/app/Services/toastify.service';
 import { UserService } from 'src/app/Services/user.service';
 
 @Component({
@@ -31,7 +32,7 @@ export class EditProfileComponent implements OnInit {
   imageChangedEvent: any = '';
   croppedImage = null;
 
-  constructor(private userService: UserService, private route: Router) { }
+  constructor(private userService: UserService, private toastify: ToastifyService) { }
 
   @ViewChild('closeButton') closeButton;
 
@@ -78,8 +79,7 @@ export class EditProfileComponent implements OnInit {
     this.completeMessage = ''
     this.userService.updateUser(this.userToEdit).subscribe(response => {
       this.user = response
-      console.log(this.user);
-      this.completeMessage = "You have changed your info.";
+      this.toastify.show("Yor have changed your info.");
     },
       error => {
         error.error.forEach(e => {
@@ -96,7 +96,7 @@ export class EditProfileComponent implements OnInit {
       return;
     }
     this.userService.updateUserPassword(this.passwordToEdit).subscribe(response => {
-      this.completeMessage = "You have changed your password.";
+      this.toastify.show("You have changed your password.");
       this.passwordToEdit.currentPassword = null;
       this.passwordToEdit.newPassword = null;
       this.confirmPassword = null;
@@ -132,13 +132,11 @@ export class EditProfileComponent implements OnInit {
     this.completeMessage = ''
     const fd = new FormData();
     fd.append('File', this.selectedFile);
-    this.userService.uploadUserImage(fd).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        console.log('Upload progress: ' + Math.round(event.loaded / event.total * 100) + '%');
-      } else if (event.type === HttpEventType.Response) {
-        console.log(event);
+    this.userService.uploadUserImage(fd).subscribe(events => {
+      if (events.type === HttpEventType.UploadProgress) {
+        if (events.loaded == events.total)
+          this.toastify.show("You have changed your image.");
       }
-      this.completeMessage = "You have changed your image.";
       this.selectedFile = null;
       this.imageChangedEvent = ''
     });

@@ -4,7 +4,8 @@ import { PostDetail } from 'src/app/Models/PostDetail';
 import { UserService } from 'src/app/Services/user.service';
 import { CommentService } from 'src/app/Services/comment.service';
 import { PostComment } from 'src/app/Models/PostComment';
-import { User } from 'src/app/Models/User';
+import { NotificationService } from 'src/app/Services/notification.service';
+import { ToastifyService } from 'src/app/Services/toastify.service';
 
 @Component({
   selector: 'app-post-detail',
@@ -13,7 +14,6 @@ import { User } from 'src/app/Models/User';
 })
 export class PostDetailComponent implements OnInit {
 
-  user: User;
   post: PostDetail
   comment: string = '';
   commentToDelete: PostComment = null;
@@ -21,12 +21,12 @@ export class PostDetailComponent implements OnInit {
 
   @ViewChild('closeModal') closeModal;
 
-  constructor(private route: ActivatedRoute, private commentService: CommentService, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private commentService: CommentService, public userService: UserService,
+    private notification: NotificationService,private toastify:ToastifyService) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.post = data['post'];
-      this.userService.getCurrentUser().subscribe(user => this.user = user);
       this.isOwnPost = (this.userService.getUserId() === this.post.user.id);
     })
   }
@@ -51,6 +51,8 @@ export class PostDetailComponent implements OnInit {
       this.comment = ''
       this.post.comments.push(response);
       this.post.commentCount++;
+      if (this.userService.getUserId() !== this.post.user.id)
+        this.notification.sendNotification(this.post.user.id, this.userService.user.username + ' has comment on your post')
     }, error => console.log(error));
   }
 
@@ -68,6 +70,7 @@ export class PostDetailComponent implements OnInit {
       this.post.comments = this.post.comments.filter(obj => obj !== this.commentToDelete);
       this.removeCommentToDelete();
       this.post.commentCount--;
+      this.toastify.show("Deleted comment.")
     });
   }
 

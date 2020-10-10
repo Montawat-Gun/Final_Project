@@ -5,6 +5,7 @@ import { PostToList } from 'src/app/Models/PostToList';
 import { User } from 'src/app/Models/User';
 import { GameInterestService } from 'src/app/Services/game-interest.service';
 import { PostService } from 'src/app/Services/post.service';
+import { ToastifyService } from 'src/app/Services/toastify.service';
 
 @Component({
   selector: 'app-post-input',
@@ -20,7 +21,7 @@ export class PostInputComponent implements OnInit {
   isNoGameFound: Boolean = false;
   selectedFile = null;
 
-  constructor(private postService: PostService, private gameService: GameInterestService) { }
+  constructor(private postService: PostService, private gameService: GameInterestService, private toastify: ToastifyService) { }
 
   ngOnInit(): void {
   }
@@ -68,8 +69,12 @@ export class PostInputComponent implements OnInit {
           this.postService.uploadPostImage(post.postId, fd).subscribe(events => {
             if (events.type === HttpEventType.UploadProgress) {
               console.log('Upload Progress: ' + Math.round(events.loaded / events.total * 100));
+              if (events.total === events.loaded)
+                this.toastify.show('You posted successfully');
             }
           });
+        } else {
+          this.toastify.show('You posted successfully');
         }
       }
       this.resetInput();

@@ -11,14 +11,12 @@ import { User } from 'src/app/Models/User';
 })
 export class NavComponent implements OnInit {
 
-  user: User
   usersFromSearch: User[] = null;
   searchString: string = null;
 
-  constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
+  constructor(private router: Router, private authService: AuthService, public userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe(next => this.user = next);
   }
 
   searchUser() {

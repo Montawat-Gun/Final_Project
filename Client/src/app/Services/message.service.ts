@@ -7,6 +7,7 @@ import { User } from '../Models/User';
 import * as signalR from "@microsoft/signalr";
 import { UserService } from './user.service';
 import { take } from 'rxjs/operators';
+import { ToastifyService } from 'src/app/Services/toastify.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class MessageService {
   private messageThreadSource = new BehaviorSubject<Message[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
 
-  constructor(private http: HttpClient, private userService: UserService) { }
+  constructor(private http: HttpClient, private userService: UserService, private toastifyService: ToastifyService) { }
 
   createHubConnection(userId: string, otherUserId: string) {
     this.hubConnetion = new signalR.HubConnectionBuilder()
@@ -43,6 +44,7 @@ export class MessageService {
   stopHubConnection() {
     if (this.hubConnetion) {
       this.hubConnetion.stop();
+      this.messageThreadSource.next([]);
     }
   }
 
@@ -56,5 +58,9 @@ export class MessageService {
 
   async sendMessage(message: any) {
     return this.hubConnetion.invoke('SendMessage', message).catch(error => console.log(error));
+  }
+
+  markAsRead(otherUserId: string) {
+    return this.http.get(this.url + 'markasread/' + this.userService.getUserId() + '/' + otherUserId);
   }
 }

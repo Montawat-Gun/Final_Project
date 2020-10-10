@@ -14,4 +14,5 @@ export interface User {
     isFollowing: boolean;
     posts: PostToList[];
     gameInterest: Game[];
+    messageUnReadCount: number;
 }
