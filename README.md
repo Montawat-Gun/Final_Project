@@ -1,7 +1,7 @@
 # SGamer
 
 ## Contribute
-Montawat  Sripaiboon
+Montawat  Sripaiboon \n
 Chana     Supapsareepong
 Nattaphol Phutarungsee
 
