@@ -1,4 +1,3 @@
-<app-post-input [user]="user"></app-post-input>
 <app-post-item *ngFor="let post of posts" [post]="post" (deletePost)="setPostToDelete($event)"></app-post-item>
 
 <!-- Modal -->
@@ -18,9 +17,14 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="removePostToDelete()"
                     data-dismiss="modal">Cancle</button>
-                <button type="button" id="buttonDeletePost" (click)="onDeletePost()" class="btn btn-primary">
+                <button *ngIf="!isLoading" type="button" id="buttonDeletePost" (click)="onDeletePost()" class="btn btn-primary">
                     Confirm
                 </button>
+                <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                    Confirm
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="sr-only">Loading...</span>
+                  </button>
             </div>
         </div>
     </div>

@@ -16,21 +16,17 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @ViewChild('scroll') scroll;
   @ViewChild('closeModal') closeModal;
-
-  contacts: User[] = null;
   messages: Message[] = null;
-  otherUser: User = null;
   content: string = '';
   usersFromSearch: User[] = null;
   searchString: string = ''
+  isLoading: boolean = false;
 
   constructor(public messageService: MessageService, public userService: UserService,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.messageService.getContacts(this.userService.getUserId()).subscribe(contacts => {
-      this.contacts = contacts
-    });
+    this.messageService.createHubConnection();
   }
 
   ngAfterViewChecked() {
@@ -44,15 +40,26 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   onContactClick(user: User) {
-    if (this.contacts.find(u => u.id === user.id) === null) {
-      this.contacts.unshift(user);
-    }
-    this.otherUser = user;
-    this.messageService.createHubConnection(this.userService.getUserId(), user.id);
-    this.messageService.markAsRead(user.id).subscribe(next => {
-      user.messageUnReadCount = 0;
-    });
+    this.isLoading = true;
+    const contact = this.messageService.contacts.find(u => u.id === user.id)
+    if (contact === undefined)
+      this.messageService.contacts.unshift(user);
+    this.messageService.currentContact = user;
+    this.messageService.getMessages(this.userService.getUserId(), user.id).
+      subscribe(messages => {
+        this.messageService.messageThreadSource.next(messages);
+        this.isLoading = false;
+      });
+    this.markAsRead();
     this.closeModal.nativeElement.click();
+  }
+
+  markAsRead() {
+    if (this.messageService.currentContact) {
+      this.messageService.markAsRead(this.messageService.currentContact.id).subscribe(next => {
+        this.messageService.currentContact.messageUnReadCount = 0;
+      });
+    }
   }
 
   searchUser() {
@@ -63,17 +70,18 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   sendMessage() {
-    if (this.otherUser.id === null || this.content === '')
+    if (this.messageService.currentContact.id === null || this.content === '')
       return;
     const message = {
       senderId: this.userService.getUserId(),
-      recipientId: this.otherUser.id,
+      recipientId: this.messageService.currentContact.id,
       content: this.content
-    }
+    };
     this.messageService.sendMessage(message).then(() => {
       this.content = '';
     });
-    this.notificationService.sendNotification(this.otherUser.id, this.userService.user.username + ': ' + message.content);
+    this.notificationService.sendNotification(this.messageService.currentContact.id,
+      this.userService.user.username + ': ' + message.content);
   }
 
   ngOnDestroy(): void {

@@ -61,8 +61,6 @@ namespace Api.Controllers
         public async Task<ActionResult> MarkAsRead(string userId, string otherUserId)
         {
             var result = await _message.MarkAsRead(userId, otherUserId);
-            if (!result)
-                return BadRequest();
             return Ok();
         }
     }

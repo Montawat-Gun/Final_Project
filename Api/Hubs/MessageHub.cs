@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Api.Models;
 using Api.Services;
@@ -12,6 +14,7 @@ namespace Api.Hubs
     {
         private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
+        private static List<UserConnected> usersConnected = new List<UserConnected>();
 
         public MessageHub(IMessageService messageService, IMapper mapper)
         {
@@ -19,16 +22,23 @@ namespace Api.Hubs
             _messageService = messageService;
         }
 
-        public override async Task OnConnectedAsync()
+        public override Task OnConnectedAsync()
         {
             var httpContext = Context.GetHttpContext();
-            var currentUserId = httpContext.Request.Query["currentUserId"].ToString();
-            var otherUserId = httpContext.Request.Query["otherUserId"].ToString();
-            var groupName = GetGroupName(currentUserId, otherUserId);
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+            var userId = httpContext.Request.Query["userId"].ToString();
+            var userConnected = usersConnected.Where(u => u.UserId == userId);
+            if (userConnected.Any())
+            {
+                usersConnected.Remove(userConnected.FirstOrDefault());
+            }
+            var connect = new UserConnected
+            {
+                ConnectionID = Context.ConnectionId,
+                UserId = userId
+            };
+            usersConnected.Add(connect);
 
-            var messages = await _messageService.GetMessages(currentUserId, otherUserId);
-            await Clients.Group(groupName).SendAsync("ReceiveMessages", messages);
+            return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(System.Exception exception)
@@ -40,16 +50,12 @@ namespace Api.Hubs
         {
             if (await _messageService.AddMessage(message))
             {
-                var group = GetGroupName(message.SenderId, message.RecipientId);
                 var newMessage = await _messageService.GetMessage(message.MessageId);
-                await Clients.Group(group).SendAsync("NewMessage", newMessage);
+                var connectionIds = usersConnected.Where(x => x.UserId == message.RecipientId || x.UserId == message.SenderId)
+                .Select(x => x.ConnectionID).ToList();
+                if (connectionIds != null)
+                    await Clients.Clients(connectionIds).SendAsync("NewMessage", newMessage);
             }
-        }
-
-        private string GetGroupName(string caller, string other)
-        {
-            var stringCompare = string.CompareOrdinal(caller, other) < 0;
-            return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
         }
     }
 }

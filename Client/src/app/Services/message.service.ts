@@ -7,7 +7,6 @@ import { User } from '../Models/User';
 import * as signalR from "@microsoft/signalr";
 import { UserService } from './user.service';
 import { take } from 'rxjs/operators';
-import { ToastifyService } from 'src/app/Services/toastify.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,27 +15,33 @@ export class MessageService {
 
   url: string = environment.url + 'message/';
   hubUrl: string = environment.hubUrl + 'message';
+  currentContact: User = null;
+  contacts: User[];
   private hubConnetion: signalR.HubConnection;
-  private messageThreadSource = new BehaviorSubject<Message[]>([]);
+  messageThreadSource = new BehaviorSubject<Message[]>([]);
   messageThread$ = this.messageThreadSource.asObservable();
 
-  constructor(private http: HttpClient, private userService: UserService, private toastifyService: ToastifyService) { }
+  constructor(private http: HttpClient, private userService: UserService) { }
 
-  createHubConnection(userId: string, otherUserId: string) {
+  createHubConnection() {
     this.hubConnetion = new signalR.HubConnectionBuilder()
-      .withUrl(this.hubUrl + '?currentUserId=' + userId + '&otherUserId=' + otherUserId, {
+      .withUrl(this.hubUrl + '?userId=' + this.userService.getUserId(), {
         accessTokenFactory: () => this.userService.getToken()
       })
       .withAutomaticReconnect().build();
     this.hubConnetion.start().catch(error => console.log(error));
 
-    this.hubConnetion.on('ReceiveMessages', messages => {
-      this.messageThreadSource.next(messages);
-    })
+    this.http.get<User[]>(this.url + 'contact/' + this.userService.getUserId())
+      .subscribe(contacts => {
+        this.contacts = contacts
+      });
 
     this.hubConnetion.on('NewMessage', message => {
       this.messageThread$.pipe(take(1)).subscribe(messages => {
-        this.messageThreadSource.next([...messages, message]);
+        this.addToContact(message.sender);
+        if (this.isCurrentContact(message)) {
+          this.messageThreadSource.next([...messages, message]);
+        }
       })
     })
   }
@@ -45,14 +50,33 @@ export class MessageService {
     if (this.hubConnetion) {
       this.hubConnetion.stop();
       this.messageThreadSource.next([]);
+      this.currentContact = null;
     }
+  }
+
+  isCurrentContact(message: Message) {
+    return !(this.currentContact.id !== message.senderId && this.currentContact.id !== message.recipientId);
+  }
+
+  addToContact(user: User) {
+    let contact = this.contacts.find(u => u.id == user.id);
+    if (user.id === this.userService.getUserId()) {
+      return;
+    }
+    if (contact === undefined) {
+      user.messageUnReadCount = 1;
+      this.contacts.unshift(user);
+    } else {
+      contact.messageUnReadCount++;
+    }
+
   }
 
   getContacts(userId: string): Observable<User[]> {
     return this.http.get<User[]>(this.url + 'contact/' + userId);
   }
 
-  getMessages(userId: string, otherUser: string): Observable<Message[]> {
+  getMessages(userId: string, otherUser: string) {
     return this.http.get<Message[]>(this.url + userId + '/' + otherUser);
   }
 

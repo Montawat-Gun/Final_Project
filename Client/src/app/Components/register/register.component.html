@@ -92,9 +92,17 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-lg btn-success btn-block"
-                [disabled]="username.invalid||password.invalid||email.invalid||day.invalid||month.invalid||year.invalid||gender.invalid"
-                type="submit">Sign Up</button>
+            <button *ngIf="!isLoading" class="btn btn-lg btn-success btn-block"
+                [disabled]="username.invalid||password.invalid||email.invalid||day.invalid||month.invalid||year.invalid||gender.invalid||isLoading"
+                type="submit">Sign Up
+            </button>
+            <button *ngIf="isLoading" class="btn btn-lg btn-success btn-block" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span class="sr-only">Loading...</span>
+            </button>
+
+
+
             <!--Already have-->
             <div class="form-group" style="text-align: center;margin-top: 10px;">
                 <label style="color: gray;padding-bottom: 5px;">or</label><br>

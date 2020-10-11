@@ -48,7 +48,7 @@ namespace Api.Services
             u.SenderId == currentUserId && u.RecipientId == otherUserId ||
             u.SenderId == otherUserId && u.RecipientId == currentUserId)
             .Include(s => s.Sender).ThenInclude(i => i.Image)
-            .OrderByDescending(x => x.TimeSend).ToListAsync();
+            .OrderBy(x => x.TimeSend).ToListAsync();
             return _mapper.Map<IEnumerable<MessageDto>>(messages);
         }
 
@@ -76,7 +76,6 @@ namespace Api.Services
         public async Task<bool> MarkAsRead(string currentUserId, string otherUserId)
         {
             var messages = await _context.Messages.Where(u =>
-            u.SenderId == currentUserId && u.RecipientId == otherUserId ||
             u.SenderId == otherUserId && u.RecipientId == currentUserId).ToListAsync();
             foreach (var message in messages)
             {

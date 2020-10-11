@@ -39,6 +39,6 @@ export class NotificationService {
 
   sendNotification(otherUserId: string, message: string) {
     if (this.isHubConnected)
-      this.hubConnetion.invoke("SendNotification", otherUserId, message).then();
+      this.hubConnetion.send("SendNotification", otherUserId, message).then();
   }
 }

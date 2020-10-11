@@ -9,10 +9,6 @@ namespace Api.Controllers
     [ApiController]
     public class NotificationController : ControllerBase
     {
-        [HttpGet]
-        public async Task<IActionResult> GetNotifications()
-        {
-            return Ok();
-        }
+        
     }
 }

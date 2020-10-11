@@ -4,5 +4,7 @@ export interface Message {
     messageId: number;
     content: number;
     timeSend: Date;
-    sender:User;
+    senderId: string;
+    sender: User;
+    recipientId: string;
 }

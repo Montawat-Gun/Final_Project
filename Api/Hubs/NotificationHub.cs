@@ -44,7 +44,7 @@ namespace Api.Hubs
         public async Task SendNotification(string userId, string message)
         {
             var connectionId = usersConnected.Where(x => x.UserId == userId).FirstOrDefault().ConnectionID;
-            if (connectionId != null)
+            if (connectionId.Any())
                 await Clients.Client(connectionId).SendAsync("ReceiveNotification", message);
         }
     }

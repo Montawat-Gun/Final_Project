@@ -39,7 +39,21 @@
 
     <div class="d-flex justify-content-center">
         <div style="width: 600px; max-width: 600px;">
-            <app-post-item *ngFor="let post of posts" [post]="post"></app-post-item>
+            <app-post [posts]="posts"></app-post>
+        </div>
+    </div>
+
+    <div *ngIf="posts.length === 0" class="justify-content-center pt-3 mx-auto"
+        style="width: 600px; max-width: 600px; color: #585960;">
+        <div class="d-flex card p-3" style="background-color: #363738;">
+            <div class="d-flex justify-content-center">
+                <svg class="bi" width="75" height="75" fill="currentColor">
+                    <use xlink:href="bootstrap-icons.svg#file-earmark-post" />
+                </svg>
+            </div>
+            <div class="d-flex justify-content-center">
+                <h3 class="m-auto">No post found</h3>
+            </div>
         </div>
     </div>
 

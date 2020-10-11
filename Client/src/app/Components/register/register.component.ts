@@ -25,6 +25,8 @@ export class RegisterComponent implements OnInit {
 
   years = [];
 
+  isLoading: boolean = false;
+
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -37,12 +39,13 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    this.isLoading = true;
     this.errors = []
     let day = this.birthDate.day;
     let month = this.months.indexOf(this.birthDate.month) + 1;
     let year = this.birthDate.year;
     let date = day + "-" + month + "-" + year;
-    if(!moment(date,"DD/MM/YYYY").isValid()){
+    if (!moment(date, "DD/MM/YYYY").isValid()) {
       this.errors.push("Your birth of date is invalid.")
       return;
     }
@@ -52,6 +55,7 @@ export class RegisterComponent implements OnInit {
       this.router.navigateByUrl('/login');
     }, error => {
       error.error.forEach(e => {
+        this.isLoading = false;
         this.errors.push(e.description);
       });
     });

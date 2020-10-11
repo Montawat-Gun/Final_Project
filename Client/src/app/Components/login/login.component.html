@@ -1,42 +1,48 @@
 <div class="card shadow center-screen">
-    <div class="card-body">
-      <form #loginForm="ngForm" class="form" (ngSubmit)="login()">
-        <h1 class="h1 mb-3 font-weight-bolder">Login</h1>
-        <div class="form-group">
-          <label for="username" class="sr-only">Username</label>
-          <input type="username" id="username" class="form-control"
-            [ngClass]="{'is-invalid': username.invalid && (username.dirty || username.touched)}" placeholder="Username"
-            required autofocus name="username" [(ngModel)]="model.username" #username="ngModel">
-          <div *ngIf="username.invalid && (username.dirty || username.touched)">
-            <label *ngIf="username.errors.required" for="username" class="error">Please enter your
-              username.</label>
-          </div>
+  <div class="card-body">
+    <form #loginForm="ngForm" class="form" (ngSubmit)="login()">
+      <h1 class="h1 mb-3 font-weight-bolder">Login</h1>
+      <div class="form-group">
+        <label for="username" class="sr-only">Username</label>
+        <input type="username" id="username" class="form-control"
+          [ngClass]="{'is-invalid': username.invalid && (username.dirty || username.touched)}" placeholder="Username"
+          required autofocus name="username" [(ngModel)]="model.username" #username="ngModel">
+        <div *ngIf="username.invalid && (username.dirty || username.touched)">
+          <label *ngIf="username.errors.required" for="username" class="error">Please enter your
+            username.</label>
         </div>
-        <div class="form-group">
-          <label for="password" class="sr-only">Password</label>
-          <input type="password" id="password" class="form-control" [ngClass]="{'is-invalid': password.invalid && (password.dirty || password.touched)}" placeholder="Password" required name="password"
-            [(ngModel)]="model.password" #password="ngModel">
-            <div *ngIf="password.invalid && (password.dirty || password.touched)">
-              <label *ngIf="password.errors.required" for="password" class="error">Please enter your
-                password.</label>
-            </div>
-        </div>
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me" name="rememberme" [(ngModel)]="model.rememberme">
-            Remember me
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" [disabled]="username.invalid||password.invalid" type="submit">Sign in</button>
-        <div class="form-group" style="text-align: center;margin-top: 10px;">
-          <label style="color: gray;padding-bottom: 5px;">or</label><br>
-          <label for="">Create new account &nbsp;</label>
-          <a [routerLink]="['/register']" type="button">Sign Up</a>
-        </div>
-        <!--Error message-->
-        <div *ngIf="errors.length" class="alert alert-danger" style="text-align: center;margin-bottom: -1px;">
-          <label class="error" *ngFor="let error of errors">{{error}}</label>
       </div>
-      </form>
-    </div>
+      <div class="form-group">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" class="form-control"
+          [ngClass]="{'is-invalid': password.invalid && (password.dirty || password.touched)}" placeholder="Password"
+          required name="password" [(ngModel)]="model.password" #password="ngModel">
+        <div *ngIf="password.invalid && (password.dirty || password.touched)">
+          <label *ngIf="password.errors.required" for="password" class="error">Please enter your
+            password.</label>
+        </div>
+      </div>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me" name="rememberme" [(ngModel)]="model.rememberme">
+          Remember me
+        </label>
+      </div>
+      <button *ngIf="!isLoading" class="btn btn-lg btn-primary btn-block" [disabled]="username.invalid||password.invalid"
+        type="submit">Sign in</button>
+      <button *ngIf="isLoading" class="btn btn-lg btn-primary btn-block" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span class="sr-only">Loading...</span>
+      </button>
+      <div class="form-group" style="text-align: center;margin-top: 10px;">
+        <label style="color: gray;padding-bottom: 5px;">or</label><br>
+        <label for="">Create new account &nbsp;</label>
+        <a [routerLink]="['/register']" type="button">Sign Up</a>
+      </div>
+      <!--Error message-->
+      <div *ngIf="errors.length" class="alert alert-danger" style="text-align: center;margin-bottom: -1px;">
+        <label class="error" *ngFor="let error of errors">{{error}}</label>
+      </div>
+    </form>
   </div>
+</div>

@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   model: (any) = {}
   errors = []
+  isLoading: boolean = false;
 
   constructor(private authService: AuthService, private router: Router, public userService: UserService,
     private notification: NotificationService) { }
@@ -22,11 +23,13 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.isLoading = true;
     this.errors = []
     this.authService.login(this.model).subscribe(next => {
       this.router.navigateByUrl('/');
     }, error => {
       this.errors.push(error.error);
+      this.isLoading = false;
     });
   }
 }

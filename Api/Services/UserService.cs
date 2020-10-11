@@ -39,7 +39,7 @@ namespace Api.Services
 
         public async Task<UserDetail> GetUserByUsername(string username)
         {
-            var user = await _context.Users.Where(u => u.UserName == username).Include(i => i.Image)
+            var user = await _context.Users.Where(u => u.NormalizedUserName == username.ToUpper()).Include(i => i.Image)
             .Include(i => i.Interests).ThenInclude(g => g.Game)
             .FirstOrDefaultAsync();
             var userDetail = _mapper.Map<UserDetail>(user);

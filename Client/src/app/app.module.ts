@@ -67,8 +67,8 @@ import { UserService } from './Services/user.service';
         tokenGetter: () => {
           return localStorage.getItem("token");
         },
-        allowedDomains: ['localhost:8080'],
-        disallowedRoutes: ['localhost:8080/api/auth']
+        allowedDomains: ['localhost:5001'],
+        disallowedRoutes: ['localhost:5001/api/auth']
       }
     }),
   ],

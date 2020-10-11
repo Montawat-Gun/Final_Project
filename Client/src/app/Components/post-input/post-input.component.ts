@@ -20,6 +20,7 @@ export class PostInputComponent implements OnInit {
   games: Game[] = [];
   isNoGameFound: Boolean = false;
   selectedFile = null;
+  isLoading: boolean = false;
 
   constructor(private postService: PostService, private gameService: GameInterestService, private toastify: ToastifyService) { }
 
@@ -55,6 +56,7 @@ export class PostInputComponent implements OnInit {
   }
 
   onCreatePost() {
+    this.isLoading = true;
     const model = {
       content: this.content,
       userId: this.user.id,
@@ -71,10 +73,12 @@ export class PostInputComponent implements OnInit {
               console.log('Upload Progress: ' + Math.round(events.loaded / events.total * 100));
               if (events.total === events.loaded)
                 this.toastify.show('You posted successfully');
+                this.isLoading = false;
             }
           });
         } else {
           this.toastify.show('You posted successfully');
+          this.isLoading = false;
         }
       }
       this.resetInput();

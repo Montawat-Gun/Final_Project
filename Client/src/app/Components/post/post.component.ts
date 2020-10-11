@@ -16,13 +16,13 @@ export class PostComponent implements OnInit {
   @ViewChild('closeModal') closeModal;
 
 
-  posts: PostToList[];
+  @Input() posts: PostToList[];
   postToDelete: PostToList;
+  isLoading: boolean = false;
 
-  constructor(private postService: PostService, private userService: UserService,private toastify: ToastifyService) { }
+  constructor(private postService: PostService, private toastify: ToastifyService) { }
 
   ngOnInit(): void {
-    this.postService.getPosts(this.userService.getUserId()).subscribe(response => this.posts = response);
   }
 
   setPostToDelete(post: PostToList) {
@@ -35,7 +35,9 @@ export class PostComponent implements OnInit {
   }
 
   onDeletePost() {
+    this.isLoading = true;
     this.postService.deletePost(this.postToDelete.postId).subscribe(next => {
+      this.isLoading = false;
       this.posts = this.posts.filter(obj => obj !== this.postToDelete);
       this.toastify.show("Deleted post.")
       this.removePostToDelete();
