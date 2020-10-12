@@ -36,7 +36,11 @@
           style="width: 250px;max-height: 300px;">
           <div *ngIf="!hasNotification()" id="empty" class="dropdown-header">No notification</div>
           <div id="notification" class="">
-            <div class="dropdown-divider m-1" style="border-color: #585960;"></div>
+            <div *ngIf="isNotificationLoading" class="d-flex justify-content-center">
+              <div class="spinner-border text-light" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
             <div *ngFor="let notification of (notification.notificationThread$ | async)">
               <a type="button" class="d-flex dropdown-item p-1 m-0 text-wrap" href="{{notification.destination}}">
                 <img class="search-user-image mr-1" src="{{notification.sender.imageUrl}}" alt="">

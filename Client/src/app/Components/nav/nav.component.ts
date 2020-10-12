@@ -15,6 +15,7 @@ export class NavComponent implements OnInit {
   usersFromSearch: User[] = [];
   searchString: string = null;
   isLoading: boolean = false;
+  isNotificationLoading: boolean = false;
 
   constructor(private router: Router, private authService: AuthService, public userService: UserService,
     public notification: NotificationService) { }
@@ -38,7 +39,11 @@ export class NavComponent implements OnInit {
   }
 
   onNotificationClick() {
-    this.notification.getNotifications(this.userService.getUserId());
+    this.isNotificationLoading = true;
+    this.notification.getNotifications(this.userService.getUserId()).subscribe(next => {
+      this.isNotificationLoading = false;
+      this.notification.notificationThreadSource.next(next);
+    }, error => this.isNotificationLoading = false);
     this.notification.markAsRead();
   }
 

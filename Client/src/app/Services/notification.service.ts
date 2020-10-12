@@ -16,7 +16,7 @@ export class NotificationService {
   url: string = environment.url + 'notification/';
   private hubConnetion: signalR.HubConnection;
 
-  private notificationThreadSource = new BehaviorSubject<Notification[]>([]);
+  notificationThreadSource = new BehaviorSubject<Notification[]>([]);
   notificationThread$ = this.notificationThreadSource.asObservable();
   count: number;
 
@@ -41,9 +41,7 @@ export class NotificationService {
   }
 
   getNotifications(userId: string) {
-    this.http.get<Notification[]>(this.url + userId).subscribe(response => {
-      this.notificationThreadSource.next(response)
-    })
+    return this.http.get<Notification[]>(this.url + userId);
   }
 
   markAsRead() {
