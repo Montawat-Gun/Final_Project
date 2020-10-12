@@ -22,7 +22,7 @@ export class PostDetailComponent implements OnInit {
   @ViewChild('closeModal') closeModal;
 
   constructor(private route: ActivatedRoute, private commentService: CommentService, public userService: UserService,
-    private notification: NotificationService,private toastify:ToastifyService) { }
+    private notification: NotificationService, private toastify: ToastifyService) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
@@ -52,7 +52,8 @@ export class PostDetailComponent implements OnInit {
       this.post.comments.push(response);
       this.post.commentCount++;
       if (this.userService.getUserId() !== this.post.user.id)
-        this.notification.sendNotification(this.post.user.id, this.userService.user.username + ' has comment on your post')
+        this.notification.sendNotification(this.post.user.id,
+          this.userService.user.username + ' has comment on your post', 'post/' + this.post.postId);
     }, error => console.log(error));
   }
 

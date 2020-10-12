@@ -1,4 +1,4 @@
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -29,8 +29,7 @@ import { GameDetailComponent } from './Components/game-detail/game-detail.compon
 import { MessageComponent } from './Components/message/message.component';
 import { MessageItemComponent } from './Components/message-item/message-item.component';
 import { GamesBrowseComponent } from './Components/games-browse/games-browse.component';
-import Toastify from 'toastify-js'
-import { UserService } from './Services/user.service';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
   declarations: [
@@ -62,6 +61,7 @@ import { UserService } from './Services/user.service';
     FormsModule,
     NgbModule,
     ImageCropperModule,
+    TimeagoModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

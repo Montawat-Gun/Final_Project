@@ -27,7 +27,8 @@ export class PostItemComponent implements OnInit {
       if (this.post.isLike) {
         this.post.likeCount++;
         if (this.userService.getUserId() !== this.post.user.id)
-          this.notification.sendNotification(this.post.user.id,this.userService.user.username + ' liked your post')
+          this.notification.sendNotification(this.post.user.id, this.userService.user.username + ' liked your post',
+            'post/' + this.post.postId)
       } else {
         this.post.likeCount--;
       }

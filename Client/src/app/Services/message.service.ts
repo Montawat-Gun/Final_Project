@@ -55,6 +55,8 @@ export class MessageService {
   }
 
   isCurrentContact(message: Message) {
+    if (!this.currentContact)
+      return false;
     return !(this.currentContact.id !== message.senderId && this.currentContact.id !== message.recipientId);
   }
 

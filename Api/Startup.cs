@@ -43,6 +43,7 @@ namespace Api
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<INotificationService, NotificationService>();
             services.AddSwaggerGen();
             services.AddSignalR();
             services.AddControllersWithViews().AddNewtonsoftJson(options =>

@@ -199,18 +199,26 @@ namespace Api.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
+                    b.Property<string>("Destination")
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsRead")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("RecipientId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("TimeNotification")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
                     b.HasKey("NotificationId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
 
                     b.ToTable("Notifications");
                 });
@@ -608,9 +616,15 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api.Models.Notification", b =>
                 {
-                    b.HasOne("Api.Models.User", "User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId");
+                    b.HasOne("Api.Models.User", "Recipient")
+                        .WithMany("NotificationsReceived")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Api.Models.User", "Sender")
+                        .WithMany("NotificationsSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Api.Models.Post", b =>

@@ -3,50 +3,81 @@
     <a href="" class="navbar-brand header">SGamer</a>
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a href="" [routerLink]="['/']" class="nav-link py-0">
-          <svg class="bi icon" width="28" height="28" fill="currentColor">
+        <a href="" [routerLink]="['/']" class="nav-link m-0 p-0">
+          <svg class="bi icon" width="25" height="25" fill="currentColor">
             <use xlink:href="bootstrap-icons.svg#house-fill" />
           </svg>
         </a>
       </li>
       <li class="nav-item">
-        <a href="" [routerLink]="['/browse']" class="nav-link py-0">
-          <svg class="bi icon" width="28" height="28" fill="currentColor">
+        <a href="" [routerLink]="['/browse']" class="nav-link m-0 p-0">
+          <svg class="bi icon" width="25" height="25" fill="currentColor">
             <use xlink:href="bootstrap-icons.svg#joystick" />
           </svg>
         </a>
       </li>
       <li class="nav-item">
-        <a href="" [routerLink]="['/message']" class="nav-link py-0">
-          <svg class="bi icon" width="28" height="28" fill="currentColor">
+        <a href="" [routerLink]="['/message']" class="nav-link m-0 p-0">
+          <svg class="bi icon" width="25" height="25" fill="currentColor">
             <use xlink:href="bootstrap-icons.svg#chat-fill" />
           </svg>
         </a>
       </li>
       <li class="nav-item dropdown">
-        <a href="" id="navbarDropdown" data-toggle="dropdown" class="nav-link py-0">
-          <svg class="bi icon" width="26" height="26" fill="currentColor">
+        <a href="" (click)="onNotificationClick()" id="dropdown-notification" data-toggle="dropdown"
+          class="nav-link p-0" style="margin-top: 2px;">
+          <svg class="bi icon" width="24" height="24" fill="currentColor">
+            <use xlink:href="bootstrap-icons.svg#bell-fill" />
+          </svg>
+          <span *ngIf="notification.count!==0" class="badge badge-danger position-absolute"
+            style="right: 1px;">{{notification.count}}</span>
+        </a>
+        <div class="dropdown-menu p-1 overflow-auto" aria-labelledby="dropdown-notification"
+          style="width: 250px;max-height: 300px;">
+          <div *ngIf="!hasNotification()" id="empty" class="dropdown-header">No notification</div>
+          <div id="notification" class="">
+            <div class="dropdown-divider m-1" style="border-color: #585960;"></div>
+            <div *ngFor="let notification of (notification.notificationThread$ | async)">
+              <a type="button" class="d-flex dropdown-item p-1 m-0 text-wrap" href="{{notification.destination}}">
+                <img class="search-user-image mr-1" src="{{notification.sender.imageUrl}}" alt="">
+                <span class="d-inline-flex">{{notification.content}}</span>
+              </a>
+              <div class="dropdown-divider m-1" style="border-color: #585960;"></div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a href="" id="dropdown-search" data-toggle="dropdown" class="nav-link m-0 p-0">
+          <svg class="bi icon" width="23" height="23" fill="currentColor">
             <use xlink:href="bootstrap-icons.svg#search" />
           </svg>
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 250px;">
+        <div class="dropdown-menu px-1" aria-labelledby="dropdown-search" style="width: 250px;">
           <form class="px-4 py-2">
             <input type="search" class="form-control form-control-sm" id="searchUser" placeholder="Search..."
               autofocus="autofocus" autocomplete="off" (keyup)="searchUser()" name="searchUser"
               [(ngModel)]="searchString">
           </form>
+          <div *ngIf="isLoading" class="d-flex justify-content-center">
+            <div class="spinner-border text-light" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+
           <button type="button" *ngFor="let userSearch of usersFromSearch" class="dropdown-item" type="button"
             [routerLink]="['/profile',userSearch.username]">
             <img class="search-user-image mr-2" src="{{userSearch.imageUrl}}" alt="">
             <span class="d-inline-flex text-truncate">{{userSearch.username}}</span>
           </button>
-          <div id="empty" *ngIf="usersFromSearch === null" class="dropdown-header">No user found</div>
 
+          <div id="empty" *ngIf="usersFromSearch.length === 0&&!isLoading" class="dropdown-header">No user found</div>
         </div>
       </li>
 
       <li class="nav-item">
-        <a href="#" class="nav-link py-0" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+        <a href="#" class="nav-link p-0 m-0" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           <img class="avatar" src="{{userService.user?.imageUrl}}" alt="">
           <label class="username">{{userService.user?.username}}</label>
@@ -54,7 +85,7 @@
 
         <div class="dropdown-menu dropdown-menu-right shadow " aria-labelledby="userDropdown">
           <a class="dropdown-item" href="" [routerLink]="['/profile',userService.user?.username]">Profile</a>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-divider" style="border-color: #585960;"></div>
           <a class="dropdown-item" href="" (click)="logout()">Logout</a>
         </div>
       </li>

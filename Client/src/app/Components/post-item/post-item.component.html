@@ -30,11 +30,12 @@
             </div>
 
 
-            <h6 class="post-time">{{post?.timePost | date:'short':'+1400'}}</h6>
+            <h6 class="post-time">{{post?.timePost | date: 'dd MMM yyyy h:mm a'}}</h6>
             <div class="" style="margin-top: 20px;">
                 <p class="post-content">{{post?.content}}</p>
             </div>
-            <img class="post-img mx-auto" style="height: auto; max-width: 100%;max-height: 500px;" src="{{post?.imageUrl}}" alt="">
+            <img class="post-img mx-auto" style="height: auto; max-width: 100%;max-height: 500px;"
+                src="{{post?.imageUrl}}" alt="">
             <div class="icon-group">
                 <a class="heart-icon" [ngClass]="{liked: post?.isLike}" (click)="onLike()">
                     <svg *ngIf="!post?.isLike" class="bi icon" width="20" height="20" fill="currentColor">

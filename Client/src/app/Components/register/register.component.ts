@@ -46,6 +46,7 @@ export class RegisterComponent implements OnInit {
     let year = this.birthDate.year;
     let date = day + "-" + month + "-" + year;
     if (!moment(date, "DD/MM/YYYY").isValid()) {
+      this.isLoading = false;
       this.errors.push("Your birth of date is invalid.")
       return;
     }
@@ -54,8 +55,8 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.model).subscribe(next => {
       this.router.navigateByUrl('/login');
     }, error => {
+      this.isLoading = false;
       error.error.forEach(e => {
-        this.isLoading = false;
         this.errors.push(e.description);
       });
     });

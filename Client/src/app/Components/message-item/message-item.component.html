@@ -10,7 +10,7 @@
             <a [routerLink]="['/profile/', message.sender.username]" class="title" href="#">
                 <span class="name ml-1 mr-1">{{message.sender.username}}</span>
             </a>
-            <span class="time">{{message.timeSend | date:'medium':'+1400'}}</span>
+            <span class="time mt-1">{{message.timeSend | timeago}}</span>
         </div>
         <div>
             <p class="ml-1">{{message.content}}</p>

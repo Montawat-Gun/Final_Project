@@ -68,6 +68,15 @@ namespace Api.Data
                 .WithMany(m => m.MessagesReceived)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Notification>()
+                .HasOne(s => s.Sender)
+                .WithMany(u => u.NotificationsSent)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Notification>()
+                .HasOne(u => u.Recipient)
+                .WithMany(u => u.NotificationsReceived)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Image>()
                 .HasDiscriminator<string>("image_type")
                 .HasValue<Image>("image_base")

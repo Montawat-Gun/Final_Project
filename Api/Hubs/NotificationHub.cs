@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Models;
+using Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
@@ -12,7 +14,14 @@ namespace Api.Hubs
     {
         private static List<UserConnected> usersConnected = new List<UserConnected>();
 
-        public override Task OnConnectedAsync()
+        private readonly INotificationService _notificationService;
+
+        public NotificationHub(INotificationService notificationService)
+        {
+            _notificationService = notificationService;
+        }
+
+        public override async Task OnConnectedAsync()
         {
             var httpContext = Context.GetHttpContext();
             var userId = httpContext.Request.Query["userId"].ToString();
@@ -26,9 +35,9 @@ namespace Api.Hubs
                 ConnectionID = Context.ConnectionId,
                 UserId = userId
             };
-
             usersConnected.Add(connect);
-            return base.OnConnectedAsync();
+            var notificationCount = await _notificationService.GetNotificationCount(userId);
+            await Clients.Caller.SendAsync("ReceiveNotificationCount", notificationCount);
         }
 
         public override Task OnDisconnectedAsync(System.Exception exception)
@@ -41,11 +50,20 @@ namespace Api.Hubs
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task SendNotification(string userId, string message)
+        public async Task SendNotification(string recipientId, string senderId, string content, string destination)
         {
-            var connectionId = usersConnected.Where(x => x.UserId == userId).FirstOrDefault().ConnectionID;
+            var notification = new Notification
+            {
+                RecipientId = recipientId,
+                SenderId = senderId,
+                Content = content,
+                Destination = destination,
+                TimeNotification = DateTime.Now
+            };
+            await _notificationService.AddNotification(notification);
+            var connectionId = usersConnected.Where(x => x.UserId == recipientId).FirstOrDefault().ConnectionID;
             if (connectionId.Any())
-                await Clients.Client(connectionId).SendAsync("ReceiveNotification", message);
+                await Clients.Client(connectionId).SendAsync("ReceiveNotification", notification);
         }
     }
 }

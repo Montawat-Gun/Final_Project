@@ -1,5 +1,19 @@
 <app-post-item *ngFor="let post of posts" [post]="post" (deletePost)="setPostToDelete($event)"></app-post-item>
 
+<div *ngIf="posts?.length===0" class="justify-content-center pt-3 mx-auto"
+    style="width: 600px; max-width: 600px;  color: #585960;">
+    <div class="d-flex card p-3" style="background-color: #363738; height: 200px;">
+        <div class="m-auto">
+            <svg class="bi" width="100" height="100" fill="currentColor">
+                <use xlink:href="bootstrap-icons.svg#file-earmark-post" />
+            </svg>
+        </div>
+        <div class="d-flex justify-content-center">
+            <h3>No post found</h3>
+        </div>
+    </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -17,14 +31,15 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="removePostToDelete()"
                     data-dismiss="modal">Cancle</button>
-                <button *ngIf="!isLoading" type="button" id="buttonDeletePost" (click)="onDeletePost()" class="btn btn-primary">
+                <button *ngIf="!isLoading" type="button" id="buttonDeletePost" (click)="onDeletePost()"
+                    class="btn btn-primary">
                     Confirm
                 </button>
                 <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
                     Confirm
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     <span class="sr-only">Loading...</span>
-                  </button>
+                </button>
             </div>
         </div>
     </div>

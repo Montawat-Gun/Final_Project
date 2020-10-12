@@ -21,6 +21,7 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   usersFromSearch: User[] = null;
   searchString: string = ''
   isLoading: boolean = false;
+  userFromParam: User;
 
   constructor(public messageService: MessageService, public userService: UserService,
     private notificationService: NotificationService) { }
@@ -56,7 +57,7 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   markAsRead() {
     if (this.messageService.currentContact) {
-      this.messageService.markAsRead(this.messageService.currentContact.id).subscribe(next => {
+      this.messageService.markAsRead(this.messageService.currentContact.id).subscribe(() => {
         this.messageService.currentContact.messageUnReadCount = 0;
       });
     }
@@ -81,7 +82,7 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.content = '';
     });
     this.notificationService.sendNotification(this.messageService.currentContact.id,
-      this.userService.user.username + ': ' + message.content);
+      this.userService.user.username + ' Message: ' + message.content, 'message');
   }
 
   ngOnDestroy(): void {

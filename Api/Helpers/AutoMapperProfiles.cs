@@ -20,7 +20,7 @@ namespace Api.Helpers
             CreateMap<User, UserToContact>()
                 .ForMember(dest => dest.ImageUrl,
                 opt => opt.MapFrom(src => src.Image.ImageUrl));
-            
+
             CreateMap<ImageUserRequest, UserImage>();
             CreateMap<ImagePostRequest, PostImage>();
             CreateMap<Image, ImageResponse>();
@@ -70,7 +70,8 @@ namespace Api.Helpers
                 .ForMember(dest => dest.User,
                 opt => opt.MapFrom(src => src.User));
 
-            CreateMap<Message,MessageDto>();
+            CreateMap<Message, MessageDto>();
+            CreateMap<Notification, NotificationDto>();
         }
     }
 }

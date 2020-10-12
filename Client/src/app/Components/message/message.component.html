@@ -57,7 +57,7 @@
                 <div *ngIf="messageService.currentContact" class="message-input">
                     <form action="" (ngSubmit)="sendMessage()">
                         <div class="input-group align-self-end" style="position: absolute; bottom: 0;">
-                            <input type="text" class="form-control" placeholder="Press enter to send message."
+                            <input type="text" class="form-control" id="input-message" placeholder="Press enter to send message."
                                 autocomplete="off" name="content" (click)="markAsRead()" [(ngModel)]="content">
                             <button class="d-none" type="submit"></button>
                         </div>
@@ -89,8 +89,9 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">To:</div>
                         </div>
-                        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search User..."
-                            name="searchString" autocomplete="off" [(ngModel)]="searchString" (keyup)="searchUser()">
+                        <input type="text" class="form-control" id="searchUserInput" placeholder="Search User..."
+                            name="searchString" autocomplete="off" onfocus="" [(ngModel)]="searchString"
+                            (keyup)="searchUser()">
                     </div>
                 </div>
                 <div class="overflow-auto" style="width: 100%; height: 80%;">

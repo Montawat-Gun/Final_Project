@@ -40,13 +40,19 @@
                             <img class="game-image mr-1" src="{{game.imageUrl}}" alt="">
                             <span class="d-inline-flex text-truncate">{{game.name}}</span>
                         </button>
+                        <div *ngIf="isGameLoading && !isNoGameFound" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div style="text-align: right;">
                     <button *ngIf="selectedFile" type="button" class="btn btn-danger" (click)="removeFile()"
                         style="margin-right: 10px;">Remove Photo</button>
-                    <button *ngIf="!isLoading" type="submit" class="btn btn-primary" [disabled]="isDisabledButton()">Post</button>
+                    <button *ngIf="!isLoading" type="submit" class="btn btn-primary"
+                        [disabled]="isDisabledButton()">Post</button>
                     <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         <span class="sr-only">Loading...</span>

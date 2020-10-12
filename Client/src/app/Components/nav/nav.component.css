@@ -1,4 +1,4 @@
-.header{
+.header {
     color: white;
 }
 
@@ -6,10 +6,9 @@
     color: white;
     cursor: pointer;
     margin-left: 5px;
-    margin-top: 5px;
 }
 
-.navbar{
+.navbar {
     height: 50px;
     background-color: rgba(66, 66, 66, 0.90);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
@@ -18,13 +17,14 @@
 .navbar-nav {
     flex-direction: row;
 }
-  
+
 .nav-link {
     padding-right: .5rem !important;
     padding-left: .5rem !important;
 }
-  
-  /* Fixes dropdown menus placed on the right side */
+
+/* Fixes dropdown menus placed on the right side */
+
 .dropdown-menu {
     left: auto !important;
     right: 0px;
@@ -39,14 +39,39 @@
     color: white;
 }
 
-.avatar { 
+.avatar {
     vertical-align: middle;
     width: 30px;
     height: 30px;
     border-radius: 50%;
-} 
+}
 
 .search-user-image {
     border-radius: 50%;
     width: 45px;
+}
+
+.dropdown-menu {
+    border-color: #585960;
+    background-color: #363738;
+}
+
+.dropdown-item {
+    color: #dddddd;
+}
+
+.dropdown-menu span {
+    color: #dddddd;
+}
+
+.dropdown-item:hover {
+    background-color: #585960;
+}
+
+.dropdown-menu input {
+    box-shadow: none;
+}
+
+.dropdown-menu button:hover {
+    background-color: #585960;
 }

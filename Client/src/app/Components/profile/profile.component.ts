@@ -4,6 +4,7 @@ import { Follow } from 'src/app/Models/Follow';
 import { PostToList } from 'src/app/Models/PostToList';
 import { User } from 'src/app/Models/User';
 import { FollowService } from 'src/app/Services/follow.service';
+import { NotificationService } from 'src/app/Services/notification.service';
 import { PostService } from 'src/app/Services/post.service';
 import { UserService } from 'src/app/Services/user.service';
 
@@ -21,7 +22,7 @@ export class ProfileComponent implements OnInit {
   isFollowing: boolean;
 
   constructor(private route: ActivatedRoute, private userService: UserService, private followService: FollowService,
-    private postService: PostService) { }
+    private postService: PostService, private notification: NotificationService) { }
 
   ngOnInit(): void {
     this.loadUser();
@@ -63,6 +64,8 @@ export class ProfileComponent implements OnInit {
     };
     this.followService.followUser(follow).subscribe(next => {
       this.isFollowing = !this.isFollowing;
+      this.notification.sendNotification(follow.followingId, this.userService.user.username + ' has following you.',
+        'profile/' + this.userService.user.username);
     });
   }
 

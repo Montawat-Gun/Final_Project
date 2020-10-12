@@ -33,7 +33,8 @@ export class UserItemComponent implements OnInit {
     this.followService.followUser(follow).subscribe(next => {
       this.user.isFollowing = true;
       this.removeFromList.emit(this.user);
-      this.notification.sendNotification(follow.followingId, this.userService.user.username + ' has following you.')
+      this.notification.sendNotification(follow.followingId, this.userService.user.username + ' has following you.',
+        'profile/' + this.userService.user.username);
     });
   }
 
