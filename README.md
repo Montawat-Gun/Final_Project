@@ -1,14 +1,14 @@
 # SGamer
 
 ## Contribute
-Montawat  Sripaiboon
-Chana     Supapsareepong
-Nattaphol Phutarungsee
+Montawat  Sripaiboon <br/>
+Chana     Supapsareepong <br/>
+Nattaphol Phutarungsee <br/>
 
 ## Complete project
 https://sgamer.herokuapp.com/
 
 ## Tools and Framework
-Asp.net core
-Angular
-PostgreSQL
+Asp.net core <br/>
+Angular <br/>
+PostgreSQL <br/>
