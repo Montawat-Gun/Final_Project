@@ -21,6 +21,7 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   usersFromSearch: User[] = null;
   searchString: string = ''
   isLoading: boolean = false;
+  isSendingMessage: boolean = false;
   userFromParam: User;
 
   constructor(public messageService: MessageService, public userService: UserService,
@@ -71,8 +72,9 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   sendMessage() {
-    if (this.messageService.currentContact.id === null || this.content === '')
+    if (this.messageService.currentContact.id === null || this.content === '' || this.isSendingMessage)
       return;
+    this.isSendingMessage = true;
     const message = {
       senderId: this.userService.getUserId(),
       recipientId: this.messageService.currentContact.id,
@@ -80,7 +82,8 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
     };
     this.messageService.sendMessage(message).then(() => {
       this.content = '';
-    });
+      this.isSendingMessage = false;
+    }, error => this.isSendingMessage = false);
     this.notificationService.sendNotification(this.messageService.currentContact.id,
       this.userService.user.username + ' Message: ' + message.content, 'message');
   }

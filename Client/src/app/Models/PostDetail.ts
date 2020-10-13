@@ -5,7 +5,7 @@ import { PostComment } from './PostComment';
 export interface PostDetail {
     postId: number,
     content: string,
-    timePost: Date
+    timePost: string,
     user: User,
     game: Game,
     imageUrl: string,

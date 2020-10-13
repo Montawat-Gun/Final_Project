@@ -4,6 +4,6 @@ export interface PostComment {
     commentId: number,
     content: string,
     user: User,
-    timeComment: Date,
+    timeComment: string,
     
 }

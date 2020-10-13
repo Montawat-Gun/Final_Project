@@ -6,6 +6,6 @@ export interface Notification {
     sender: User;
     content: string;
     destination: string;
-    timeNotification: Date;
+    timeNotification: string;
     isRead: boolean;
 }

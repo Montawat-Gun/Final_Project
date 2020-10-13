@@ -3,7 +3,7 @@ import { User } from './User';
 export interface Message {
     messageId: number;
     content: number;
-    timeSend: Date;
+    timeSend: string;
     senderId: string;
     sender: User;
     recipientId: string;
