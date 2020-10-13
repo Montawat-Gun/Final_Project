@@ -23,7 +23,7 @@ namespace Api.Services
         }
         public async Task<bool> AddMessage(Message message)
         {
-            message.TimeSend = DateTime.Now;
+            message.TimeSend = DateTime.UtcNow;
             _context.Messages.Add(message);
             return await _context.SaveChangesAsync() > 0;
         }

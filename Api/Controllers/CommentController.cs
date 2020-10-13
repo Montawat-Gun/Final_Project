@@ -73,7 +73,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(Comment comment)
         {
-            comment.TimeComment = DateTime.Now;
+            comment.TimeComment = DateTime.UtcNow;
             _context.Comments.Add(comment);
             if (await _context.SaveChangesAsync() > 0)
             {

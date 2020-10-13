@@ -69,7 +69,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Follow>> PostFollow(Follow follow)
         {
-            follow.TimeFollow = DateTime.Now;
+            follow.TimeFollow = DateTime.UtcNow;
             _context.Follows.Add(follow);
             try
             {

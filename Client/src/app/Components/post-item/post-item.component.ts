@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import * as moment from 'moment';
 import { utc } from 'moment';
 import { NotificationService } from 'src/app/Services/notification.service';
 import { PostService } from 'src/app/Services/post.service';
@@ -20,7 +21,7 @@ export class PostItemComponent implements OnInit {
   constructor(private postService: PostService, private userService: UserService, private notification: NotificationService) { }
 
   ngOnInit(): void {
-    this.post.timePost = new Date(this.post.timePost)
+    this.post.timePost = moment.parseZone(this.post.timePost).local().format();
   }
 
   onLike() {

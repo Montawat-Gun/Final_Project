@@ -51,7 +51,7 @@ namespace Api.Services
                 Email = model.Email,
                 BirthDate = model.BirthDate,
                 Gender = model.Gender,
-                TimeCreate = DateTime.Now
+                TimeCreate = DateTime.UtcNow
             };
             if (user.Gender == "Male")
             {

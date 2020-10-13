@@ -5,6 +5,7 @@ import { MessageService } from 'src/app/Services/message.service';
 import { UserService } from 'src/app/Services/user.service';
 import { NotificationService } from 'src/app/Services/notification.service';
 import { ViewChild } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-message',

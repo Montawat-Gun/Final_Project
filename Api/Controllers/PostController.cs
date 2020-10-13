@@ -130,7 +130,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Post>> PostPost(Post post)
         {
-            post.TimePost = DateTime.Now;
+            post.TimePost = DateTime.UtcNow;
             _context.Posts.Add(post);
             var result = await _context.SaveChangesAsync();
             return CreatedAtAction("GetPost", new { postId = post.PostId, userId = post.UserId }, post);

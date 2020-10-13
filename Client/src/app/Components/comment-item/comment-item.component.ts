@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import * as moment from 'moment';
 import { PostComment } from 'src/app/Models/PostComment';
 import { UserService } from 'src/app/Services/user.service';
 
@@ -18,6 +19,7 @@ export class CommentItemComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.comment.timeComment = moment.parseZone(this.comment.timeComment).local().format();
   }
 
   isEnableDelete() {

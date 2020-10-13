@@ -58,7 +58,7 @@ namespace Api.Hubs
                 SenderId = senderId,
                 Content = content,
                 Destination = destination,
-                TimeNotification = DateTime.Now
+                TimeNotification = DateTime.UtcNow
             };
             await _notificationService.AddNotification(notification);
             var connectionId = usersConnected.Where(x => x.UserId == recipientId).FirstOrDefault().ConnectionID;

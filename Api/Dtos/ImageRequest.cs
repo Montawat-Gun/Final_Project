@@ -12,7 +12,7 @@ namespace Api.Dtos
 
         public ImageRequest()
         {
-            TimeImage = DateTime.Now; 
+            TimeImage = DateTime.UtcNow; 
         }
     }
 }

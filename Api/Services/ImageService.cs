@@ -47,7 +47,7 @@ namespace Api.Services
             var uploadResult = await UploadImage(file);
             request.ImageUrl = uploadResult.Url.ToString();
             request.PublicId = uploadResult.PublicId;
-            request.TimeImage = DateTime.Now;
+            request.TimeImage = DateTime.UtcNow;
             var image = _mapper.Map<UserImage>(request);
             _context.UserImages.Add(image);
             await _context.SaveChangesAsync();
@@ -64,7 +64,7 @@ namespace Api.Services
             var uploadResult = await UploadImage(file);
             request.ImageUrl = uploadResult.Url.ToString();
             request.PublicId = uploadResult.PublicId;
-            request.TimeImage = DateTime.Now;
+            request.TimeImage = DateTime.UtcNow;
             if (uploadResult.Error != null)
                 return null;
             await DeleteImage(image.PublicId);
@@ -99,7 +99,7 @@ namespace Api.Services
             var uploadResult = await UploadImage(file);
             request.ImageUrl = uploadResult.Url.ToString();
             request.PublicId = uploadResult.PublicId;
-            request.TimeImage = DateTime.Now;
+            request.TimeImage = DateTime.UtcNow;
             var image = _mapper.Map<PostImage>(request);
             _context.PostImages.Add(image);
             await _context.SaveChangesAsync();
