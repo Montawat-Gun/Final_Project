@@ -4,7 +4,7 @@ import { Game } from './Game';
 export interface PostToList {
     postId: number,
     content: string,
-    timePost: string,
+    timePost: Date,
     user: User,
     game: Game,
     imageUrl: string,
