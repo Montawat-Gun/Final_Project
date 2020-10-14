@@ -63,5 +63,12 @@ namespace Api.Controllers
             var result = await _message.MarkAsRead(userId, otherUserId);
             return Ok();
         }
+
+        [HttpDelete("{currentUserId}/{otherUserId}")]
+        public async Task<ActionResult> DeleteMessage(string currentUserId, string otherUserId)
+        {
+            await _message.DeleteMessages(currentUserId, otherUserId);
+            return Ok();
+        }
     }
 }

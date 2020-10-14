@@ -32,5 +32,12 @@ namespace Api.Controllers
             return Ok();
         }
 
+        [HttpDelete("{userId}")]
+        public async Task<ActionResult> DeleteNotifications(string userId)
+        {
+            await _notification.DeleteNotifications(userId);
+            return Ok();
+        }
+
     }
 }

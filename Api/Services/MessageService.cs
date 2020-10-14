@@ -28,11 +28,6 @@ namespace Api.Services
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task DeleteMessage(Message message)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<MessageDto> GetMessage(int id)
         {
             var message = await _context.Messages.Where(x => x.MessageId == id)
@@ -45,8 +40,8 @@ namespace Api.Services
         public async Task<IEnumerable<MessageDto>> GetMessages(string currentUserId, string otherUserId)
         {
             var messages = await _context.Messages.Where(u =>
-            u.SenderId == currentUserId && u.RecipientId == otherUserId ||
-            u.SenderId == otherUserId && u.RecipientId == currentUserId)
+            u.SenderId == currentUserId && u.RecipientId == otherUserId && !u.IsSenderDelete ||
+            u.SenderId == otherUserId && u.RecipientId == currentUserId && !u.IsRecipientDelete)
             .Include(s => s.Sender).ThenInclude(i => i.Image)
             .OrderBy(x => x.TimeSend).ToListAsync();
             return _mapper.Map<IEnumerable<MessageDto>>(messages);
@@ -54,11 +49,11 @@ namespace Api.Services
 
         public async Task<IEnumerable<UserToContact>> GetUserContacts(string userId)
         {
-            var contactsRecipient = await _context.Messages.Where(u => u.SenderId == userId)
+            var contactsRecipient = await _context.Messages.Where(u => u.SenderId == userId && !u.IsSenderDelete)
             .Include(r => r.Recipient).ThenInclude(s => s.Image)
             .Select(r => new { user = r.Recipient, timeSend = r.TimeSend, r.IsRead }).ToListAsync();
 
-            var contactsSender = await _context.Messages.Where(u => u.RecipientId == userId)
+            var contactsSender = await _context.Messages.Where(u => u.RecipientId == userId && !u.IsRecipientDelete)
             .Include(s => s.Sender).ThenInclude(s => s.Image)
             .Select(s => new { user = s.Sender, timeSend = s.TimeSend, s.IsRead }).ToListAsync();
 
@@ -82,6 +77,45 @@ namespace Api.Services
                 message.IsRead = true;
                 _context.Entry(message).State = EntityState.Modified;
             }
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task DeleteMessage(int id, string currentUserId)
+        {
+            var message = await _context.Messages.FindAsync(id);
+
+            if (message.RecipientId == currentUserId)
+            {
+                message.IsRecipientDelete = true;
+            }
+            else if (message.SenderId == currentUserId)
+            {
+                message.IsSenderDelete = true;
+            }
+            if (message.IsSenderDelete && message.IsRecipientDelete)
+            {
+                _context.Messages.Remove(message);
+            }
+            else
+            {
+                _context.Entry(message).State = EntityState.Modified;
+            }
+        }
+
+        public async Task<bool> DeleteMessages(string currentUserId, string otherUserId)
+        {
+            var messages = await _context.Messages.
+            Where(x => x.SenderId == currentUserId && x.RecipientId == otherUserId ||
+            x.SenderId == otherUserId && x.RecipientId == currentUserId).ToListAsync();
+            foreach (var message in messages)
+            {
+                await DeleteMessage(message.MessageId, currentUserId);
+            }
+            return await SaveChangeAsync();
+        }
+
+        public async Task<bool> SaveChangeAsync()
+        {
             return await _context.SaveChangesAsync() > 0;
         }
     }

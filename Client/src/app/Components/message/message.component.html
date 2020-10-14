@@ -13,13 +13,19 @@
                     </div>
                 </div>
                 <div class="contact-content card px-2 overflow-auto">
-                    <a class="mt-3 " type="button" *ngFor="let contact of messageService.contacts"
-                        (click)="onContactClick(contact)">
-                        <img src="{{contact.imageUrl}}" alt="">
-                        <span class="m-2">{{contact.username}}</span>
-                        <span *ngIf="contact.messageUnReadCount !== 0"
-                            class="badge badge-danger">{{contact.messageUnReadCount}}</span>
-                    </a>
+                    <div class="d-flex justify-content-between" *ngFor="let contact of messageService.contacts">
+                        <a class="mt-3 " type="button" (click)="onContactClick(contact)">
+                            <img src="{{contact.imageUrl}}" alt="">
+                            <span class="m-2">{{contact.username}}</span>
+                            <span *ngIf="contact.messageUnReadCount !== 0"
+                                class="badge badge-danger">{{contact.messageUnReadCount}}
+                            </span>
+                        </a>
+                        <button type="button" data-toggle="modal" data-target="#deleteMessageModal"
+                            class="close hide-button" aria-label="Close" (click)="setMessagesToDelete(contact)">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -57,16 +63,15 @@
                 <div *ngIf="messageService.currentContact" class="message-input">
                     <form action="" (ngSubmit)="sendMessage()">
                         <div class="input-group align-self-end" style="position: absolute; bottom: 0;">
-                            <input type="text" class="form-control" id="input-message" placeholder="Press enter to send message."
-                                autocomplete="off" name="content" (click)="markAsRead()" [(ngModel)]="content">
+                            <input type="text" class="form-control" id="input-message"
+                                placeholder="Press enter to send message." autocomplete="off" name="content"
+                                (click)="markAsRead()" [(ngModel)]="content">
                             <button class="d-none" type="submit"></button>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
 
@@ -102,8 +107,36 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-
+<!-- Modal delete messages -->
+<div class="modal fade" id="deleteMessageModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePostModalLabel">Do you want to delete a message?</h5>
+                <button type="button" class="close" #closeDeleteModal data-dismiss="modal" aria-label="Close"
+                    style="color: white;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to delete messages?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
+                <button *ngIf="!isLoading" type="button" id="buttonDeletePost" (click)="onDeleteMessages()"
+                    class="btn btn-primary">
+                    Confirm
+                </button>
+                <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                    Confirm
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="sr-only">Loading...</span>
+                </button>
             </div>
         </div>
     </div>

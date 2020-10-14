@@ -73,3 +73,34 @@
 .text-truncate {
     max-width: 160px;
 }
+
+.dropdown-menu {
+    border-color: #585960;
+    background-color: #363738;
+}
+
+.dropdown-item {
+    color: #dddddd;
+}
+
+.dropdown-menu span {
+    color: #dddddd;
+}
+
+.dropdown-item button:hover {
+    background-color: #585960;
+}
+
+.dropdown-menu input {
+    box-shadow: none;
+}
+
+.dropdown-menu button:hover {
+    background-color: #585960;
+}
+
+.header-search {
+    background-color: #363738;
+    width: 100%;
+    height: 100%;
+}

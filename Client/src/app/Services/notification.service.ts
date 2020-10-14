@@ -65,4 +65,8 @@ export class NotificationService {
     if (this.isHubConnected)
       this.hubConnetion.send("SendNotification", otherUserId, this.userService.getUserId(), content, destination).then();
   }
+
+  deleteNotifications() {
+    return this.http.delete(this.url + this.userService.getUserId());
+  }
 }

@@ -71,7 +71,14 @@ export class MessageService {
     } else {
       contact.messageUnReadCount++;
     }
+  }
 
+  removeToContact(user: User) {
+    this.contacts = this.contacts.filter(x => x.id !== user.id);
+    if (this.currentContact !== null && this.currentContact.id === user.id) {
+      this.messageThreadSource.next([]);
+      this.currentContact = null;
+    }
   }
 
   getContacts(userId: string): Observable<User[]> {
@@ -88,5 +95,9 @@ export class MessageService {
 
   markAsRead(otherUserId: string) {
     return this.http.get(this.url + 'markasread/' + this.userService.getUserId() + '/' + otherUserId);
+  }
+
+  deleteMessage(otherUserId: string) {
+    return this.http.delete(this.url + this.userService.getUserId() + '/' + otherUserId);
   }
 }

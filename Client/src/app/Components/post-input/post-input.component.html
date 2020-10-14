@@ -27,12 +27,15 @@
                         <span *ngIf="!selectedGame">Choose a game...</span>
                         <span class="d-inline-flex text-truncate">{{selectedGame?.name}}</span>
                     </button>
-                    <div id="menu" class="dropdown-menu">
-                        <form class="px-4 py-2">
-                            <input type="search" class="form-control form-control-sm" id="searchGame"
-                                placeholder="Search..." autocomplete="off" autofocus="autofocus" (keyup)="searchGame()"
-                                (click)="searchGame()">
-                        </form>
+                    <div id="menu" class="dropdown-menu p-0">
+                        <div class="header-search p-1 mt-0 sticky-top">
+                            <form class="px-4 py-2">
+                                <input type="search" class="form-control form-control-sm" id="searchGame"
+                                    placeholder="Search..." autocomplete="off" autofocus="autofocus"
+                                    (keyup)="searchGame()" (click)="searchGame()">
+                            </form>
+                        </div>
+
                         <div id="menuItems"></div>
                         <div id="empty" *ngIf="isNoGameFound" class="dropdown-header">No games found</div>
                         <button type="button" class="dropdown-item" type="button" *ngFor="let game of games"

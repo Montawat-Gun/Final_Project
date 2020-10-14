@@ -39,6 +39,31 @@ img {
     background-color: #585960;
 }
 
+.hide-button {
+    display: none;
+    color: white;
+    margin-top: 10px;
+}
+
+.hide-button:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.contact-content a {
+    width: 100%;
+}
+
+.contact-content a:hover+.hide-button {
+    display: block;
+}
+
+.contact-content .hide-button:hover {
+    color: white;
+    display: block;
+}
+
 .contact a {
     color: white;
     text-decoration: none;
@@ -92,5 +117,8 @@ img {
 
 .search-list :hover {
     background-color: #585960;
+}
 
+.search-list button:focus{
+    outline: none;
 }

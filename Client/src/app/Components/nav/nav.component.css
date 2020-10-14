@@ -56,6 +56,14 @@
     background-color: #363738;
 }
 
+.dropdown-menu::-webkit-scrollbar {
+    display: none;
+}
+
+.dropdown-menu a {
+    cursor: pointer;
+}
+
 .dropdown-item {
     color: #dddddd;
 }

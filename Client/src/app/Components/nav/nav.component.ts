@@ -47,6 +47,10 @@ export class NavComponent implements OnInit {
     this.notification.markAsRead();
   }
 
+  onDeleteNotificationClick() {
+    this.notification.deleteNotifications().subscribe();
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['login']);

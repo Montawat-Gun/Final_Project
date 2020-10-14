@@ -12,5 +12,6 @@ namespace Api.Services
         Task<bool> AddNotification(Notification notification);
         Task<object> GetNotificationCount(string userId);
         Task MarkAsRead(string userId);
+        Task DeleteNotifications(string userId);
     }
 }

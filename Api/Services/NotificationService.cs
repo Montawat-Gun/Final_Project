@@ -55,5 +55,15 @@ namespace Api.Services
             }
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteNotifications(string userId)
+        {
+            var notifications = await _context.Notifications.Where(x => x.RecipientId == userId).ToListAsync();
+            foreach (var notification in notifications)
+            {
+                _context.Notifications.Remove(notification);
+            }
+            await _context.SaveChangesAsync();
+        }
     }
 }

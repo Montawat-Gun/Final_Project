@@ -17,6 +17,7 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @ViewChild('scroll') scroll;
   @ViewChild('closeModal') closeModal;
+  @ViewChild('closeDeleteModal') closeDeleteModal;
   messages: Message[] = null;
   content: string = '';
   usersFromSearch: User[] = null;
@@ -24,6 +25,7 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   isLoading: boolean = false;
   isSendingMessage: boolean = false;
   userFromParam: User;
+  userToDelete: User = null;
 
   constructor(public messageService: MessageService, public userService: UserService,
     private notificationService: NotificationService) { }
@@ -55,6 +57,19 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
       });
     this.markAsRead();
     this.closeModal.nativeElement.click();
+  }
+
+  setMessagesToDelete(user: User) {
+    this.userToDelete = user;
+  }
+
+  onDeleteMessages() {
+    if (this.userToDelete === null)
+      return
+    this.messageService.deleteMessage(this.userToDelete.id).subscribe(next => {
+      this.messageService.removeToContact(this.userToDelete);
+      this.closeDeleteModal.nativeElement.click();
+    });
   }
 
   markAsRead() {

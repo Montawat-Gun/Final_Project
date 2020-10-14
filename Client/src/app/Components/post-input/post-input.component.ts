@@ -101,6 +101,8 @@ export class PostInputComponent implements OnInit {
         this.games = response;
         this.games.sort((a, b) => a.name.localeCompare(b.name));
       });
+    } else {
+      this.isGameLoading = false;
     }
   }
 
