@@ -128,11 +128,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
-                <button *ngIf="!isLoading" type="button" id="buttonDeletePost" (click)="onDeleteMessages()"
+                <button *ngIf="!isDeleting" type="button" id="buttonDeletePost" (click)="onDeleteMessages()"
                     class="btn btn-primary">
                     Confirm
                 </button>
-                <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                <button *ngIf="isDeleting" class="btn btn-primary" type="button" disabled>
                     Confirm
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     <span class="sr-only">Loading...</span>

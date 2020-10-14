@@ -23,6 +23,7 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   usersFromSearch: User[] = null;
   searchString: string = ''
   isLoading: boolean = false;
+  isDeleting: boolean = false;
   isSendingMessage: boolean = false;
   userFromParam: User;
   userToDelete: User = null;
@@ -64,9 +65,11 @@ export class MessageComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   onDeleteMessages() {
+    this.isDeleting = true;
     if (this.userToDelete === null)
       return
     this.messageService.deleteMessage(this.userToDelete.id).subscribe(next => {
+      this.isDeleting = false;
       this.messageService.removeToContact(this.userToDelete);
       this.closeDeleteModal.nativeElement.click();
     });
