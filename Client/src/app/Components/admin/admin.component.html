@@ -1,0 +1,77 @@
+<div class="d-flex justify-content-center">
+    <div class="card p-3" style="width: 750px;">
+        <form (ngSubmit)="addGame()">
+            <h3>Add Game</h3>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Game name</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Game names" name="gamename" [(ngModel)]="gameToAdd.name">
+            </div>
+            <div class="form-group">
+                <label for="selectFile">Game image</label>
+                <input accept="image/*" (change)="onSelectFile($event)" type="file" class="form-control-file"
+                    id="selectFile">
+            </div>
+            <button *ngIf="!isAdding" [disabled]="isAddButtonDisabled()" type="submit" class="btn btn-primary">Add</button>
+            <button *ngIf="isAdding" class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+        </form>
+        <div class="dropdown-divider mt-4 mb-4"></div>
+        <form (ngSubmit)="saveEdit()" action="">
+            <h3>Edit Game</h3>
+            <label for="selectGameToEdit">Select game to edit</label>
+            <select id="selectGameToEdit" class="form-control" (change)="onSelectedGame()" name="selectGameToEdit"
+                [(ngModel)]="gameIdToEdit">
+                <option selected disabled>Select game...</option>
+                <option *ngFor="let game of Games" value="{{game.gameId}}">{{game.name}}</option>
+            </select>
+            <div class="form-group">
+                <label for="editgamename">Game name</label>
+                <input type="text" class="form-control" id="editgamename" aria-describedby="emailHelp"
+                    placeholder="Game names" name="gamenametoEdit" [(ngModel)]="gameToEdit.name">
+            </div>
+            <div class="form-group">
+                <label for="selectFileToEdit">Game image</label>
+                <input accept="image/*" (change)="onSelectFileToEdit($event)" type="file" class="form-control-file"
+                    id="selectFileToEdit">
+            </div>
+            <button *ngIf="!isEditing" [disabled]="isEditButtonDisabled()" type="submit"
+                class="btn btn-primary">Save</button>
+            <button [disabled]="isEditButtonDisabled()" type="button" class="btn btn-danger" data-toggle="modal"
+                data-target="#confirmDelte">Delete</button>
+            <button *ngIf="isEditing" class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="modal" id="confirmDelte" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" #closeModal class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="color: red;">
+                <p>Delete game {{gameToEdit.name}} will delete</p>
+                <p>All posts of {{gameToEdit.name}}.</p>
+                <p>All interest of user.</p>
+                <p>Do you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button *ngIf="!isDeleting" type="button" class="btn btn-primary" (click)="onDeleteGame()">Ok</button>
+                <button *ngIf="isDeleting" class="btn btn-primary" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

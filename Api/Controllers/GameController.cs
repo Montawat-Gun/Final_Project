@@ -10,6 +10,7 @@ using Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Api.Dtos;
 using AutoMapper;
+using Api.Services;
 
 namespace Api.Controllers
 {
@@ -20,14 +21,15 @@ namespace Api.Controllers
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
 
-        public GameController(DataContext context, IMapper mapper)
+        public GameController(DataContext context, IImageService imageService, IMapper mapper)
         {
+            _imageService = imageService;
             _mapper = mapper;
             _context = context;
         }
 
-        // GET: api/Game
         [HttpGet]
         public async Task<ActionResult> GetGames()
         {
@@ -35,7 +37,7 @@ namespace Api.Controllers
             return Ok(_mapper.Map<IEnumerable<GamesToList>>(games));
         }
 
-        // GET: api/Game/5
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GameDetail>> GetGame(int id)
         {
@@ -50,41 +52,21 @@ namespace Api.Controllers
             return _mapper.Map<GameDetail>(game);
         }
 
-        // PUT: api/Game/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGame(int id, Game game)
+        public async Task<IActionResult> PutGame(int id, Game gameToEdit)
         {
-            if (id != game.GameId)
-            {
+
+            var game = await _context.Games.FindAsync(id);
+            if (game == null)
                 return BadRequest();
-            }
-
+            game.Name = gameToEdit.Name;
             _context.Entry(game).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GameExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _context.SaveChangesAsync();
+            return Ok(game);
         }
 
-        // POST: api/Game
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<Game>> PostGame(Game game)
         {
@@ -94,20 +76,51 @@ namespace Api.Controllers
             return CreatedAtAction("GetGame", new { id = game.GameId }, game);
         }
 
-        // DELETE: api/Game/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Game>> DeleteGame(int id)
         {
-            var game = await _context.Games.FindAsync(id);
+            var game = await _context.Games.Where(x => x.GameId == id).Include(p => p.Posts)
+            .ThenInclude(i => i.Image).Include(i => i.Image).Include(i => i.Interests).FirstOrDefaultAsync();
             if (game == null)
             {
                 return NotFound();
             }
-
+            foreach (var interest in game.Interests)
+            {
+                _context.Interests.Remove(interest);
+            }
+            foreach (var post in game.Posts)
+            {
+                _context.Images.Remove(post.Image);
+                _context.Posts.Remove(post);
+            }
+            if (game.Image != null)
+            {
+                await _imageService.DeleteGameImage(game.Image);
+                _context.GameImages.Remove(game.Image);
+            }
             _context.Games.Remove(game);
             await _context.SaveChangesAsync();
 
             return game;
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("{id}/image")]
+        public async Task<ActionResult> GetGameImage(int id)
+        {
+            var image = await _imageService.GetGameImage(id);
+            return Ok(image);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost("{id}/image")]
+        public async Task<ActionResult> PostGameImage(int id, [FromForm] ImageGameRequest gameImage)
+        {
+            gameImage.GameId = id;
+            var image = await _imageService.UpdateGameImage(gameImage);
+            return CreatedAtAction("GetGameImage", new { id = gameImage.GameId }, image);
         }
 
         private bool GameExists(int id)

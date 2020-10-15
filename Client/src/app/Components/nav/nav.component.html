@@ -52,7 +52,7 @@
                 <img class="search-user-image mr-1" src="{{notification.sender.imageUrl}}" alt="">
                 <span class="d-inline-flex">{{notification.content}}</span>
               </a>
-              <div class="dropdown-divider m-1" style="border-color: #585960;"></div>
+              <div class="dropdown-divider mx-1 mt-0 mb-0" style="border-color: #585960;"></div>
             </div>
           </div>
         </div>
@@ -97,6 +97,7 @@
         </a>
 
         <div class="dropdown-menu dropdown-menu-right shadow px-2" aria-labelledby="userDropdown">
+          <a *ngIf="isAdmin()" class="dropdown-item" href="" [routerLink]="['/admin']">Admin</a>
           <a class="dropdown-item" href="" [routerLink]="['/profile',userService.user?.username]">Profile</a>
           <div class="dropdown-divider" style="border-color: #585960;"></div>
           <a class="dropdown-item" href="" (click)="logout()">Logout</a>

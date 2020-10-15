@@ -30,6 +30,7 @@ import { MessageComponent } from './Components/message/message.component';
 import { MessageItemComponent } from './Components/message-item/message-item.component';
 import { GamesBrowseComponent } from './Components/games-browse/games-browse.component';
 import { TimeagoModule } from 'ngx-timeago';
+import { AdminComponent } from './Components/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { TimeagoModule } from 'ngx-timeago';
     MessageComponent,
     MessageItemComponent,
     GamesBrowseComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

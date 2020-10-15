@@ -15,4 +15,5 @@ export interface User {
     posts: PostToList[];
     gameInterest: Game[];
     messageUnReadCount: number;
+    roles: string[];
 }

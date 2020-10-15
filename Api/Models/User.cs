@@ -22,5 +22,6 @@ namespace Api.Models
         public virtual ICollection<Message> MessagesReceived { get; set; }
         public virtual ICollection<Notification> NotificationsSent { get; set; }
         public virtual ICollection<Notification> NotificationsReceived { get; set; }
+        public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

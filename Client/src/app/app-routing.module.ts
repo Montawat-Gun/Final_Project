@@ -13,6 +13,8 @@ import { PostDetailComponent } from './Components/post-detail/post-detail.compon
 import { GameDetailComponent } from './Components/game-detail/game-detail.component';
 import { MessageComponent } from './Components/message/message.component';
 import { GamesBrowseComponent } from './Components/games-browse/games-browse.component';
+import { AdminComponent } from './Components/admin/admin.component';
+import { AdminGuard } from './Guards/admin.guard'
 
 const routes: Routes = [
   {
@@ -25,7 +27,8 @@ const routes: Routes = [
       { path: 'game/:gameId', component: GameDetailComponent, resolve: { game: GameDetailResolver } },
       { path: 'browse', component: GamesBrowseComponent },
       { path: 'message', component: MessageComponent },
-      { path: '', component: HomeComponent }
+      { path: '', component: HomeComponent },
+      { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] }
     ]
   },
   {

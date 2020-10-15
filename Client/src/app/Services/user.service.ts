@@ -33,7 +33,17 @@ export class UserService {
     const token = localStorage.getItem("token");
     if (token) {
       const id = this.jwtHelper.decodeToken(token).nameid;
-      this.http.get<User>(this.url + 'id/' + id).subscribe(user => this.user = user);
+      this.http.get<User>(this.url + 'id/' + id).subscribe(user => {
+        this.user = user;
+      });
+    }
+  }
+
+  getUserRoles() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const roles = this.jwtHelper.decodeToken(token).role;
+      return roles;
     }
   }
 

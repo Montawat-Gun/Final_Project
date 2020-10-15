@@ -23,6 +23,7 @@ namespace Api.Helpers
 
             CreateMap<ImageUserRequest, UserImage>();
             CreateMap<ImagePostRequest, PostImage>();
+            CreateMap<ImageGameRequest, GameImage>();
             CreateMap<Image, ImageResponse>();
             CreateMap<UserEditRequest, User>();
             CreateMap<Tag, TagToReturn>();

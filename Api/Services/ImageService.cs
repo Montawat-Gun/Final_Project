@@ -119,6 +119,51 @@ namespace Api.Services
             return _mapper.Map<ImageResponse>(image);
         }
 
+        public async Task<ImageResponse> GetGameImage(int gameId)
+        {
+            var image = await _context.GameImages.Where(p => p.GameId == gameId).FirstOrDefaultAsync();
+            return _mapper.Map<ImageResponse>(image);
+        }
+
+        public async Task<ImageResponse> AddGameImage(ImageGameRequest request)
+        {
+            var file = request.File;
+            var uploadResult = await UploadImage(file);
+            request.ImageUrl = uploadResult.Url.ToString();
+            request.PublicId = uploadResult.PublicId;
+            request.TimeImage = DateTime.UtcNow;
+            var image = _mapper.Map<GameImage>(request);
+            _context.GameImages.Add(image);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<ImageResponse>(image);
+        }
+
+        public async Task<ImageResponse> UpdateGameImage(ImageGameRequest request)
+        {
+            var image = await _context.GameImages.Where(u => u.GameId == request.GameId).FirstOrDefaultAsync();
+            if (image == null)
+                return await AddGameImage(request);
+
+            var file = request.File;
+            var uploadResult = await UploadImage(file);
+            request.ImageUrl = uploadResult.Url.ToString();
+            request.PublicId = uploadResult.PublicId;
+            request.TimeImage = DateTime.UtcNow;
+            if (uploadResult.Error != null)
+                return null;
+            await DeleteImage(image.PublicId);
+            _mapper.Map(request, image);
+            _context.Entry(image).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return _mapper.Map<ImageResponse>(image);
+        }
+
+        public async Task<ImageResponse> DeleteGameImage(GameImage image)
+        {
+            var result = await DeleteImage(image.PublicId);
+            return _mapper.Map<ImageResponse>(image);
+        }
+
         public async Task<ImageUploadResult> UploadImage(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();

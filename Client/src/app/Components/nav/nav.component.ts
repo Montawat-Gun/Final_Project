@@ -23,6 +23,10 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isAdmin() {
+    return this.userService.getUserRoles().includes('Administrator')
+  }
+
   searchUser() {
     if (this.searchString !== '') {
       this.isLoading = true;

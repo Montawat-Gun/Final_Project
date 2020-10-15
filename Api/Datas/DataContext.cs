@@ -27,6 +27,19 @@ namespace Api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserRole)
+                .WithOne(u => u.User)
+                .HasForeignKey(u => u.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<Role>()
+                .HasMany(u => u.UserRole)
+                .WithOne(u => u.Role)
+                .HasForeignKey(u => u.RoleId)
+                .IsRequired();
+
             modelBuilder.Entity<Interest>().HasKey(x => new { x.UserId, x.GameId });
             modelBuilder.Entity<Interest>()
                 .HasOne(x => x.User)
