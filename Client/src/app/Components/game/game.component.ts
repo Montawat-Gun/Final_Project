@@ -27,6 +27,7 @@ export class GameComponent implements OnInit {
       if (Array.isArray(next) && !next.length) {
         this.gameinterestService.getGames().subscribe(response => {
           this.games = response;
+          this.games.sort((a, b) => a.name.localeCompare(b.name));
         });
         this.hasInterests = false;
         this.showModal.nativeElement.click()

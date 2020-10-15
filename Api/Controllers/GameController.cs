@@ -79,19 +79,29 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Game>> DeleteGame(int id)
         {
-            var game = await _context.Games.Where(x => x.GameId == id).Include(p => p.Posts)
-            .ThenInclude(i => i.Image).Include(i => i.Image).Include(i => i.Interests).FirstOrDefaultAsync();
+            var game = await _context.Games.Where(x => x.GameId == id).Include(i => i.Image).Include(i => i.Interests)
+            .FirstOrDefaultAsync();
             if (game == null)
             {
                 return NotFound();
             }
+            var posts = await _context.Posts.Where(x => x.GameId == id).Include(c => c.Comments)
+            .Include(l => l.Likes).ToListAsync();
             foreach (var interest in game.Interests)
             {
                 _context.Interests.Remove(interest);
             }
-            foreach (var post in game.Posts)
+            foreach (var post in posts)
             {
-                _context.Images.Remove(post.Image);
+                await _imageService.DeletePostImage(post.PostId);
+                foreach (var comment in post.Comments)
+                {
+                    _context.Comments.Remove(comment);
+                }
+                foreach (var like in post.Likes)
+                {
+                    _context.Likes.Remove(like);
+                }
                 _context.Posts.Remove(post);
             }
             if (game.Image != null)

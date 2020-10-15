@@ -16,9 +16,11 @@ namespace Api.Services
         private readonly UserManager<User> _userManager;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
 
-        public UserService(UserManager<User> userManager, DataContext context, IMapper mapper)
+        public UserService(UserManager<User> userManager, IImageService imageService, DataContext context, IMapper mapper)
         {
+            _imageService = imageService;
             _mapper = mapper;
             _context = context;
             _userManager = userManager;
@@ -48,49 +50,6 @@ namespace Api.Services
             userDetail.FollowerCount = await _context.Follows.Where(u => u.FollowingId == user.Id).CountAsync();
             return userDetail;
         }
-
-        // public async Task<ICollection<UserToListDto>> Suggest(string userId)
-        // {
-        // var usersInterests = new List<UserInterest>();
-        // var interests = await _context.Interests.ToListAsync();
-        // var allUsers = await _context.Users.Include(f => f.Follower).ToListAsync();
-        // var userFollowing = await _context.Follows.Where(u => u.FollowerId == userId).Select(f => f.FollowingId).ToListAsync();
-        // var mainUser = allUsers.Where(u => u.Id == userId).First();
-        // var usersToList = new List<UserToListDto>();
-
-        // var mainUserGamesId = interests.Where(g => g.UserId == mainUser.Id).OrderBy(u => u.GameId).Select(g => (double)g.IsInterest).ToList();
-        // if (mainUserGamesId == null || mainUserGamesId.Count == 0)
-        //     return null;
-
-        // foreach (var user in allUsers)
-        // {
-        //     if (user.Id == userId)
-        //         continue;
-        //     UserInterest userInterests = new UserInterest
-        //     {
-        //         Username = user.UserName,
-        //         GenresId = interests.Where(g => g.UserId == user.Id).OrderBy(u => u.GameId).Select(g => (double)g.IsInterest).ToList(),
-        //     };
-        //     if (userInterests.GenresId.Count > 0)
-        //     {
-        //         userInterests.Score = Correlation.Pearson(mainUserGamesId, userInterests.GenresId);
-        //         usersInterests.Add(userInterests);
-        //     }
-        // }
-        // var usersOrdered = usersInterests.OrderByDescending(u => u.Score);
-        // int count = 0;
-        // foreach (UserInterest userInterest in usersOrdered)
-        // {
-        //     if (count >= 10)
-        //         break;
-        //     var user = allUsers.Where(u => u.UserName == userInterest.Username).First();
-        //     if (userFollowing.Contains(user.Id))
-        //         continue;
-        //     usersToList.Add(_mapper.Map<UserToListDto>(user));
-        //     count++;
-        // }
-        // return usersToList;
-        // }
 
         public async Task<ICollection<UserToList>> Suggest(string userId)
         {
@@ -169,14 +128,48 @@ namespace Api.Services
 
         public async Task<UserDetail> DeleteUser(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _context.Users.Where(x => x.Id == id).Include(i => i.Image)
+            .Include(i => i.Interests).Include(r => r.UserRole).FirstOrDefaultAsync();
             var follows = await _context.Follows.Where(u => u.FollowerId == id || u.FollowingId == id).ToListAsync();
+            var messages = await _context.Messages.Where(x => x.RecipientId == id || x.SenderId == id).ToListAsync();
+            var notifications = await _context.Notifications.Where(x => x.RecipientId == id).ToListAsync();
+            var posts = await _context.Posts.Where(x => x.UserId == id).Include(i => i.Image).ToListAsync();
             if (user == null)
                 return null;
             foreach (var follow in follows)
             {
                 _context.Follows.Remove(follow);
             }
+            foreach (var interest in user.Interests)
+            {
+                _context.Interests.Remove(interest);
+            }
+            foreach (var message in messages)
+            {
+                _context.Messages.Remove(message);
+            }
+            foreach (var notification in notifications)
+            {
+                _context.Notifications.Remove(notification);
+            }
+            foreach (var post in posts)
+            {
+                await _imageService.DeletePostImage(post.PostId);
+                foreach (var comment in post.Comments)
+                {
+                    _context.Comments.Remove(comment);
+                }
+                foreach (var like in post.Likes)
+                {
+                    _context.Likes.Remove(like);
+                }
+                _context.Posts.Remove(post);
+            }
+            foreach (var role in user.UserRole)
+            {
+                _context.UserRoles.Remove(role);
+            }
+            _context.UserImages.Remove(user.Image);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return _mapper.Map<UserDetail>(user);
