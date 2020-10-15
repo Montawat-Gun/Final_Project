@@ -37,7 +37,6 @@ namespace Api.Controllers
             return Ok(_mapper.Map<IEnumerable<GamesToList>>(games));
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GameDetail>> GetGame(int id)
         {
