@@ -24,7 +24,6 @@ namespace Api.Helpers
             {
                 opt.Password.RequiredLength = 8;
                 opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequireUppercase = false;
             })
                 .AddRoles<Role>()
                 .AddRoleManager<RoleManager<Role>>()

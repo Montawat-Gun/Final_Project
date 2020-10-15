@@ -68,7 +68,10 @@ namespace Api.Services
                 };
             }
             var result = await _userManager.CreateAsync(user, model.Password);
-            var resultRole = await _userManager.AddToRoleAsync(user, "User");
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+            }
             return result;
         }
 
