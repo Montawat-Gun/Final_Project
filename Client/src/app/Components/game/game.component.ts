@@ -45,7 +45,6 @@ export class GameComponent implements OnInit {
 
   submit() {
     if (this.interests.length >= 5) {
-      console.log(this.interests);
       this.gameinterestService.addInterests(this.interests).subscribe(next => {
         this.hasInterests = true;
         this.closeModal.nativeElement.click();

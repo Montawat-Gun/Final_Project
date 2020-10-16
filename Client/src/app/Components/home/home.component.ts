@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PostToList } from 'src/app/Models/PostToList';
-import { User } from 'src/app/Models/User';
 import { NotificationService } from 'src/app/Services/notification.service';
 import { PostService } from 'src/app/Services/post.service';
 import { UserService } from 'src/app/Services/user.service';
@@ -24,7 +23,5 @@ export class HomeComponent implements OnInit {
 
     this.postService.getPosts(this.userService.getUserId()).subscribe(posts => this.posts = posts);
   }
-
-
 
 }

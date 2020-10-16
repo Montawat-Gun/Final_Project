@@ -40,7 +40,7 @@ export class EditProfileComponent implements OnInit {
     this.userToEdit = {
       id: this.user.id,
       username: this.user.username,
-      birthdate: this.user.birthdate,
+      birthdate: this.user.birthDate,
       gender: this.user.gender,
       description: this.user.description,
       email: this.user.email,

@@ -14,11 +14,12 @@ import { ToastifyService } from 'src/app/Services/toastify.service';
 })
 export class PostInputComponent implements OnInit {
   @Input() user: User;
-  @Input() selectedGame: Game = null;
+  @Output() posted = new EventEmitter<PostToList>();
 
   content: string = ''
   games: Game[] = [];
   isNoGameFound: Boolean = false;
+  selectedGame: Game = null;
   selectedFile = null;
   isLoading: boolean = false;
   isGameLoading: boolean = false;
@@ -65,24 +66,28 @@ export class PostInputComponent implements OnInit {
     }
     this.postService.createPost(model).subscribe(response => {
       const post = response
+      post.user = this.user;
+      post.game = this.selectedGame;
+      post.likeCount = 0;
+      post.commentCount = 0;
       if (post) {
         if (this.selectedFile) {
           const fd = new FormData();
           fd.append('File', this.selectedFile);
           this.postService.uploadPostImage(post.postId, fd).subscribe(events => {
-            if (events.type === HttpEventType.UploadProgress) {
-              console.log('Upload Progress: ' + Math.round(events.loaded / events.total * 100));
-              if (events.total === events.loaded)
-                this.toastify.show('You posted successfully');
-              this.isLoading = false;
-            }
+            post.imageUrl = events.imageUrl;
+            this.toastify.show('You posted with photo successfully');
+            this.isLoading = false;
+            this.posted.emit(post);
+            this.resetInput();
           });
         } else {
           this.toastify.show('You posted successfully');
           this.isLoading = false;
+          this.posted.emit(post);
+          this.resetInput();
         }
       }
-      this.resetInput();
     }, error => console.log(error));
   }
 

@@ -6,7 +6,7 @@ export interface User {
     username: string;
     email: string;
     gender: string;
-    birthdate: Date;
+    birthDate: string;
     description: string;
     imageUrl: string;
     followingCount: number;

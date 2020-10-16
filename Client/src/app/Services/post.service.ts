@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PostToList } from '../Models/PostToList';
 import { PostDetail } from '../Models/PostDetail';
+import { ImageResponse } from '../Models/ImageResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +35,8 @@ export class PostService {
     return this.http.post<PostToList>(this.url, model);
   }
 
-  uploadPostImage(postId: number, file: FormData) {
-    return this.http.post(this.url + postId + '/image', file, {
-      reportProgress: true,
-      responseType: 'json',
-      observe: 'events'
-    });
+  uploadPostImage(postId: number, file: FormData): Observable<ImageResponse> {
+    return this.http.post<ImageResponse>(this.url + postId + '/image', file);
   }
 
   like(postId: number, userId: string) {

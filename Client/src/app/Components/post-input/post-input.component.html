@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="post">
                 <img class="round" src="{{user?.imageUrl}}" alt="">
-                <textarea class="form-control" placeholder="Say something." name="content"
+                <textarea class="form-control" placeholder="Write a post here." name="content"
                     [(ngModel)]="content"></textarea>
             </div>
             <div style="text-align: center;">
@@ -57,6 +57,7 @@
                     <button *ngIf="!isLoading" type="submit" class="btn btn-primary"
                         [disabled]="isDisabledButton()">Post</button>
                     <button *ngIf="isLoading" class="btn btn-primary" type="button" disabled>
+                        Posting...
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         <span class="sr-only">Loading...</span>
                     </button>

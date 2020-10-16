@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { PostToList } from 'src/app/Models/PostToList';
-import { User } from 'src/app/Models/User';
 import { PostService } from 'src/app/Services/post.service';
 import { ToastifyService } from 'src/app/Services/toastify.service';
 import { UserService } from 'src/app/Services/user.service';
@@ -12,15 +11,14 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class PostComponent implements OnInit {
 
-  @Input() user: User;
   @ViewChild('closeModal') closeModal;
 
-
+  @Input() showInput: boolean;
   @Input() posts: PostToList[];
   postToDelete: PostToList;
   isLoading: boolean = false;
 
-  constructor(private postService: PostService, private toastify: ToastifyService) { }
+  constructor(private postService: PostService, public userService: UserService, private toastify: ToastifyService) { }
 
   ngOnInit(): void {
   }
@@ -36,12 +34,16 @@ export class PostComponent implements OnInit {
 
   onDeletePost() {
     this.isLoading = true;
-    this.postService.deletePost(this.postToDelete.postId).subscribe(next => {
+    this.postService.deletePost(this.postToDelete.postId).subscribe(() => {
       this.isLoading = false;
       this.posts = this.posts.filter(obj => obj !== this.postToDelete);
       this.toastify.show("Deleted post.")
       this.removePostToDelete();
     })
+  }
+
+  addPost(post: PostToList) {
+    this.posts.unshift(post);
   }
 
 }

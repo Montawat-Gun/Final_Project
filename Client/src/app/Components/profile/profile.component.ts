@@ -31,6 +31,7 @@ export class ProfileComponent implements OnInit {
   loadUser() {
     this.route.data.subscribe(data => {
       this.user = data['user'];
+      console.log(this.user);
       this.postService.getPostsFromUser(this.user.id, this.userService.getUserId()).subscribe(posts => {
         posts.sort((a, b) => new Date(b.timePost).getTime() - new Date(a.timePost).getTime());
         this.posts = posts;
