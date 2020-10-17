@@ -26,10 +26,17 @@ namespace Api.Services
             _userManager = userManager;
         }
 
-        public async Task<IEnumerable<UserToList>> GetUsers()
+        public async Task<IEnumerable<UserToList>> GetUsers(string userId)
         {
-            var users = await _userManager.Users.Include(i => i.Image).ToListAsync();
-            var userToList = _mapper.Map<IEnumerable<UserToList>>(users);
+            var users = await _userManager.Users.Where(u => u.Id != userId)
+            .Include(i => i.Image).ToListAsync();
+            var userToList = _mapper.Map<IEnumerable<UserToList>>(users).OrderBy(x => x.Username);
+            var follows = await _context.Follows.Where(u => u.FollowerId == userId)
+            .Select(x => x.FollowingId).ToListAsync();
+            foreach (var user in userToList)
+            {
+                user.IsFollowing = follows.Where(u => u == user.Id).Any();
+            }
             return userToList;
         }
 

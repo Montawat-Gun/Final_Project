@@ -8,3 +8,27 @@
     color: white;
     font-weight: bolder;
 }
+
+.suggest a {
+    color: white;
+    cursor: pointer;
+    font-size: small;
+    margin-top: 3px;
+}
+
+.modal-header {
+    border-color: #585960;
+}
+
+.modal-header button {
+    color: white;
+}
+
+.modal-content {
+    background-color: #363738;
+    color: white;
+}
+
+.modal-footer {
+    border-top: none;
+}

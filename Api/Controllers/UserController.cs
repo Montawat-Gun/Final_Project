@@ -20,10 +20,10 @@ namespace Api.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetUsers()
+        [HttpGet("All/{userId}")]
+        public async Task<ActionResult> GetUsers(string userId)
         {
-            var users = await _userService.GetUsers();
+            var users = await _userService.GetUsers(userId);
             return Ok(users);
         }
 

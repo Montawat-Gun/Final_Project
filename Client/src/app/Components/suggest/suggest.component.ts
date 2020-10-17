@@ -9,18 +9,25 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class SuggestComponent implements OnInit {
 
-  users: User[];
+  usersSuggest: User[];
+  allUsers: User[];
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.userService.getSuggestUsers().subscribe(response => {
-      this.users = response;
+      this.usersSuggest = response;
     });
   }
 
-  removeFromSuggest(user:User){
-    this.users =this.users.filter(u => u.username !== user.username)
+  removeFromSuggest(user: User) {
+    this.usersSuggest = this.usersSuggest.filter(u => u.username !== user.username)
+  }
+
+  initialUsers() {
+    this.userService.getAllUsers().subscribe(users => {
+      this.allUsers = users;
+    });
   }
 
 }

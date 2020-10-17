@@ -8,7 +8,7 @@ namespace Api.Services
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserToList>> GetUsers();
+        Task<IEnumerable<UserToList>> GetUsers(string userId);
         Task<UserDetail> GetUserById(string id);
         Task<UserDetail> GetUserByUsername(string username);
         Task<IdentityResult> UpdateUser(string userId, UserEditRequest userToEdit);

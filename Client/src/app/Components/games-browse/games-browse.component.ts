@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/app/Models/Game';
+import { GameDetail } from 'src/app/Models/GameDetail';
 import { GameInterestService } from 'src/app/Services/game-interest.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { GameInterestService } from 'src/app/Services/game-interest.service';
 })
 export class GamesBrowseComponent implements OnInit {
 
-  games: Game[];
+  games: GameDetail[];
 
   constructor(private gameService: GameInterestService) { }
 

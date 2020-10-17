@@ -12,10 +12,19 @@
                     <img class="" src="{{game.imageUrl}}" class="card-img-top" alt="...">
                 </div>
             </div>
-            <div class="card-body">
-                <span class="d-inline-block text-truncate gamename">
-                    {{game.name}}
-                </span>
+            <div class="card-body p-2">
+                <div class="pt-1 pb-0" style="line-height: normal;">
+                    <span class="d-inline-block text-truncate gamename">
+                        {{game.name}}
+                    </span>
+                    <span class="mt-n1 p-0 d-inline-block" style="color: gray; font-size: smaller; top: -40px;">
+                        {{game.postCount}} Posts : {{game.userInterestCount}} Interested
+                    </span>
+                </div>
+                <div>
+
+                </div>
+
                 <br>
             </div>
         </div>

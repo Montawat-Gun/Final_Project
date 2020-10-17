@@ -39,6 +39,10 @@ export class UserService {
     }
   }
 
+  getAllUsers() {
+    return this.http.get<User[]>(this.url + 'all/' + this.getUserId());
+  }
+
   getUserRoles() {
     const token = localStorage.getItem("token");
     if (token) {

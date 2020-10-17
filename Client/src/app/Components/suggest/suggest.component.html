@@ -1,10 +1,30 @@
 <div class="card p-3">
-    <div class="suggest ml-1 mb-2">
+    <div class="suggest ml-1 mr-4 mb-2 d-flex justify-content-between">
         <span>Suggestions For You</span>
+        <a href="" data-toggle="modal" data-target="#seealluser" (click)="initialUsers()">See all</a>
     </div>
     <div class="pr-3">
-        <app-user-item *ngFor="let user of users" [user]="user" (removeFromList)="removeFromSuggest($event)">
+        <app-user-item *ngFor="let user of usersSuggest" [user]="user" (removeFromList)="removeFromSuggest($event)">
         </app-user-item>
     </div>
-    
+</div>
+
+<!-- Modal All user-->
+<div class="modal fade" id="seealluser" tabindex="-1" aria-labelledby="seealluserLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seealluserLabel">All users</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="min-height: 450px;">
+                <app-user-item *ngFor="let user of allUsers" [user]="user"></app-user-item>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
