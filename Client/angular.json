@@ -22,6 +22,8 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
+              "src/SgamerIcon.png",
+              "src/game-console.png",
               "src/assets",
               {
                 "glob": "bootstrap-icons.svg",
